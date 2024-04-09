@@ -1,0 +1,110 @@
+﻿@using Entities
+@using Business
+
+
+<hr />
+<select class="form-control" @onchange="ChangedFilters">
+    <option value="">Seleccione un estado</option>
+    <option value="ACTIVO">ACTIVO</option>
+    <option value="INACTIVO">INACTIVO</option>
+</select>
+<hr />
+
+<hr />
+<select class="form-control" @onchange="ChangedFilters">
+    <option value="">Seleccione un equipo</option>
+    <option value="No">No</option>
+    <option value="Laptop">Laptop</option>
+</select>
+<hr /
+
+
+<div class="scroll-table" style="height:33rem; overflow: scroll;">
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th >Referencia</th>
+            <th>Nombres y Apellidos</th>
+            <th>DNI</th>
+            <th>Celular</th>
+            <th>Equipo</th>
+            <th>Correo</th>
+            <th>Fecha ingreso a Indra</th>
+            <th>Dias en Indra</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var personal in TempObPersonal)
+        {
+            <tr>
+                <td>@personal.ID</td>
+                <td>@personal.PERSONAL</td>
+                <td>@personal.DNI</td>
+                <td>@personal.CELULAR</td>
+                <td>@personal.Equipo</td>
+                <td>@personal.CORREO</td>
+                <td>@personal.INGRESO_INDRA</td>
+                    @{
+                       // var resultado =  personal.INGRESO_INDRA.to - personal.DIAS_EMPRESA;
+                    }
+                    <td>@personal.DIAS_EMPRESA</td>
+                <td>@personal.ESTADO</td>
+                <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()">Actualizar</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+@estado
+@equipo
+
+@code {
+    List<PersonalEntity> ObPersonal = new List<PersonalEntity>();
+    List<PersonalEntity> TempObPersonal = new List<PersonalEntity>();
+    //List<CategoryEntity> CategoriesList = new List<CategoryEntity>();
+    string estado;
+    string equipo;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ObPersonal = TB_Personal.PersonalList();
+        TempObPersonal = ObPersonal;
+        //CategoriesList = B_Category.CategoryList();
+    }
+
+    private void ChangedFilters(ChangeEventArgs e)
+    {
+        if (e.Value != null)
+        {
+            if (e.Value.ToString() != "")
+            {
+                if (e.Value.ToString() == "ACTIVO" || e.Value.ToString() == "INACTIVO")
+                {
+                    estado = e.Value.ToString();
+                }
+                else
+                {
+                    equipo = e.Value.ToString();
+                }
+            }
+            else
+            {
+                estado = null;
+                equipo = null;
+            }
+        }
+
+        if (estado != null)
+        {
+            TempObPersonal = ObPersonal.Where(v => v.ESTADO == estado && (equipo == null || v.Equipo == equipo)).ToList();
+        }
+        else
+        {
+            TempObPersonal = ObPersonal.Where(v => equipo == null || v.Equipo == equipo).ToList();
+        }
+    }
+}
