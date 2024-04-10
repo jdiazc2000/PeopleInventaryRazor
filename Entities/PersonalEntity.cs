@@ -21,7 +21,7 @@ namespace Entities
         public string? PEOPLE { get; set; }
         public string? FECHA_PROYECTO { get; set; } 
         public string? FECHA_CESE { get; set; } 
-        public double? DIAS_AL_CESE { get; set; }
+        public int? DIAS_AL_CESE { get; set; }
         public string? PERIODO_PRUEBA { get; set; }
         public string? INGRESO_INDRA { get; set; } 
         public double? DIAS_EMPRESA { get; set; }

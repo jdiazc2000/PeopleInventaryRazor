@@ -16,50 +16,53 @@
     <option value="No">No</option>
     <option value="Laptop">Laptop</option>
 </select>
-<hr /
+<hr />
 
-
-<div class="scroll-table" style="height:33rem; overflow: scroll;">
-<table class="table table-hover table-bordered">
-    <thead>
-        <tr>
-            <th >Referencia</th>
-            <th>Nombres y Apellidos</th>
-            <th>DNI</th>
-            <th>Celular</th>
-            <th>Equipo</th>
-            <th>Correo</th>
-            <th>Fecha ingreso a Indra</th>
-            <th>Dias en Indra</th>
-            <th>Estado</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-            @foreach (var personal in TempObPersonal)
-        {
-            <tr>
-                <td>@personal.ID</td>
-                <td>@personal.PERSONAL</td>
-                <td>@personal.DNI</td>
-                <td>@personal.CELULAR</td>
-                <td>@personal.Equipo</td>
-                <td>@personal.CORREO</td>
-                <td>@personal.INGRESO_INDRA</td>
-                    @{
-                       // var resultado =  personal.INGRESO_INDRA.to - personal.DIAS_EMPRESA;
+@{
+    if (TempObPersonal == null)
+    {
+        <p><em>Cargando...</em></p>
+    }
+    else
+    {
+        <div class="scroll-table" style="height:33rem; overflow: scroll;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Referencia</th>
+                        <th>Nombres y Apellidos</th>
+                        <th>DNI</th>
+                        <th>Celular</th>
+                        <th>Equipo</th>
+                        <th>Correo</th>
+                        <th>Fecha ingreso a Indra</th>
+                        <th>Dias en Indra</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var personal in TempObPersonal)
+                    {
+                        <tr>
+                            <td>@personal.ID</td>
+                            <td>@personal.PERSONAL</td>
+                            <td>@personal.DNI</td>
+                            <td>@personal.CELULAR</td>
+                            <td>@personal.Equipo</td>
+                            <td>@personal.CORREO</td>
+                            <td>@personal.INGRESO_INDRA</td>
+                            <td>@personal.DIAS_EMPRESA</td>
+                            <td>@personal.ESTADO</td>
+                            <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()">Actualizar</a></td>
+                        </tr>
                     }
-                    <td>@personal.DIAS_EMPRESA</td>
-                <td>@personal.ESTADO</td>
-                <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()">Actualizar</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
+                </tbody>
+            </table>
+        </div>
 
-@estado
-@equipo
+    }
+}
 
 @code {
     List<PersonalEntity> ObPersonal = new List<PersonalEntity>();
@@ -71,6 +74,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(1000);
         ObPersonal = TB_Personal.PersonalList();
         TempObPersonal = ObPersonal;
         //CategoriesList = B_Category.CategoryList();

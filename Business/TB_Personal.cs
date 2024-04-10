@@ -21,29 +21,29 @@ namespace Business
             }
         }
 
-        public static void CreatePersonal(PersonalEntity objCategoria)
+        public static void CreatePersonal(PersonalEntity objPersonal)
         {
             using (var db = new PersonalContext())
             {
-                db.TBPersonal.Add(objCategoria);
+                db.TBPersonal.Add(objPersonal);
                 db.SaveChanges();
             }
         }
 
-        public static void UpdatePersonal(PersonalEntity objCategoria)
+        public static void UpdatePersonal(PersonalEntity objPersonal)
         {
             using (var db = new PersonalContext())
             {
-                db.TBPersonal.Update(objCategoria);
+                db.TBPersonal.Update(objPersonal);
                 db.SaveChanges();
             }
         }
 
-        public static void RemovePersonal(PersonalEntity objCategoria)
+        public static void RemovePersonal(PersonalEntity objPersonal)
         {
             using (var db = new PersonalContext())
             {
-                db.TBPersonal.Remove(objCategoria);
+                db.TBPersonal.Remove(objPersonal);
                 db.SaveChanges();
             }
         }

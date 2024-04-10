@@ -1,0 +1,12 @@
+﻿@page "/personal/update/{IdPersonal}"
+
+<UpdatePersonalComponent IdPersonal="@IdPersonal"/>
+
+@code {
+    [Parameter]
+    public string IdPersonal { get; set; }
+
+    protected override async Task OnInitializedAsync(){
+        IdPersonal = IdPersonal;
+    }
+}

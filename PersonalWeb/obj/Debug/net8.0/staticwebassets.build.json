@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zizCdiZuPaxk9iPj6T77NVx6p6JtzaRde7qzJfNZXAk=",
+  "Hash": "2gD4ILGZ3sjST7c38Y0LZIehoEtMpUN3sycmzaT0dkc=",
   "Source": "PersonalWeb",
   "BasePath": "_content/PersonalWeb",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "PersonalWeb\\wwwroot",
       "Source": "PersonalWeb",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "PersonalWeb.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css"
+      "OriginalItemSpec": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "PersonalWeb.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\app.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\favicon.png",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "favicon.png",
       "AssetKind": "All",

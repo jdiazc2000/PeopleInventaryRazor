@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj": {}
+    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj": {
+    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\obj\\",
+        "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -55,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
