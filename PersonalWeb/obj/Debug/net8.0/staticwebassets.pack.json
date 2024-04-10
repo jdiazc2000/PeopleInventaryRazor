@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
+      "Id": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
       "PackagePath": "staticwebassets\\PersonalWeb.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\app.css",
+      "Id": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {

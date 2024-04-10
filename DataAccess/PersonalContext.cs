@@ -12,7 +12,8 @@ namespace DataAccess
         {
             if (!options.IsConfigured)
             {
-                options.UseSqlServer("Server=24LAP5CD310JMXN; Database=Consolidado_Personal; user id=Julio; password=123; TrustServerCertificate=True");
+                options.UseSqlServer("Server=DESKTOP-CA5TT0R\\SQLEXPRESS; Database=Consolidado_Personal; user id=Julio; password=123; TrustServerCertificate=True");
+                //options.UseSqlServer("Server=24LAP5CD310JMXN; Database=Consolidado_Personal; user id=Julio; password=123; TrustServerCertificate=True");
             }
         }
 

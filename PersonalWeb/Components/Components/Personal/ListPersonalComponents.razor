@@ -1,12 +1,11 @@
 ﻿@using Entities
 @using Business
 
-
 <hr />
 <select class="form-control" @onchange="ChangedFilters">
     <option value="">Seleccione un estado</option>
-    <option value="ACTIVO">ACTIVO</option>
-    <option value="INACTIVO">INACTIVO</option>
+    <option value="Activo">Activo</option>
+    <option value="Inactivo">Inactivo</option>
 </select>
 <hr />
 
@@ -18,13 +17,6 @@
 </select>
 <hr />
 
-@{
-    if (TempObPersonal == null)
-    {
-        <p><em>Cargando...</em></p>
-    }
-    else
-    {
         <div class="scroll-table" style="height:33rem; overflow: scroll;">
             <table class="table table-hover table-bordered">
                 <thead>
@@ -61,9 +53,8 @@
             </table>
         </div>
 
-    }
-}
-
+        @estado
+        @equipo
 @code {
     List<PersonalEntity> ObPersonal = new List<PersonalEntity>();
     List<PersonalEntity> TempObPersonal = new List<PersonalEntity>();
@@ -74,41 +65,41 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1000);
         ObPersonal = TB_Personal.PersonalList();
         TempObPersonal = ObPersonal;
         //CategoriesList = B_Category.CategoryList();
     }
-
+ 
     private void ChangedFilters(ChangeEventArgs e)
-    {
-        if (e.Value != null)
         {
-            if (e.Value.ToString() != "")
+        if (e.Value != null)
             {
-                if (e.Value.ToString() == "ACTIVO" || e.Value.ToString() == "INACTIVO")
+            if (e.Value.ToString() != "")
                 {
+                if (e.Value.ToString() == "Activo" || e.Value.ToString() == "Inactivo")
+                    {
                     estado = e.Value.ToString();
                 }
                 else
-                {
+                    {
                     equipo = e.Value.ToString();
-                }
+            }
             }
             else
-            {
+                {
                 estado = null;
-                equipo = null;
-            }
+            equipo = null;
+                }
         }
 
         if (estado != null)
-        {
+            {
             TempObPersonal = ObPersonal.Where(v => v.ESTADO == estado && (equipo == null || v.Equipo == equipo)).ToList();
         }
         else
-        {
+            {
             TempObPersonal = ObPersonal.Where(v => equipo == null || v.Equipo == equipo).ToList();
-        }
     }
+  }
+  
 }

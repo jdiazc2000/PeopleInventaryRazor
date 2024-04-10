@@ -149,3 +149,5 @@ C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Debug\net8.0\
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Debug\net8.0\PersonalWeb.pdb
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Debug\net8.0\PersonalWeb.genruntimeconfig.cache
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Debug\net8.0\ref\PersonalWeb.dll
+C:\Users\Julio\Desktop\Projects\.NET MVC\PersonalWeb\PersonalWeb\obj\Debug\net8.0\PersonalWeb.sourcelink.json
+C:\Users\Julio\Desktop\Projects\.NET MVC\PersonalWeb\PersonalWeb\bin\Debug\net8.0\CurrieTechnologies.Razor.SweetAlert2.dll

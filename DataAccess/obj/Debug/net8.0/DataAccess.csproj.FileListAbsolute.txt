@@ -33,3 +33,4 @@ C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\DataAccess\obj\Debug\net8.0\r
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\DataAccess\obj\Debug\net8.0\DataAccess.pdb
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\DataAccess\obj\Debug\net8.0\DataAccess.genruntimeconfig.cache
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\DataAccess\obj\Debug\net8.0\ref\DataAccess.dll
+C:\Users\Julio\Desktop\Projects\.NET MVC\PersonalWeb\DataAccess\obj\Debug\net8.0\DataAccess.sourcelink.json

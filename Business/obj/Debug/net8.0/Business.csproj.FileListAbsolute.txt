@@ -33,3 +33,4 @@ C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Business\obj\Debug\net8.0\Bus
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Business\obj\Debug\net8.0\refint\Business.dll
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Business\obj\Debug\net8.0\Business.pdb
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Business\obj\Debug\net8.0\ref\Business.dll
+C:\Users\Julio\Desktop\Projects\.NET MVC\PersonalWeb\Business\obj\Debug\net8.0\Business.sourcelink.json

@@ -21,3 +21,4 @@ C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Debug\net8.0\Ent
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Debug\net8.0\refint\Entities.dll
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Debug\net8.0\Entities.pdb
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Debug\net8.0\ref\Entities.dll
+C:\Users\Julio\Desktop\Projects\.NET MVC\PersonalWeb\Entities\obj\Debug\net8.0\Entities.sourcelink.json

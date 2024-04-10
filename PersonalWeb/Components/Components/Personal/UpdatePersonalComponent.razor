@@ -1,6 +1,7 @@
 ﻿﻿@using Entities
 @using Business
 @inject NavigationManager NavManager
+@inject SweetAlertService SweetAlert
 
 <div>
     <EditForm Model="obPersonal">
@@ -17,7 +18,7 @@
 
         <div class="form-group">
             <label class="form-label">Cumpleaños:</label>
-            <InputDate @bind-Value="Cumpleaños" class="form-control" DisplayName="DateTime.Now()" />
+            <InputDate @bind-Value="obPersonal.CUMPLEAÑOS" class="form-control"/>
         </div>
 
         <div class="form-group">
@@ -47,81 +48,57 @@
 
         <div class="form-group">
             <label class="form-label">Rol:</label>
-            <InputSelect @bind-Value="obPersonal.ROL" class="form-control">
-                <option value="">Seleccione un rol</option>
-                <option value="T I">T I</option>
-                <option value="T II">T II</option>
-                <option value="T III">T III</option>
-                <option value="T IV">T IV</option>
-                <option value="G I">G I</option>
-                <option value="SOP I">SOP I</option>
-                <option value="SOP III">SOP III</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.ROL" class="form-control"/>
         </div>
 
         <div class="form-group">
             <label class="form-label">Tasa:</label>
-            <InputSelect @bind-Value="obPersonal.TASA" class="form-control">
-                <option value="">Seleccione una tasa</option>
-                <option value="T7">T7</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.TASA" class="form-control"/>
         </div>
 
         <div class="form-group">
             <label class="form-label">Empresa:</label>
-            <InputSelect @bind-Value="obPersonal.EMPRESA" class="form-control">
-                <option value="">Seleccione una empresa</option>
-                <option value="GERENTE">Gerente</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.EMPRESA" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Coordinador:</label>
-            <InputSelect @bind-Value="obPersonal.COORDINADOR" class="form-control">
-                <option value="">Seleccione un coordinador</option>
-                <option value="Jimmy Ruesta">Jimmy Ruesta</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.COORDINADOR" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Gabin:</label>
-            <InputSelect @bind-Value="obPersonal.GABIN" class="form-control">
-                <option value="">Seleccione un Gabin</option>
-                <option value="Yamil Suarez">Yamil Suarez</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.GABIN" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">People:</label>
-            <InputSelect @bind-Value="obPersonal.PEOPLE" class="form-control">
-                <option value="">Seleccione un People</option>
-                <option value="Edison Sanchez">Edison Sanchez</option>
-            </InputSelect>
+            <InputText @bind-Value="obPersonal.PEOPLE" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Fecha Proyecto:</label>
-            <InputDate @bind-Value="FechaProyecto" class="form-control" />
+            <InputDate @bind-Value="obPersonal.FECHA_PROYECTO" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Fecha al Cese:</label>
-            <InputDate @bind-Value="FechaAlCese" class="form-control" />
+            <InputDate @bind-Value="obPersonal.FECHA_CESE" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Periodo de prueba (Meses):</label>
-            <InputText @bind-Value="PeriodoDePrueba" class="form-control" />
+            <InputText @bind-Value="obPersonal.PERIODO_PRUEBA" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Fecha ingreso Indra:</label>
-            <InputDate @bind-Value="FechaIngresoIndra" class="form-control" />
+            <InputDate @bind-Value="obPersonal.INGRESO_INDRA" class="form-control" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Vacaciones Urgentes:</label>
-            <InputDate @bind-Value="VacacionesUrgentes" class="form-control" />
+            <InputDate @bind-Value="obPersonal.VACACIONES_URGENTES" class="form-control" />
         </div>
 
         <div class="form-group">
@@ -182,10 +159,10 @@
             <label class="form-label">Estado</label>
             <InputSelect @bind-Value="obPersonal.ESTADO" class="form-control">
                 <option value="">Seleccione un estado</option>
-                <option value="ACTIVO">Activo</option>
-                <option value="INACTIVO">Inactivo</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
             </InputSelect>
-        </div>
+        </div
 
         <hr />
         <div>
@@ -197,55 +174,67 @@
 
 @code {
     PersonalEntity obPersonal = new PersonalEntity();
-    string id;
-    string PeriodoDePrueba;
-    DateTime Cumpleaños;
-    DateTime FechaProyecto;
-    DateTime FechaIngresoIndra;
-    DateTime VacacionesUrgentes;
-    DateTime FechaAlCese;
 
     [Parameter]
     public string IdPersonal { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
         obPersonal = TB_Personal.PersonalById(Double.Parse(IdPersonal));
     }
 
-    private void UpdatePersonal()
+    private async void UpdatePersonal()
     {
-        obPersonal.CUMPLEAÑOS = Cumpleaños.ToString();
-        obPersonal.PERIODO_PRUEBA = PeriodoDePrueba;
-        obPersonal.FECHA_CESE = FechaAlCese.ToString();
-        obPersonal.INGRESO_INDRA = FechaIngresoIndra.ToString();
-        obPersonal.VACACIONES_URGENTES = VacacionesUrgentes.ToString();
-        obPersonal.FECHA_PROYECTO = FechaProyecto.ToString();
-        obPersonal.DIAS_EMPRESA = ContarDiasPresente(FechaIngresoIndra, DateTime.Now);
-        obPersonal.DIAS_AL_CESE = CalcularDiferencia(FechaAlCese, DateTime.Now);
+        obPersonal.DIAS_EMPRESA = ContarDiasPresente(obPersonal.INGRESO_INDRA, DateTime.Now);
+        obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
 
+         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+            {
+                Title = "Quieres modificar información de " + obPersonal.PERSONAL,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+        });
 
-        TB_Personal.UpdatePersonal(obPersonal);
-        NavManager.NavigateTo("personal/list");
-    }
-
-    private static int ContarDiasPresente(DateTime fechaInicio, DateTime fechaFin)
-    {
-        TimeSpan diferencia = fechaFin - fechaInicio;
-        int diasPresente = diferencia.Days + 1;
-        return diasPresente;
-    }
-
-    static int CalcularDiferencia(DateTime fecha, DateTime fechaActual)
-    {
-        if (fecha == DateTime.MinValue)
+        if (!string.IsNullOrEmpty(resultado.Value))
         {
-            return -1; // Devuelve -1 para representar "Indefinido"
+            await SweetAlert.FireAsync(
+              "La información fue actualizada." ,
+              "La información fue actualizada con éxito.",
+              SweetAlertIcon.Success
+              );
+
+            TB_Personal.UpdatePersonal(obPersonal);
+            NavManager.NavigateTo("");
         }
-        else
+    }
+
+        private static int ContarDiasPresente(DateTime? fechaInicio, DateTime fechaFin)
         {
-            TimeSpan diferencia = fecha - fechaActual;
+            if (fechaInicio.HasValue)
+        {
+            TimeSpan diferencia = fechaFin - fechaInicio.Value;
+            int diasPresente = diferencia.Days + 1;
+            return diasPresente;
+        }
+            else
+        {
+            return -1; 
+        }
+}
+
+        static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
+        {
+            if (fecha == null || fecha == DateTime.MinValue)
+        {
+            return -1;
+        }
+            else
+        {
+            TimeSpan diferencia = fecha.Value - fechaActual;
             return (int)diferencia.TotalDays;
         }
-    }
+     }
 }
