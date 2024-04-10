@@ -24,7 +24,7 @@ namespace Entities
         public double? DIAS_AL_CESE { get; set; }
         public string? PERIODO_PRUEBA { get; set; }
         public DateTime? INGRESO_INDRA { get; set; } 
-        public double? DIAS_EMPRESA { get; set; }
+        public int? DIAS_EMPRESA { get; set; }
         public DateTime? VACACIONES_URGENTES { get; set; }
         public string? Equipo { get; set; }
         public double? CELULAR { get; set; }
@@ -37,5 +37,6 @@ namespace Entities
         public string? OBSERVACION { get; set; }
         public string? F31 { get; set; }
         public string? ESTADO { get; set; }
+        public int CalcDiasEmpresa { get; set; }
     }
 }

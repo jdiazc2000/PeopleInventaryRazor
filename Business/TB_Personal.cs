@@ -1,5 +1,9 @@
-﻿using DataAccess;
+﻿using Azure;
+using DataAccess;
 using Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Business
 {
@@ -45,6 +49,51 @@ namespace Business
             {
                 db.TBPersonal.Remove(objPersonal);
                 db.SaveChanges();
+            }
+        }
+
+        public static List<PersonalEntity> FilterPersonal(string Dni, string Nombre, DateTime? FechaIngreso, DateTime? FechaNacimiento)
+        {
+            using (var db = new PersonalContext())
+            {
+
+                var query = db.TBPersonal.AsQueryable();
+
+                if (!string.IsNullOrEmpty(Dni))
+                {
+                    query = query.Where(v => v.DNI.Contains(Dni));
+                }
+
+                if (!string.IsNullOrEmpty(Nombre))
+                {
+                    query = query.Where(v => v.PERSONAL.Contains(Nombre));
+                }
+
+                if (FechaIngreso != null)
+                {
+                    query = query.Where(v => v.INGRESO_INDRA == FechaIngreso);
+                }
+
+                if (FechaNacimiento != null)
+                {
+                    query = query.Where(v => v.CUMPLEAÑOS == FechaNacimiento);
+                }
+
+                return query.ToList();
+
+            }
+        }
+
+        public static void ChangePersonalStatus(PersonalEntity objPersonal, string text)
+        {
+            using (var db = new PersonalContext())
+            {
+                var personal = db.TBPersonal.FirstOrDefault(p => p.ID == objPersonal.ID);
+                if (personal != null)
+                {
+                    personal.ESTADO = text;
+                    db.SaveChanges();
+                }
             }
         }
     }

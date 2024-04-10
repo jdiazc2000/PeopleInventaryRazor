@@ -7,11 +7,6 @@
     <EditForm Model="obPersonal">
 
         <div class="form-group">
-            <label class="form-label">Documento de identidad:</label>
-            <InputText @bind-Value="obPersonal.DNI" class="form-control" MaxLength="8" />
-        </div>
-
-        <div class="form-group">
             <label class="form-label">Personal:</label>
             <InputText @bind-Value="obPersonal.PERSONAL" class="form-control" />
         </div>
@@ -46,24 +41,56 @@
             </InputSelect>
         </div>
 
-        <div class="form-group">
+       <div class="form-group">
             <label class="form-label">Rol:</label>
-            <InputText @bind-Value="obPersonal.ROL" class="form-control"/>
+            <InputSelect @bind-Value="obPersonal.ROL" class="form-control">
+                <option value="">Seleccione una modalidad</option>
+                @{
+                    foreach(var role in L_Lists.Roles)
+                    {
+                         <option value="@role">@role</option>
+                    }
+                }
+            </InputSelect>
         </div>
 
         <div class="form-group">
             <label class="form-label">Tasa:</label>
-            <InputText @bind-Value="obPersonal.TASA" class="form-control"/>
+            <InputSelect @bind-Value="obPersonal.TASA" class="form-control">
+                <option value="">Seleccione una tasa</option>
+                @{
+                    foreach(var tasa in L_Lists.Tasas)
+                    {
+                         <option value="@tasa">@tasa</option>
+                    }
+                }
+            </InputSelect>
         </div>
 
         <div class="form-group">
             <label class="form-label">Empresa:</label>
-            <InputText @bind-Value="obPersonal.EMPRESA" class="form-control" />
+            <InputSelect @bind-Value="obPersonal.EMPRESA" class="form-control">
+                <option value="">Seleccione una empresa</option>
+                @{
+                    foreach(var empresa in L_Lists.Empresas)
+                    {
+                         <option value="@empresa">@empresa</option>
+                    }
+                }
+            </InputSelect>
         </div>
 
         <div class="form-group">
             <label class="form-label">Coordinador:</label>
-            <InputText @bind-Value="obPersonal.COORDINADOR" class="form-control" />
+            <InputSelect @bind-Value="obPersonal.COORDINADOR" class="form-control">
+                <option value="">Seleccione un coordinador</option>
+                @{
+                    foreach(var coordinador in L_Lists.Coordinadores)
+                    {
+                         <option value="@coordinador">@coordinador</option>
+                    }
+                }
+            </InputSelect>
         </div>
 
         <div class="form-group">
@@ -155,18 +182,11 @@
             <InputText @bind-Value="obPersonal.F31" class="form-control" />
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Estado</label>
-            <InputSelect @bind-Value="obPersonal.ESTADO" class="form-control">
-                <option value="">Seleccione un estado</option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-            </InputSelect>
-        </div
-
         <hr />
         <div>
             <button type="button" class="btn btn-primary" @onclick="UpdatePersonal">Actualizar Personal</button>
+             <button type="button" class="btn btn-success" @onclick="ChangeStatus">Cambiar estado a @ReversedEstado</button>
+            <button type="button" class="btn btn-danger" @onclick="RemovePersonal">Eliminar Personal</button>
         </div>
         <hr />
     </EditForm>
@@ -174,6 +194,8 @@
 
 @code {
     PersonalEntity obPersonal = new PersonalEntity();
+    List<L_Lists> LstList = new List<L_Lists>();
+    string ReversedEstado;
 
     [Parameter]
     public string IdPersonal { get; set; }
@@ -182,6 +204,7 @@
     protected override async Task OnInitializedAsync()
     {
         obPersonal = TB_Personal.PersonalById(Double.Parse(IdPersonal));
+        ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo";
     }
 
     private async void UpdatePersonal()
@@ -189,7 +212,7 @@
         obPersonal.DIAS_EMPRESA = ContarDiasPresente(obPersonal.INGRESO_INDRA, DateTime.Now);
         obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
 
-         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+        SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
             {
                 Title = "Quieres modificar información de " + obPersonal.PERSONAL,
                 Icon = SweetAlertIcon.Warning,
@@ -207,6 +230,66 @@
               );
 
             TB_Personal.UpdatePersonal(obPersonal);
+            NavManager.NavigateTo("");
+        }
+    }
+
+
+        private async void ChangeStatus()
+    {
+         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+            {
+                Title = "Quieres cambiar el estado de " + obPersonal.PERSONAL,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+        });
+
+        if (!string.IsNullOrEmpty(resultado.Value))
+        {
+            await SweetAlert.FireAsync(
+              "El estado de este personal actualizado." ,
+              "El estado de este personal actualizado. con éxito.",
+              SweetAlertIcon.Success
+              );
+
+            string text;
+            if (obPersonal.ESTADO == "Activo")
+            {
+                text = "Inactivo";
+            }
+            else
+            {
+                text = "Activo";
+            }
+
+            TB_Personal.ChangePersonalStatus(obPersonal,text);
+            NavManager.NavigateTo("");
+        }
+    }
+
+
+        private async void RemovePersonal()
+    {
+         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+            {
+                Title = "Quieres eliminar toda información de " + obPersonal.PERSONAL,
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+        });
+
+        if (!string.IsNullOrEmpty(resultado.Value))
+        {
+            await SweetAlert.FireAsync(
+              "El personal fue eliminado." ,
+              "El personal fue eliminado con éxito.",
+              SweetAlertIcon.Success
+              );
+
+            TB_Personal.RemovePersonal(obPersonal);
             NavManager.NavigateTo("");
         }
     }
