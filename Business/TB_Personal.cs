@@ -1,9 +1,7 @@
-﻿using Azure;
-using DataAccess;
+﻿using DataAccess;
 using Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Reflection.Metadata;
+
 
 namespace Business
 {
@@ -52,7 +50,7 @@ namespace Business
             }
         }
 
-        public static List<PersonalEntity> FilterPersonal(string Dni, string Nombre, DateTime? FechaIngreso, DateTime? FechaNacimiento)
+        public static List<PersonalEntity> FilterPersonal(string Dni, string Nombre, DateTime? FechaIngreso, DateTime? FechaNacimiento, string Estado, string Equipo)
         {
             using (var db = new PersonalContext())
             {
@@ -78,6 +76,17 @@ namespace Business
                 {
                     query = query.Where(v => v.CUMPLEAÑOS == FechaNacimiento);
                 }
+
+                if(!string.IsNullOrEmpty(Estado))
+                {
+                    query = query.Where(v => v.ESTADO == Estado);
+                }
+
+                if (!string.IsNullOrEmpty(Equipo))
+                {
+                    query = query.Where(v => v.Equipo == Equipo);
+                }
+
 
                 return query.ToList();
 

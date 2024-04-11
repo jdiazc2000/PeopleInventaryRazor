@@ -15,7 +15,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup>   
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8fLMEe0JRF1X0Ml1QxHZTXAty0DUiti8iT9q6SLSyVERv3eDL8kbKMtJnCpon5geM9vCJKMKRuyUBv0LTD2Nhw==",
+  "dgSpecHash": "oeRu4xyxfWO5TvoLpPwhC3HqDvk8F6Qiv3s4k4mNe7N1gs6vJrTdyQISQxU0S9TvFRR8iHNyij6VfBVSQ8jZ/A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\DataAccess\\DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Julio\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Julio\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

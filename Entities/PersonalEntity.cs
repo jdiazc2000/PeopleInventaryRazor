@@ -37,6 +37,5 @@ namespace Entities
         public string? OBSERVACION { get; set; }
         public string? F31 { get; set; }
         public string? ESTADO { get; set; }
-        public int CalcDiasEmpresa { get; set; }
     }
 }

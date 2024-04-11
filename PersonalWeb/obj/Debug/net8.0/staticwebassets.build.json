@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cPJopdb9JwcEepQ+APaJy1v9At0KM//XC2hNgbx9CJ4=",
+  "Hash": "KEsICEVh2qnauf2nGgT/xyt5BEdXmwYG7uVkXIb7KJE=",
   "Source": "PersonalWeb",
   "BasePath": "_content/PersonalWeb",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "PersonalWeb\\wwwroot",
       "Source": "PersonalWeb",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "Pattern": "**"
     }
@@ -663,10 +663,10 @@
       "OriginalItemSpec": "C:\\Users\\Julio\\.nuget\\packages\\currietechnologies.razor.sweetalert2\\5.6.0\\staticwebassets\\wordpressAdminTheme.min.js"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "PersonalWeb.styles.css",
       "AssetKind": "All",
@@ -679,13 +679,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css"
+      "OriginalItemSpec": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\bundle\\PersonalWeb.styles.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "PersonalWeb.bundle.scp.css",
       "AssetKind": "All",
@@ -698,13 +698,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\PersonalWeb.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\app.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -720,10 +720,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -739,10 +739,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -758,10 +758,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\favicon.png",
       "SourceId": "PersonalWeb",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\PersonalWeb\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
       "BasePath": "_content/PersonalWeb",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
@@ -775,6 +775,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\js\\Utilidades.js",
+      "SourceId": "PersonalWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\wwwroot\\",
+      "BasePath": "_content/PersonalWeb",
+      "RelativePath": "js/Utilidades.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Utilidades.js"
     }
   ]
 }

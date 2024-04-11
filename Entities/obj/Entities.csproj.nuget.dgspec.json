@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj": {}
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\obj\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -55,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

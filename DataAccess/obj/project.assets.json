@@ -4127,11 +4127,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\DataAccess\\DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
       "projectName": "DataAccess",
-      "projectPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\DataAccess\\DataAccess.csproj",
+      "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
       "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\DataAccess\\obj\\",
+      "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4148,8 +4148,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj": {
-              "projectPath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj"
+            "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+              "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj"
             }
           }
         }
@@ -4158,6 +4158,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4195,7 +4200,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

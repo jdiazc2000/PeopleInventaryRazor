@@ -1,8 +1,11 @@
 ﻿@using Entities
 @using Business
+@using ClosedXML.Excel;
+@inject IJSRuntime _jsService;
+
 
 <div class="container mb-3">
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center mb-3">
         <div class="col-sm">
             <label class="form-label">Dni:</label>
             <input type="text" class="form-control" placeholder="Ingrese DNI" @bind-value="Dni"/>
@@ -22,10 +25,28 @@
             <InputDate @bind-Value="FechaNacimiento" class="form-control" />
         </div>
     </div>
-    <button @onclick="ChangedFilters" class="btn btn-primary">Buscar</button>
+
+    <div class="row justify-content-md-center mb-3">
+        <div class="col-sm">
+            <label class="form-label">Estado:</label>
+             <InputSelect @bind-Value="Estado" class="form-control">
+                <option value="">Seleccione un estado</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </InputSelect>
+        </div>
+        <div class="col-sm">
+            <label class="form-label">Equipo:</label>
+            <InputSelect @bind-Value="Equipo" class="form-control">
+                <option value="">Seleccione un equipo</option>
+                <option value="No">No</option>
+                <option value="Laptop">Laptop</option>
+            </InputSelect>
+        </div>
+    </div>
+    <button @onclick="ChangedFilters" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+    <button @onclick="ExportExcel" class="btn btn-success"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>
 </div>
-
-
 
 <div class="scroll-table table-responsive" style="height:33rem; overflow: scroll;">
             <table class="table table-hover table-bordered">
@@ -69,9 +90,9 @@
                                 diasDiferencia = 1;
                             }
                         }
-                            <td>@diasDiferencia</td>
+                            <td>@personal.DIAS_EMPRESA</td>
                             <td>@personal.ESTADO</td>
-                            <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()">Actualizar</a></td>
+                            <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()"><i class="bi bi-pencil-square"></i> Actualizar</a></td>
                         </tr>
                     }
                 </tbody>
@@ -82,8 +103,12 @@
     List<PersonalEntity> TempObPersonal = new List<PersonalEntity>();
     string Dni;
     string Nombre;
+    string Estado;
+    string Equipo;
     DateTime? FechaIngreso;
     DateTime? FechaNacimiento;
+    private readonly IJSRuntime _jsRuntime;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,7 +117,69 @@
     }
 
     private void ChangedFilters()
-    {;
-        TempObPersonal = TB_Personal.FilterPersonal(Dni,Nombre,FechaIngreso,FechaNacimiento);
+    {
+        TempObPersonal = TB_Personal.FilterPersonal(Dni,Nombre,FechaIngreso,FechaNacimiento,Estado,Equipo);
     } 
+
+    private async Task ExportExcel()
+    {
+        using(var libro = new XLWorkbook())
+        {
+            IXLWorksheet hoja = libro.Worksheets.Add("Empleados");
+
+            hoja.Cell(1, 1).Value = "Referencia";
+            hoja.Cell(1, 2).Value = "Nombres y Apellidos";
+            hoja.Cell(1, 3).Value = "DNI";
+            hoja.Cell(1, 4).Value = "Celular";
+            hoja.Cell(1, 5).Value = "Equipo";
+            hoja.Cell(1, 6).Value = "Correo";
+            hoja.Cell(1, 7).Value = "Fecha ingreso a Indra";
+            hoja.Cell(1, 8).Value = "Fecha de nacimiento";
+            hoja.Cell(1, 9).Value = "Dias en Indra";
+            hoja.Cell(1, 10).Value = "Estado";
+
+            for (int fila = 1; fila <= TempObPersonal.Count; fila++)
+            {
+                int diasDiferencia = 0;
+
+                foreach (var personal in TempObPersonal)
+                {
+                    TimeSpan diferencia = DateTime.Now - personal.INGRESO_INDRA.Value;
+                    if ((int)diferencia.TotalDays > 0)
+                    {
+                        diasDiferencia = (int)diferencia.TotalDays;
+                    }
+                    else
+                    {
+                        diasDiferencia = 1;
+                    }
+                    personal.DIAS_EMPRESA = diasDiferencia;
+                }
+
+                hoja.Cell(fila + 1, 1).Value = TempObPersonal[fila - 1].ID;
+                hoja.Cell(fila + 1, 2).Value = TempObPersonal[fila - 1].PERSONAL;
+                hoja.Cell(fila + 1, 3).Value = TempObPersonal[fila - 1].DNI;
+                hoja.Cell(fila + 1, 4).Value = TempObPersonal[fila - 1].CELULAR;
+                hoja.Cell(fila + 1, 5).Value = TempObPersonal[fila - 1].Equipo;
+                hoja.Cell(fila + 1, 6).Value = TempObPersonal[fila - 1].CORREO;
+                hoja.Cell(fila + 1, 7).Value = TempObPersonal[fila - 1].INGRESO_INDRA;
+                hoja.Cell(fila + 1, 8).Value = TempObPersonal[fila - 1].CUMPLEAÑOS;
+                hoja.Cell(fila + 1, 9).Value = TempObPersonal[fila - 1].DIAS_EMPRESA;
+                hoja.Cell(fila + 1, 10).Value = TempObPersonal[fila - 1].ESTADO;
+            }
+
+            using (var memoria = new MemoryStream())
+            {
+                libro.SaveAs(memoria);
+                var nombreExcel = string.Concat("Reporte de Personal ", DateTime.Now.ToString(), ".xlsx");
+
+                await _jsService.InvokeAsync<object>(
+                    "ExportExcel",
+                    nombreExcel,
+                    Convert.ToBase64String(memoria.ToArray())
+                );
+            }
+        }
+    }
+
 }

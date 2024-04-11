@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dp+YkX1xX5+0d302s4odmcASbvuybVhv1BSEdxZiJN3kxc6G7RRfP3YPWPj4ipgWZK9nMSvZUceDWGCEBG+BTg==",
+  "dgSpecHash": "B6sl3KfPl7g8qrayuSKtMGJ+vrNt8iLbVsY6Co/RYT7CwlkUHquyHnSWt4aLayZk6QlJuCbwdMSY3BNoSDBQRw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Julio\\Desktop\\Projects\\.NET MVC\\PersonalWeb\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
