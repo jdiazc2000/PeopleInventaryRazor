@@ -123,6 +123,15 @@ namespace Business
                 }
             }
         }
+
+        public static bool CompareId(double EntryId)
+        {
+            using (var db = new PersonalContext())
+            {
+                var respuesta = db.TBPersonal.Any(p => p.ID.Equals(EntryId));
+                return respuesta;
+            }
+        }
     }
 }
 

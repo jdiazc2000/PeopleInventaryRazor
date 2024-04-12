@@ -8,17 +8,17 @@
     <EditForm Model="obPersonal">
 
         <div class="form-group">
-            <label class="form-label">ID:</label>
+            <label class="form-label">*ID:</label>
             <InputText @bind-Value="id" class="form-control" MaxLength="6" />
         </div>
 
         <div class="form-group">
-            <label class="form-label">Documento de identidad:</label>
+            <label class="form-label">*Documento de identidad:</label>
             <InputText @bind-Value="obPersonal.DNI" class="form-control" MaxLength="8" />
         </div>
 
         <div class="form-group">
-            <label class="form-label">Personal:</label>
+            <label class="form-label">*Personal:</label>
             <InputText @bind-Value="obPersonal.PERSONAL" class="form-control" />
         </div>
 
@@ -182,29 +182,30 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Provincia</label>
-            <select class="form-control" @onchange="FilterDistrict" >
-                <option value="">Seleccione una provincia</option>
+            <label class="form-label">Provincia:</label>
+            <InputSelect class="form-control" Value="@Provincia" ValueExpression="@(()=>@Provincia)" ValueChanged="@((string value) => FilterDistrict(value))">
+                <option value="">
+                    Seleccione una provincia</option">
                 @{
                     foreach (var provincia in LstProvincias)
                     {
                         <option value="@provincia.id">@provincia.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
 
         <div class="form-group">
-            <label class="form-label">Distrito</label>
-            <select class="form-control" @onchange="GetDistrictName">
-                <option value="" default>Seleccione un distrito</option>
+            <label class="form-label">Distrito:</label>
+            <InputSelect class="form-control" Value="@Distrito" ValueExpression="@(()=>@Distrito)" ValueChanged="@((string value) => GetDistrictName(value))">
+                <option value="">Seleccione un distrito</option>
                 @{
                     foreach (var distrito in LstDistritos)
                     {
                         <option value="@distrito.id">@distrito.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
   
         <div class="form-group">
@@ -253,36 +254,90 @@
 
     private async void SavePersonal()
     {
-        obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
-        SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
-            {
-                Title = "Quieres agregar información de este colaborador",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-                ConfirmButtonText = "Si",
-                CancelButtonText = "No"
-        });
-
-        if (!string.IsNullOrEmpty(resultado.Value))
+        bool VerificarIdExistente = TB_Personal.CompareId(Double.Parse(id));
+        if (VerificarIdExistente)
         {
             await SweetAlert.FireAsync(
-              "La información fue agregada." ,
-              "La información fue agregada con éxito.",
-              SweetAlertIcon.Success
-              );
-
-            obPersonal.ID = Double.Parse(id);
-            obPersonal.DEPARTAMENTO = Departamento;
-            obPersonal.PROVINCIA = Provincia;
-            obPersonal.DISTRITO = Distrito;
-            obPersonal.ESTADO = "Activo";
-            TB_Personal.CreatePersonal(obPersonal);
-            NavManager.NavigateTo("/");
+                "El ID del empleado ingresado ya está en uso.",
+                "Por favor, ingrese un ID diferente.",
+                SweetAlertIcon.Error
+                );
         }
         else
         {
+            bool BId = false;
+            bool BNombre = false;
+            bool BDni = false;
+            if (id == "" || id == null)
+            {
+                await SweetAlert.FireAsync(
+                "El ID del empleado se encuentra vacío.",
+                "Añada el ID del empleado para añadir al empleado.",
+                SweetAlertIcon.Error
+                );
+            }
+            else
+            {
+                BId = true;
+            }
 
-        }
+            if (obPersonal.DNI == "" || obPersonal.DNI == null)
+            {
+                await SweetAlert.FireAsync(
+                "El DNI del empleado se encuentra vacío.",
+                "Añada el DNI del empleado para añadir al empleado.",
+                SweetAlertIcon.Error
+                );
+            }
+            else
+            {
+                BDni = true;
+            }
+
+            if (obPersonal.PERSONAL == "" || obPersonal.PERSONAL == null)
+            {
+                await SweetAlert.FireAsync(
+                "El Nombre del empleado se encuentra vacío.",
+                "Añada el Nombre para añadir al empleado.",
+                SweetAlertIcon.Error
+                );
+            }
+            else
+            {
+                BNombre = true;
+            }
+
+            if (BDni && BNombre && BId)
+            {
+                obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
+                SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Quieres agregar información de este colaborador",
+                        Icon = SweetAlertIcon.Warning,
+                        ShowCancelButton = true,
+                        ConfirmButtonText = "Si",
+                        CancelButtonText = "No"
+                    });
+
+                if (!string.IsNullOrEmpty(resultado.Value))
+                {
+                    await SweetAlert.FireAsync(
+                      "La información fue agregada.",
+                      "La información fue agregada con éxito.",
+                      SweetAlertIcon.Success
+                      );
+
+
+                    obPersonal.ID = Double.Parse(id);
+                    obPersonal.DEPARTAMENTO = Departamento;
+                    obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                    obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                    obPersonal.ESTADO = "Activo";
+                    TB_Personal.CreatePersonal(obPersonal);
+                    NavManager.NavigateTo("/");
+                }
+            }
+        }    
     }
 
     private void FilterProvince(ChangeEventArgs e)
@@ -291,9 +346,10 @@
 
         if (IdDepartamento != "")
         {
+            Provincia = "";
+            Distrito = "";
             Departamento = TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).ToUpper();
-            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
-
+            LstProvincias = TB_ubigeo_peru_provinces.GetProvinceslByDepartmentId(IdDepartamento);
         }
         else
         {
@@ -305,38 +361,33 @@
         }
     }
 
-    private void FilterDistrict(ChangeEventArgs e)
+    private void FilterDistrict(string value)
     {
-        var IdDistrito = e.Value.ToString();
-
-
+        var IdDistrito = value;
 
         if (IdDistrito != "")
         {
-            LstDistritos = [];
-            Provincia = TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).ToUpper();
+            Provincia = IdDistrito;
             Distrito = "";
+            LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
         }
         else
         {
-            // Provincia = "";
-            // LstDistritos = [];
-            // Distrito = "";
-          
+            Provincia = "";
+            Distrito = "";
+            LstDistritos = [];
         }
-
-       LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
 
     }
 
-    private void GetDistrictName(ChangeEventArgs e)
+    private void GetDistrictName(string value)
     {
-        var IdDistrito = e.Value.ToString();
+        var IdDistrito = value;
 
 
         if (IdDistrito != "")
         {
-            Distrito = TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).ToUpper();
+            Distrito = IdDistrito;
         }
         else
         {

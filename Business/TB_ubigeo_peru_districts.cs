@@ -39,6 +39,14 @@ namespace Business
             }
         }
 
+        public static string GetDisctrictIdByProvinceIdAndDepartmentId(string DisctrictName, string ProvinceId, string DepartmentId)
+        {
+            using (var db = new PersonalContext())
+            {
+                DistritosEntity distrito = db.ubigeo_peru_districts.FirstOrDefault(p => p.name == DisctrictName && p.province_id == ProvinceId && p.department_id == DepartmentId);
+                return distrito?.id;
+            }
+        }
     }
 }
 

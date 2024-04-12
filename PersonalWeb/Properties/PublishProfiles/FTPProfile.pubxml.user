@@ -7,7 +7,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAXi8OhIjBnkia7IpxrhEdtAAAAAACAAAAAAAQZgAAAAEAACAAAAC7fUTWH+NDrRFgMj1vK7sn8CF3JJRI+qoNwrXf/6L3EQAAAAAOgAAAAAIAACAAAACQ7xUKQZZFrZDLjMTzvASYp7M7JVwalbJGDaDGqPlHmSAAAADWnw4wpChsU+FUo85WN72RxdD8XrPHMKlMYH1cyUEUNkAAAAADtZI5VpXVcVyb0XKvNV/6KF9XUNoLxC0bgsT8vQ/3ixVsChuwvJ97SHQt7RmqZMiHrf5t0uOykKW+MiZvcK2n</EncryptedPassword>
     <_PublishTargetUrl>ftp://198.37.116.30/www.PersonalCrudIndra.somee.com</_PublishTargetUrl>
-    <History>True|2024-04-12T02:50:22.8862606Z;True|2024-04-11T21:02:19.2823602-05:00;True|2024-04-11T20:55:24.0214973-05:00;True|2024-04-11T10:57:04.5975514-05:00;</History>
+    <History>True|2024-04-12T20:18:39.7868230Z;True|2024-04-12T14:57:18.2696752-05:00;True|2024-04-12T14:38:41.9906676-05:00;True|2024-04-11T21:50:22.8862606-05:00;True|2024-04-11T21:02:19.2823602-05:00;True|2024-04-11T20:55:24.0214973-05:00;True|2024-04-11T10:57:04.5975514-05:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -24,10 +24,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/18/2023 14:59:42</publishTime>
     </File>
     <File Include="Business.dll">
-      <publishTime>04/11/2024 21:46:50</publishTime>
+      <publishTime>04/12/2024 14:53:52</publishTime>
     </File>
     <File Include="Business.pdb">
-      <publishTime>04/11/2024 21:46:50</publishTime>
+      <publishTime>04/12/2024 14:53:52</publishTime>
     </File>
     <File Include="ClosedXML.dll">
       <publishTime>01/05/2024 09:14:16</publishTime>
@@ -36,19 +36,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/19/2024 11:55:34</publishTime>
     </File>
     <File Include="DataAccess.dll">
-      <publishTime>04/11/2024 20:51:56</publishTime>
+      <publishTime>04/12/2024 14:35:15</publishTime>
     </File>
     <File Include="DataAccess.pdb">
-      <publishTime>04/11/2024 20:51:56</publishTime>
+      <publishTime>04/12/2024 14:35:15</publishTime>
     </File>
     <File Include="DocumentFormat.OpenXml.dll">
       <publishTime>03/14/2022 20:39:30</publishTime>
     </File>
     <File Include="Entities.dll">
-      <publishTime>04/11/2024 20:51:55</publishTime>
+      <publishTime>04/12/2024 14:35:14</publishTime>
     </File>
     <File Include="Entities.pdb">
-      <publishTime>04/11/2024 20:51:55</publishTime>
+      <publishTime>04/12/2024 14:35:14</publishTime>
     </File>
     <File Include="ExcelNumberFormat.dll">
       <publishTime>10/02/2020 03:42:28</publishTime>
@@ -108,16 +108,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/08/2023 02:09:54</publishTime>
     </File>
     <File Include="PersonalWeb.deps.json">
-      <publishTime>04/11/2024 21:46:59</publishTime>
+      <publishTime>04/12/2024 15:15:25</publishTime>
     </File>
     <File Include="PersonalWeb.dll">
-      <publishTime>04/11/2024 21:46:51</publishTime>
+      <publishTime>04/12/2024 15:15:20</publishTime>
     </File>
     <File Include="PersonalWeb.exe">
-      <publishTime>04/11/2024 21:46:51</publishTime>
+      <publishTime>04/12/2024 15:15:21</publishTime>
     </File>
     <File Include="PersonalWeb.pdb">
-      <publishTime>04/11/2024 21:46:51</publishTime>
+      <publishTime>04/12/2024 15:15:20</publishTime>
     </File>
     <File Include="PersonalWeb.runtimeconfig.json">
       <publishTime>04/11/2024 20:51:59</publishTime>
@@ -189,10 +189,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/22/2021 18:49:44</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>04/11/2024 21:46:59</publishTime>
+      <publishTime>04/12/2024 15:15:25</publishTime>
     </File>
     <File Include="wwwroot/app.css">
-      <publishTime>04/11/2024 02:17:24</publishTime>
+      <publishTime>04/12/2024 00:01:34</publishTime>
     </File>
     <File Include="wwwroot/bootstrap/bootstrap.min.css">
       <publishTime>04/10/2024 23:55:37</publishTime>
@@ -204,7 +204,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/10/2024 23:55:37</publishTime>
     </File>
     <File Include="wwwroot/js/Utilidades.js">
-      <publishTime>04/11/2024 01:36:21</publishTime>
+      <publishTime>04/12/2024 10:26:05</publishTime>
     </File>
     <File Include="wwwroot/PersonalWeb.styles.css">
       <publishTime>04/11/2024 10:53:55</publishTime>

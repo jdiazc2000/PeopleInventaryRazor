@@ -3,8 +3,8 @@
 @using ClosedXML.Excel;
 @using System.Net;
 @using System.Data;
-@using Newtonsoft.Json;
 @using System.Diagnostics;
+@using System.Globalization;
 @inject IJSRuntime _jsService;
 
 
@@ -66,22 +66,22 @@
         </div>
         <div class="col-sm">
             <label class="form-label">Provincia:</label>
-            <select class="form-control" @onchange="FilterDistrict">
-                <option value="">Seleccione una provincia</option id="ProvinciaSelect">
+            <InputSelect class="form-control" Value="@Provincia" ValueExpression="@(()=>@Provincia)" ValueChanged="@((string value) => FilterDistrict(value))">
+                <option value="">Seleccione una provincia</option">
                 @{
                     foreach (var provincia in LstProvincias)
                     {
                         <option value="@provincia.id">@provincia.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
     </div>
 
     <div class="row justify-content-md-center mb-3">
         <div class="col-sm">
             <label class="form-label">Distrito:</label>
-            <select class="form-control" @onchange="GetDistrictName">
+            <InputSelect class="form-control" Value="@Distrito" ValueExpression="@(()=>@Distrito)" ValueChanged="@((string value) => GetDistrictName(value))">
                 <option value="">Seleccione un distrito</option>
                 @{
                     foreach (var distrito in LstDistritos)
@@ -89,15 +89,15 @@
                         <option value="@distrito.id">@distrito.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
     </div>
    
-    @*
-    @Departamento
+    
+@*     @Departamento
     @Provincia
-    @Distrito
-    *@
+    @Distrito *@
+  
 
     <div style="
     display: flex;
@@ -153,9 +153,9 @@
                         <th>CORREO</th>
                         <th>CPERSONAL</th>
                         <th>DIRECCION</th>
-                        <th>DISTRITO</th>
-                        <th>PROVINCIA</th>
                         <th>DEPARTAMENTO</th>
+                        <th>PROVINCIA</th>
+                        <th>DISTRITO</th>
                         <th>OBSERVACION</th>
                         <th>F31</th>
                         <th>ESTADO</th>
@@ -219,7 +219,7 @@
                             <td>@personal.CELULAR</td>
                             <td>@personal.CORREO</td>
                             <td>@personal.CPERSONAL</td>
-                            <td>@personal.DIRECCION</td>   
+                            <td>@personal.DIRECCION</td>  
                             <td>@personal.DEPARTAMENTO</td>
                             <td>@personal.PROVINCIA</td>
                             <td>@personal.DISTRITO</td>
@@ -243,13 +243,14 @@
     string Nombre;
     string Estado;
     string Equipo;
+
     string Departamento;
     string Provincia;
     string Distrito;
+
     bool spinnerloading = false;
     DateTime? FechaIngreso;
     DateTime? FechaNacimiento;
-    private readonly IJSRuntime _jsRuntime;
 
 
     protected override async Task OnInitializedAsync()
@@ -262,7 +263,9 @@
     private async Task ChangedFilters()
     {
         spinnerloading = true;
-        TempObPersonal = await Task.Run(() => TB_Personal.FilterPersonal(Dni, Nombre, FechaIngreso, FechaNacimiento, Estado, Equipo, Departamento, Provincia, Distrito, ID));
+        var ProvinceNameUpper = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+        var DistrictNameUpper = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+        TempObPersonal = await Task.Run(() => TB_Personal.FilterPersonal(Dni, Nombre, FechaIngreso, FechaNacimiento, Estado, Equipo, Departamento, ProvinceNameUpper, DistrictNameUpper, ID));
         spinnerloading = false;
     }
 
@@ -276,7 +279,7 @@
             Provincia = "";
             Distrito = "";
             Departamento = TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).ToUpper();
-            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
+            LstProvincias = TB_ubigeo_peru_provinces.GetProvinceslByDepartmentId(IdDepartamento);
         }
         else
         {
@@ -288,14 +291,14 @@
         }
     }
 
-    private void FilterDistrict(ChangeEventArgs e)
+    private void FilterDistrict(string value)
     {
-        var IdDistrito = e.Value.ToString();
+        var IdDistrito = value;
 
         if (IdDistrito != "")
         {
+            Provincia = IdDistrito;
             Distrito = "";
-            Provincia = TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).ToUpper();
             LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
         }
         else
@@ -307,14 +310,14 @@
 
     }
 
-    private void GetDistrictName(ChangeEventArgs e)
+    private void GetDistrictName(string value)
     {
-        var IdDistrito = e.Value.ToString();
+        var IdDistrito = value;
 
 
         if (IdDistrito != "")
         {
-            Distrito = TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).ToUpper();
+            Distrito = IdDistrito;
         }
         else
         {

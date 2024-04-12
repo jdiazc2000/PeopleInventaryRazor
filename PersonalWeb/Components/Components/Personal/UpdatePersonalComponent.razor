@@ -7,7 +7,7 @@
     <EditForm Model="obPersonal">
 
         <div class="form-group">
-            <label class="form-label">Personal:</label>
+            <label class="form-label">*Personal:</label>
             <InputText @bind-Value="obPersonal.PERSONAL" class="form-control" />
         </div>
 
@@ -170,32 +170,33 @@
             </select>
         </div>
 
-        @*
-        @obPersonal.DEPARTAMENTO
-        @Departamento 
-        *@
+        
+     @*   @obPersonal.DEPARTAMENTO
+        @Departamento   *@
+        
 
         <div class="form-group">
-            <label class="form-label">Provincia</label>
-            <select class="form-control" @onchange="@FilterDistrict" value="@Provincia">
-                <option value="">Seleccione una provincia</option>
+            <label class="form-label">Provincia:</label>
+            <InputSelect class="form-control" Value="@Provincia" ValueExpression="@(()=>@Provincia)" ValueChanged="@((string value) => FilterDistrict(value))">
+                <option value="">
+                    Seleccione una provincia</option">
                 @{
                     foreach (var provincia in LstProvincias)
                     {
                         <option value="@provincia.id">@provincia.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
 
-        @*
-        @obPersonal.PROVINCIA
-        @Provincia
-        *@
+    @*    
+         @obPersonal.PROVINCIA
+        @Provincia   *@
+    
 
         <div class="form-group">
-            <label class="form-label">Distrito</label>
-            <select class="form-control" @onchange="@GetDistrictName" value="@Distrito">
+            <label class="form-label">Distrito:</label>
+            <InputSelect class="form-control" Value="@Distrito" ValueExpression="@(()=>@Distrito)" ValueChanged="@((string value) => GetDistrictName(value))">
                 <option value="">Seleccione un distrito</option>
                 @{
                     foreach (var distrito in LstDistritos)
@@ -203,13 +204,13 @@
                         <option value="@distrito.id">@distrito.name</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
 
-         @* 
-        @obPersonal.DISTRITO
-        @Distrito 
-        *@
+        
+    @*      @obPersonal.DISTRITO
+        @Distrito   *@ 
+        
 
         <div class="form-group">
             <label class="form-label">Observación</label>
@@ -256,10 +257,10 @@
 
         Departamento = TB_ubigeo_peru_departments.GetDepartmentId(obPersonal.DEPARTAMENTO);
 
-        LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(Departamento);
         Provincia = TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA);
+        LstProvincias = TB_ubigeo_peru_provinces.GetProvinceslByDepartmentId(Departamento);
 
-        Distrito = TB_ubigeo_peru_districts.GetDisctrictId(obPersonal.PROVINCIA);
+        Distrito = TB_ubigeo_peru_districts.GetDisctrictIdByProvinceIdAndDepartmentId(obPersonal.DISTRITO,Provincia,Departamento);
         LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA));
 
         ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo"; 
@@ -267,6 +268,23 @@
 
     private async void UpdatePersonal()
     {
+        bool BNombre = false;
+       
+        if (obPersonal.PERSONAL == "" || obPersonal.PERSONAL == null)
+        {
+            await SweetAlert.FireAsync(
+            "El Nombre del empleado se encuentra vacío.",
+            "Añada el Nombre para añadir al empleado.",
+            SweetAlertIcon.Error
+            );
+        }
+        else
+        {
+            BNombre = true;
+        }
+
+        if (BNombre)
+        {
         obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
 
         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
@@ -286,8 +304,12 @@
               SweetAlertIcon.Success
               );
 
+            obPersonal.DEPARTAMENTO = TB_ubigeo_peru_departments.GetDepartmentName(Departamento);
+            obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+            obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
             TB_Personal.UpdatePersonal(obPersonal);
             NavManager.NavigateTo("");
+        }
         }
     }
 
@@ -359,8 +381,8 @@
         {
             Provincia = "";
             Distrito = "";
-            obPersonal.DEPARTAMENTO = char.ToUpper(TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento)[0]) + TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).Substring(1).ToLower();
-            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
+            Departamento = TB_ubigeo_peru_departments.GetDepartmentId(TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento)).ToUpper();
+            LstProvincias = TB_ubigeo_peru_provinces.GetProvinceslByDepartmentId(IdDepartamento);
         }
         else
         {
@@ -372,14 +394,14 @@
         }
     }
 
-    private void FilterDistrict(ChangeEventArgs e)
+    private void FilterDistrict(string value)
     {
-        var IdDistrito = e.Value.ToString();
+        var IdDistrito = value;
 
         if (IdDistrito != "")
         {
+            Provincia = IdDistrito;
             Distrito = "";
-            obPersonal.PROVINCIA = char.ToUpper(TB_ubigeo_peru_provinces.getProvinceName(IdDistrito)[0]) + TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).Substring(1).ToLower();
             LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
         }
         else
@@ -391,14 +413,14 @@
 
     }
 
-    private void GetDistrictName(ChangeEventArgs e)
+    private void GetDistrictName(string value)
     {
-        var IdDistrito = e.Value.ToString();
+        var IdDistrito = value;
 
 
         if (IdDistrito != "")
         {
-            obPersonal.DISTRITO = char.ToUpper(TB_ubigeo_peru_districts.getDisctrictName(IdDistrito)[0]) + TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).Substring(1).ToLower();
+            Distrito = IdDistrito;
         }
         else
         {
