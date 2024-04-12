@@ -50,11 +50,10 @@ namespace Business
             }
         }
 
-        public static List<PersonalEntity> FilterPersonal(string Dni, string Nombre, DateTime? FechaIngreso, DateTime? FechaNacimiento, string Estado, string Equipo)
+        public static List<PersonalEntity> FilterPersonal(string Dni, string Nombre, DateTime? FechaIngreso, DateTime? FechaNacimiento, string Estado, string Equipo, string Departamento, string Provincia, string Distrito, string IdEmpleado)
         {
             using (var db = new PersonalContext())
             {
-
                 var query = db.TBPersonal.AsQueryable();
 
                 if (!string.IsNullOrEmpty(Dni))
@@ -77,7 +76,7 @@ namespace Business
                     query = query.Where(v => v.CUMPLEAÑOS == FechaNacimiento);
                 }
 
-                if(!string.IsNullOrEmpty(Estado))
+                if (!string.IsNullOrEmpty(Estado))
                 {
                     query = query.Where(v => v.ESTADO == Estado);
                 }
@@ -87,11 +86,30 @@ namespace Business
                     query = query.Where(v => v.Equipo == Equipo);
                 }
 
+                if (!string.IsNullOrEmpty(Departamento))
+                {
+                    query = query.Where(v => v.DEPARTAMENTO == Departamento);
+                }
+
+                if (!string.IsNullOrEmpty(Provincia))
+                {
+                    query = query.Where(v => v.PROVINCIA == Provincia);
+                }
+
+                if (!string.IsNullOrEmpty(Distrito))
+                {
+                    query = query.Where(v => v.DISTRITO == Distrito);
+                }
+
+                if (IdEmpleado != null && IdEmpleado != "")
+                {
+                    query = query.Where(v => v.ID == Convert.ToDouble(IdEmpleado));
+                }
 
                 return query.ToList();
-
             }
         }
+
 
         public static void ChangePersonalStatus(PersonalEntity objPersonal, string text)
         {

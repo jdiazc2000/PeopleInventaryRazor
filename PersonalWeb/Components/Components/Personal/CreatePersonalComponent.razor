@@ -55,7 +55,7 @@
        <div class="form-group">
             <label class="form-label">Rol:</label>
             <InputSelect @bind-Value="obPersonal.ROL" class="form-control">
-                <option value="">Seleccione una modalidad</option>
+                <option value="-1">Seleccione una modalidad</option>
                 @{
                     foreach(var role in L_Lists.Roles)
                     {
@@ -169,20 +169,44 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Distrito</label>
-            <InputText @bind-Value="obPersonal.DISTRITO" class="form-control" />
+            <label class="form-label">Departamento</label>
+            <select class="form-control" @onchange="FilterProvince">
+                <option value="">Seleccione un departamento</option>
+                @{
+                    foreach (var departamento in LstDepartamentos)
+                    {
+                        <option value="@departamento.id">@departamento.name</option>
+                    }
+                }
+            </select>
         </div>
 
         <div class="form-group">
             <label class="form-label">Provincia</label>
-            <InputText @bind-Value="obPersonal.PROVINCIA" class="form-control" />
+            <select class="form-control" @onchange="FilterDistrict" >
+                <option value="">Seleccione una provincia</option>
+                @{
+                    foreach (var provincia in LstProvincias)
+                    {
+                        <option value="@provincia.id">@provincia.name</option>
+                    }
+                }
+            </select>
         </div>
 
         <div class="form-group">
-            <label class="form-label">Departamento</label>
-            <InputText @bind-Value="obPersonal.DEPARTAMENTO" class="form-control" />
+            <label class="form-label">Distrito</label>
+            <select class="form-control" @onchange="GetDistrictName">
+                <option value="" default>Seleccione un distrito</option>
+                @{
+                    foreach (var distrito in LstDistritos)
+                    {
+                        <option value="@distrito.id">@distrito.name</option>
+                    }
+                }
+            </select>
         </div>
-
+  
         <div class="form-group">
             <label class="form-label">Observación</label>
             <InputText @bind-Value="obPersonal.OBSERVACION" class="form-control" />
@@ -193,6 +217,10 @@
             <InputText @bind-Value="obPersonal.F31" class="form-control" />
         </div>
 
+
+     @*    @Departamento
+        @Provincia
+        @Distrito *@
         <hr />
         <div>
             <button type="button" class="btn btn-primary" @onclick="SavePersonal">Agregar Personal</button>
@@ -203,9 +231,15 @@
 
 @code {
     PersonalEntity obPersonal = new PersonalEntity();
+    List<DepartamentoEntity> LstDepartamentos = new List<DepartamentoEntity>();
+    List<ProvinciasEntity> LstProvincias = new List<ProvinciasEntity>();
+    List<DistritosEntity> LstDistritos = new List<DistritosEntity>();
     List<L_Lists> LstList = new List<L_Lists>();
 
     string id;
+    string Departamento;
+    string Provincia;
+    string Distrito;
 
     protected override async Task OnInitializedAsync()
     {
@@ -214,13 +248,12 @@
         obPersonal.INGRESO_INDRA = DateTime.Now;
         obPersonal.VACACIONES_URGENTES = DateTime.Now;
         obPersonal.FECHA_CESE = DateTime.Now;
+        LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
     }
 
     private async void SavePersonal()
     {
-        obPersonal.ID = Double.Parse(id);
         obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
-
         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
             {
                 Title = "Quieres agregar información de este colaborador",
@@ -238,14 +271,78 @@
               SweetAlertIcon.Success
               );
 
+            obPersonal.ID = Double.Parse(id);
+            obPersonal.DEPARTAMENTO = Departamento;
+            obPersonal.PROVINCIA = Provincia;
+            obPersonal.DISTRITO = Distrito;
             obPersonal.ESTADO = "Activo";
             TB_Personal.CreatePersonal(obPersonal);
             NavManager.NavigateTo("/");
         }
         else
         {
-            
+
         }
+    }
+
+    private void FilterProvince(ChangeEventArgs e)
+    {
+        var IdDepartamento = e.Value.ToString();
+
+        if (IdDepartamento != "")
+        {
+            Departamento = TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).ToUpper();
+            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
+
+        }
+        else
+        {
+            Departamento = "";
+            Provincia = "";
+            Distrito = "";
+            LstProvincias = [];
+            LstDistritos = [];
+        }
+    }
+
+    private void FilterDistrict(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+
+
+        if (IdDistrito != "")
+        {
+            LstDistritos = [];
+            Provincia = TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).ToUpper();
+            Distrito = "";
+        }
+        else
+        {
+            // Provincia = "";
+            // LstDistritos = [];
+            // Distrito = "";
+          
+        }
+
+       LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
+
+    }
+
+    private void GetDistrictName(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+
+        if (IdDistrito != "")
+        {
+            Distrito = TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).ToUpper();
+        }
+        else
+        {
+            Distrito = "";
+        }
+
     }
 
         static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)

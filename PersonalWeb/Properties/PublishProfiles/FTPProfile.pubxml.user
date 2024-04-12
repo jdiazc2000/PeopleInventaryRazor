@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAXi8OhIjBnkia7IpxrhEdtAAAAAACAAAAAAAQZgAAAAEAACAAAAC7fUTWH+NDrRFgMj1vK7sn8CF3JJRI+qoNwrXf/6L3EQAAAAAOgAAAAAIAACAAAACQ7xUKQZZFrZDLjMTzvASYp7M7JVwalbJGDaDGqPlHmSAAAADWnw4wpChsU+FUo85WN72RxdD8XrPHMKlMYH1cyUEUNkAAAAADtZI5VpXVcVyb0XKvNV/6KF9XUNoLxC0bgsT8vQ/3ixVsChuwvJ97SHQt7RmqZMiHrf5t0uOykKW+MiZvcK2n</EncryptedPassword>
+    <_PublishTargetUrl>ftp://198.37.116.30/www.PersonalCrudIndra.somee.com</_PublishTargetUrl>
+    <History>True|2024-04-12T02:50:22.8862606Z;True|2024-04-11T21:02:19.2823602-05:00;True|2024-04-11T20:55:24.0214973-05:00;True|2024-04-11T10:57:04.5975514-05:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>04/10/2024 23:55:37</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>04/10/2024 23:55:37</publishTime>
+    </File>
+    <File Include="Azure.Core.dll">
+      <publishTime>09/07/2023 12:50:30</publishTime>
+    </File>
+    <File Include="Azure.Identity.dll">
+      <publishTime>10/18/2023 14:59:42</publishTime>
+    </File>
+    <File Include="Business.dll">
+      <publishTime>04/11/2024 21:46:50</publishTime>
+    </File>
+    <File Include="Business.pdb">
+      <publishTime>04/11/2024 21:46:50</publishTime>
+    </File>
+    <File Include="ClosedXML.dll">
+      <publishTime>01/05/2024 09:14:16</publishTime>
+    </File>
+    <File Include="CurrieTechnologies.Razor.SweetAlert2.dll">
+      <publishTime>03/19/2024 11:55:34</publishTime>
+    </File>
+    <File Include="DataAccess.dll">
+      <publishTime>04/11/2024 20:51:56</publishTime>
+    </File>
+    <File Include="DataAccess.pdb">
+      <publishTime>04/11/2024 20:51:56</publishTime>
+    </File>
+    <File Include="DocumentFormat.OpenXml.dll">
+      <publishTime>03/14/2022 20:39:30</publishTime>
+    </File>
+    <File Include="Entities.dll">
+      <publishTime>04/11/2024 20:51:55</publishTime>
+    </File>
+    <File Include="Entities.pdb">
+      <publishTime>04/11/2024 20:51:55</publishTime>
+    </File>
+    <File Include="ExcelNumberFormat.dll">
+      <publishTime>10/02/2020 03:42:28</publishTime>
+    </File>
+    <File Include="Irony.dll">
+      <publishTime>07/17/2018 20:40:26</publishTime>
+    </File>
+    <File Include="Microsoft.Bcl.AsyncInterfaces.dll">
+      <publishTime>04/14/2020 17:39:12</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>01/26/2024 21:49:44</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>02/15/2024 20:16:46</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.dll">
+      <publishTime>02/15/2024 20:17:24</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>02/15/2024 20:17:42</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
+      <publishTime>02/15/2024 20:17:50</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.dll">
+      <publishTime>09/05/2023 13:25:28</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.Extensions.Msal.dll">
+      <publishTime>09/05/2023 13:31:58</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Abstractions.dll">
+      <publishTime>11/30/2023 23:56:56</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>11/30/2023 23:34:00</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>11/30/2023 23:35:22</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.dll">
+      <publishTime>11/30/2023 23:37:28</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll">
+      <publishTime>11/30/2023 23:48:08</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>11/30/2023 23:41:50</publishTime>
+    </File>
+    <File Include="Microsoft.SqlServer.Server.dll">
+      <publishTime>01/27/2022 12:19:08</publishTime>
+    </File>
+    <File Include="Microsoft.Win32.SystemEvents.dll">
+      <publishTime>10/22/2021 18:40:24</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>03/08/2023 02:09:54</publishTime>
+    </File>
+    <File Include="PersonalWeb.deps.json">
+      <publishTime>04/11/2024 21:46:59</publishTime>
+    </File>
+    <File Include="PersonalWeb.dll">
+      <publishTime>04/11/2024 21:46:51</publishTime>
+    </File>
+    <File Include="PersonalWeb.exe">
+      <publishTime>04/11/2024 21:46:51</publishTime>
+    </File>
+    <File Include="PersonalWeb.pdb">
+      <publishTime>04/11/2024 21:46:51</publishTime>
+    </File>
+    <File Include="PersonalWeb.runtimeconfig.json">
+      <publishTime>04/11/2024 20:51:59</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll">
+      <publishTime>01/26/2024 21:49:42</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/net6.0/System.Drawing.Common.dll">
+      <publishTime>10/22/2021 18:51:42</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/11/2023 13:56:28</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/11/2023 13:56:28</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/11/2023 13:56:18</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/11/2023 13:56:18</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/Microsoft.Data.SqlClient.dll">
+      <publishTime>01/26/2024 21:49:42</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll">
+      <publishTime>10/22/2021 18:40:18</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/System.Drawing.Common.dll">
+      <publishTime>10/22/2021 18:48:10</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/System.Runtime.Caching.dll">
+      <publishTime>10/22/2021 18:52:44</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>10/22/2021 18:51:04</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/net6.0/System.Windows.Extensions.dll">
+      <publishTime>10/22/2021 18:49:58</publishTime>
+    </File>
+    <File Include="SixLabors.Fonts.dll">
+      <publishTime>08/11/2023 07:04:44</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>08/19/2022 14:58:02</publishTime>
+    </File>
+    <File Include="System.Drawing.Common.dll">
+      <publishTime>10/22/2021 18:49:12</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>11/30/2023 23:31:48</publishTime>
+    </File>
+    <File Include="System.IO.Packaging.dll">
+      <publishTime>10/22/2021 18:49:46</publishTime>
+    </File>
+    <File Include="System.Memory.Data.dll">
+      <publishTime>04/08/2021 11:45:54</publishTime>
+    </File>
+    <File Include="System.Runtime.Caching.dll">
+      <publishTime>10/22/2021 18:52:02</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>10/22/2021 18:51:04</publishTime>
+    </File>
+    <File Include="System.Security.Permissions.dll">
+      <publishTime>10/22/2021 18:49:50</publishTime>
+    </File>
+    <File Include="System.Windows.Extensions.dll">
+      <publishTime>10/22/2021 18:49:44</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>04/11/2024 21:46:59</publishTime>
+    </File>
+    <File Include="wwwroot/app.css">
+      <publishTime>04/11/2024 02:17:24</publishTime>
+    </File>
+    <File Include="wwwroot/bootstrap/bootstrap.min.css">
+      <publishTime>04/10/2024 23:55:37</publishTime>
+    </File>
+    <File Include="wwwroot/bootstrap/bootstrap.min.css.map">
+      <publishTime>04/10/2024 23:55:37</publishTime>
+    </File>
+    <File Include="wwwroot/favicon.png">
+      <publishTime>04/10/2024 23:55:37</publishTime>
+    </File>
+    <File Include="wwwroot/js/Utilidades.js">
+      <publishTime>04/11/2024 01:36:21</publishTime>
+    </File>
+    <File Include="wwwroot/PersonalWeb.styles.css">
+      <publishTime>04/11/2024 10:53:55</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bootstrap4Theme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bootstrap4Theme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bootstrap4Theme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bootstrap4Theme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/borderlessTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/borderlessTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/borderlessTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/borderlessTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bulmaTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bulmaTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bulmaTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/bulmaTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/darkTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/darkTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/darkTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/darkTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/defaultTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/defaultTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/defaultTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/defaultTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/materialUITheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/materialUITheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/materialUITheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/materialUITheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/minimalTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/minimalTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/minimalTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/minimalTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/sweetAlert2.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/sweetAlert2.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/wordpressAdminTheme.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/wordpressAdminTheme.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/wordpressAdminTheme.min.css">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="wwwroot/_content/CurrieTechnologies.Razor.SweetAlert2/wordpressAdminTheme.min.js">
+      <publishTime>03/19/2024 11:54:18</publishTime>
+    </File>
+    <File Include="XLParser.dll">
+      <publishTime>05/20/2022 03:49:02</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

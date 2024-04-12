@@ -235,3 +235,4 @@ C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Debug\net8.0\Ir
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Debug\net8.0\SixLabors.Fonts.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Debug\net8.0\System.IO.Packaging.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Debug\net8.0\XLParser.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Debug\net8.0\Newtonsoft.Json.dll

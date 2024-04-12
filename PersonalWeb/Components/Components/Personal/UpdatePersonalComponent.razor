@@ -158,19 +158,58 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Distrito</label>
-            <InputText @bind-Value="obPersonal.DISTRITO" class="form-control" />
+            <label class="form-label">Departamento</label>
+            <select class="form-control" @onchange="@FilterProvince" value="@Departamento">
+                <option value="">Seleccione un departamento</option>
+                @{
+                    foreach (var departamento in LstDepartamentos)
+                    {
+                        <option value="@departamento.id">@departamento.name</option>
+                    }
+                }
+            </select>
         </div>
+
+        @*
+        @obPersonal.DEPARTAMENTO
+        @Departamento 
+        *@
 
         <div class="form-group">
             <label class="form-label">Provincia</label>
-            <InputText @bind-Value="obPersonal.PROVINCIA" class="form-control" />
+            <select class="form-control" @onchange="@FilterDistrict" value="@Provincia">
+                <option value="">Seleccione una provincia</option>
+                @{
+                    foreach (var provincia in LstProvincias)
+                    {
+                        <option value="@provincia.id">@provincia.name</option>
+                    }
+                }
+            </select>
         </div>
 
+        @*
+        @obPersonal.PROVINCIA
+        @Provincia
+        *@
+
         <div class="form-group">
-            <label class="form-label">Departamento</label>
-            <InputText @bind-Value="obPersonal.DEPARTAMENTO" class="form-control" />
+            <label class="form-label">Distrito</label>
+            <select class="form-control" @onchange="@GetDistrictName" value="@Distrito">
+                <option value="">Seleccione un distrito</option>
+                @{
+                    foreach (var distrito in LstDistritos)
+                    {
+                        <option value="@distrito.id">@distrito.name</option>
+                    }
+                }
+            </select>
         </div>
+
+         @* 
+        @obPersonal.DISTRITO
+        @Distrito 
+        *@
 
         <div class="form-group">
             <label class="form-label">Observación</label>
@@ -183,6 +222,7 @@
         </div>
 
         <hr />
+
         <div>
             <button type="button" class="btn btn-primary" @onclick="UpdatePersonal">Actualizar Personal</button>
              <button type="button" class="btn btn-success" @onclick="ChangeStatus">Cambiar estado a @ReversedEstado</button>
@@ -194,8 +234,16 @@
 
 @code {
     PersonalEntity obPersonal = new PersonalEntity();
+    List<DepartamentoEntity> LstDepartamentos = new List<DepartamentoEntity>();
+    List<ProvinciasEntity> LstProvincias = new List<ProvinciasEntity>();
+    List<DistritosEntity> LstDistritos = new List<DistritosEntity>();
     List<L_Lists> LstList = new List<L_Lists>();
-    string ReversedEstado;
+
+    string id;
+    string Departamento { get; set; }
+    string Provincia { get; set; }
+    string Distrito { get; set; }
+    string ReversedEstado { get; set; }
 
     [Parameter]
     public string IdPersonal { get; set; }
@@ -203,13 +251,22 @@
 
     protected override async Task OnInitializedAsync()
     {
+        LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList().ToList();
         obPersonal = TB_Personal.PersonalById(Double.Parse(IdPersonal));
-        ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo";
+
+        Departamento = TB_ubigeo_peru_departments.GetDepartmentId(obPersonal.DEPARTAMENTO);
+
+        LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(Departamento);
+        Provincia = TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA);
+
+        Distrito = TB_ubigeo_peru_districts.GetDisctrictId(obPersonal.PROVINCIA);
+        LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA));
+
+        ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo"; 
     }
 
     private async void UpdatePersonal()
     {
-        obPersonal.DIAS_EMPRESA = ContarDiasPresente(obPersonal.INGRESO_INDRA, DateTime.Now);
         obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
 
         SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
@@ -250,7 +307,7 @@
         {
             await SweetAlert.FireAsync(
               "El estado de este personal actualizado." ,
-              "El estado de este personal actualizado. con éxito.",
+              "El estado de este personal fue actualizado con éxito.",
               SweetAlertIcon.Success
               );
 
@@ -294,19 +351,61 @@
         }
     }
 
-        private static int ContarDiasPresente(DateTime? fechaInicio, DateTime fechaFin)
+    private void FilterProvince(ChangeEventArgs e)
+    {
+        var IdDepartamento = e.Value.ToString();
+
+        if (IdDepartamento != "")
         {
-            if (fechaInicio.HasValue)
-        {
-            TimeSpan diferencia = fechaFin - fechaInicio.Value;
-            int diasPresente = diferencia.Days + 1;
-            return diasPresente;
+            Provincia = "";
+            Distrito = "";
+            obPersonal.DEPARTAMENTO = char.ToUpper(TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento)[0]) + TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).Substring(1).ToLower();
+            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
         }
-            else
+        else
         {
-            return -1; 
+            Departamento = "";
+            Provincia = "";
+            Distrito = "";
+            LstProvincias = [];
+            LstDistritos = [];
         }
-}
+    }
+
+    private void FilterDistrict(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+        if (IdDistrito != "")
+        {
+            Distrito = "";
+            obPersonal.PROVINCIA = char.ToUpper(TB_ubigeo_peru_provinces.getProvinceName(IdDistrito)[0]) + TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).Substring(1).ToLower();
+            LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
+        }
+        else
+        {
+            Provincia = "";
+            Distrito = "";
+            LstDistritos = [];
+        }
+
+    }
+
+    private void GetDistrictName(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+
+        if (IdDistrito != "")
+        {
+            obPersonal.DISTRITO = char.ToUpper(TB_ubigeo_peru_districts.getDisctrictName(IdDistrito)[0]) + TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).Substring(1).ToLower();
+        }
+        else
+        {
+            Distrito = "";
+        }
+
+    }
 
         static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
         {
@@ -319,5 +418,6 @@
             TimeSpan diferencia = fecha.Value - fechaActual;
             return (int)diferencia.TotalDays;
         }
+
      }
 }

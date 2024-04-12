@@ -1,11 +1,19 @@
 ﻿@using Entities
 @using Business
 @using ClosedXML.Excel;
+@using System.Net;
+@using System.Data;
+@using Newtonsoft.Json;
+@using System.Diagnostics;
 @inject IJSRuntime _jsService;
 
 
-<div class="container mb-3">
+<div class="mb-3">
     <div class="row justify-content-md-center mb-3">
+        <div class="col-sm">
+            <label class="form-label">ID:</label>
+            <input type="text" class="form-control" placeholder="Ingrese ID del empleado" @bind-value="ID"/>
+        </div>
         <div class="col-sm">
             <label class="form-label">Dni:</label>
             <input type="text" class="form-control" placeholder="Ingrese DNI" @bind-value="Dni"/>
@@ -24,10 +32,7 @@
             <label class="form-label">Fecha de nacimiento:</label>
             <InputDate @bind-Value="FechaNacimiento" class="form-control" />
         </div>
-    </div>
-
-    <div class="row justify-content-md-center mb-3">
-        <div class="col-sm">
+          <div class="col-sm">
             <label class="form-label">Estado:</label>
              <InputSelect @bind-Value="Estado" class="form-control">
                 <option value="">Seleccione un estado</option>
@@ -35,6 +40,10 @@
                 <option value="Inactivo">Inactivo</option>
             </InputSelect>
         </div>
+    </div>
+
+    <div class="row justify-content-md-center mb-3">
+      
         <div class="col-sm">
             <label class="form-label">Equipo:</label>
             <InputSelect @bind-Value="Equipo" class="form-control">
@@ -43,54 +52,179 @@
                 <option value="Laptop">Laptop</option>
             </InputSelect>
         </div>
+         <div class="col-sm">
+            <label class="form-label">Departamento:</label>
+            <select class="form-control" @onchange="FilterProvince">
+                <option value="">Seleccione un departamento</option>
+                @{
+                    foreach(var departamento in LstDepartamentos)
+                    {
+                        <option value="@departamento.id">@departamento.name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm">
+            <label class="form-label">Provincia:</label>
+            <select class="form-control" @onchange="FilterDistrict">
+                <option value="">Seleccione una provincia</option id="ProvinciaSelect">
+                @{
+                    foreach (var provincia in LstProvincias)
+                    {
+                        <option value="@provincia.id">@provincia.name</option>
+                    }
+                }
+            </select>
+        </div>
     </div>
-    <button @onclick="ChangedFilters" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
-    <button @onclick="ExportExcel" class="btn btn-success"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button>
+
+    <div class="row justify-content-md-center mb-3">
+        <div class="col-sm">
+            <label class="form-label">Distrito:</label>
+            <select class="form-control" @onchange="GetDistrictName">
+                <option value="">Seleccione un distrito</option>
+                @{
+                    foreach (var distrito in LstDistritos)
+                    {
+                        <option value="@distrito.id">@distrito.name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+   
+    @*
+    @Departamento
+    @Provincia
+    @Distrito
+    *@
+
+    <div style="
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    "
+        > 
+        <button @onclick="ChangedFilters" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+        <button @onclick="ExportExcel" class="btn btn-success"><i class="bi bi-file-earmark-excel"></i> Exportar a Excel</button> 
+    @{
+        if (spinnerloading)
+        {
+            <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+            </div>  
+        }   
+    }
+
+    </div>
+ 
+  
 </div>
 
-<div class="scroll-table table-responsive" style="height:33rem; overflow: scroll;">
+<div class="table-responsive" style="width: 99rem; height:33rem; overflow: scroll;">
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Referencia</th>
-                        <th>Nombres y Apellidos</th>
+                        <th>ID</th>
                         <th>DNI</th>
-                        <th>Celular</th>
+                        <th>PERSONAL</th>
+                        <th>CUMPLEAÑOS</th>
+                        <th>PUESTO</th>
+                        <th>CARGO</th>
+                        <th>FUNCION</th>
+                        <th>MODALIDAD</th>
+                        <th>ROL</th>
+                        <th>TASA</th>
+                        <th>EMPRESA</th>
+                        <th>COORDINADOR</th>
+                        <th>GABIN</th>
+                        <th>PEOPLE</th>
+                        <th>FECHA PROYECTO</th>
+                        <th>FECHA CESE</th>
+                        <th>DIAS AL CESE</th>
+                        <th>PERIODO PRUEBA</th>
+                        <th>INGRESO INDRA</th>
+                        <th>DIAS EMPRESA</th>
+                        <th>VACACIONES URGENTES</th>
                         <th>Equipo</th>
-                        <th>Correo</th>
-                        <th>Fecha ingreso a Indra</th>
-                        <th>Fecha de nacimiento</th>
-                        <th>Dias en Indra</th>
-                        <th>Estado</th>
+                        <th>CELULAR</th>
+                        <th>CORREO</th>
+                        <th>CPERSONAL</th>
+                        <th>DIRECCION</th>
+                        <th>DISTRITO</th>
+                        <th>PROVINCIA</th>
+                        <th>DEPARTAMENTO</th>
+                        <th>OBSERVACION</th>
+                        <th>F31</th>
+                        <th>ESTADO</th>
                         <th></th>
                     </tr>
-                </thead>
+            </thead>
                 <tbody>
                     @foreach (var personal in TempObPersonal)
                     {
                         <tr>
-                            <td>@personal.ID</td>
-                            <td>@personal.PERSONAL</td>
-                            <td>@personal.DNI</td>
-                            <td>@personal.CELULAR</td>
-                            <td>@personal.Equipo</td>
-                            <td>@personal.CORREO</td>
-                            <td>@personal.INGRESO_INDRA.Value.ToString("dd-MM-yyyy")</td>
-                            <td>@personal.CUMPLEAÑOS.Value.ToString("dd-MM-yyyy")</td>
+                          <td>@personal.ID</td>
+                          <td>@personal.DNI</td>
+                          <td>@personal.PERSONAL</td>
+                          <td>@personal.CUMPLEAÑOS?.ToString("dd/MM/yyyy")</td>
+                          <td>@personal.PUESTO</td>
+                          <td>@personal.CARGO</td>
+                          <td>@personal.FUNCION</td>
+                          <td>@personal.MODALIDAD</td>
+                          <td>@personal.ROL</td>
+                          <td>@personal.TASA</td>
+                          <td>@personal.EMPRESA</td>
+                          <td>@personal.COORDINADOR</td>
+                          <td>@personal.GABIN</td>
+                          <td>@personal.PEOPLE</td>
+                          <td>@personal.FECHA_PROYECTO.Value.ToString("dd-MM-yyyy")</td>
+                          <td>@personal.FECHA_CESE?.ToString("dd/MM/yyyy")</td>
                         @{
+                            // Calcular la diferencia de cese
+                            string diasCese;
+                            DateTime Hoy = DateTime.Today;
+
+                            if (!personal.FECHA_CESE.HasValue || personal.FECHA_CESE.Value.Date < Hoy)
+                            {
+                                diasCese = "Indefinido";
+                            }
+                                else
+                            {
+                                 TimeSpan diferenciaDiasCese = personal.FECHA_CESE.Value - Hoy;
+                                 diasCese = diferenciaDiasCese.Days.ToString();
+                            }
+                         }
+                          <td>@diasCese</td>
+                          <td>@personal.PERIODO_PRUEBA</td>
+                          <td>@personal.INGRESO_INDRA.Value.ToString("dd-MM-yyyy")</td>
+                         @{
                             // Calcular la diferencia de días
-                            int diasDiferencia;
+                            int diasDiferenciaDeIngresoIndra;
                             TimeSpan diferencia = DateTime.Now - personal.INGRESO_INDRA.Value;
                             if((int)diferencia.TotalDays > 0)
                             {
-                                diasDiferencia = (int)diferencia.TotalDays;
+                                diasDiferenciaDeIngresoIndra = (int)diferencia.TotalDays;
                             }
                             else
                             {
-                                diasDiferencia = 1;
+                                diasDiferenciaDeIngresoIndra = 1;
                             }
                         }
-                            <td>@personal.DIAS_EMPRESA</td>
+                            <td>@diasDiferenciaDeIngresoIndra</td>
+                            <td>@personal.VACACIONES_URGENTES?.ToString("dd/MM/yyyy")</td>
+                            <td>@personal.Equipo</td>
+                            <td>@personal.CELULAR</td>
+                            <td>@personal.CORREO</td>
+                            <td>@personal.CPERSONAL</td>
+                            <td>@personal.DIRECCION</td>   
+                            <td>@personal.DEPARTAMENTO</td>
+                            <td>@personal.PROVINCIA</td>
+                            <td>@personal.DISTRITO</td>
+                            <td>@personal.OBSERVACION</td>
+                            <td>@personal.F31</td>
                             <td>@personal.ESTADO</td>
                             <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()"><i class="bi bi-pencil-square"></i> Actualizar</a></td>
                         </tr>
@@ -101,10 +235,18 @@
 @code {
     List<PersonalEntity> ObPersonal = new List<PersonalEntity>();
     List<PersonalEntity> TempObPersonal = new List<PersonalEntity>();
+    List<DepartamentoEntity> LstDepartamentos = new List<DepartamentoEntity>();
+    List<ProvinciasEntity> LstProvincias = new List<ProvinciasEntity>();
+    List<DistritosEntity> LstDistritos = new List<DistritosEntity>();
+    string ID;
     string Dni;
     string Nombre;
     string Estado;
     string Equipo;
+    string Departamento;
+    string Provincia;
+    string Distrito;
+    bool spinnerloading = false;
     DateTime? FechaIngreso;
     DateTime? FechaNacimiento;
     private readonly IJSRuntime _jsRuntime;
@@ -113,13 +255,74 @@
     protected override async Task OnInitializedAsync()
     {
         ObPersonal = TB_Personal.PersonalList();
+        LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
         TempObPersonal = ObPersonal;
     }
 
-    private void ChangedFilters()
+    private async Task ChangedFilters()
     {
-        TempObPersonal = TB_Personal.FilterPersonal(Dni,Nombre,FechaIngreso,FechaNacimiento,Estado,Equipo);
-    } 
+        spinnerloading = true;
+        TempObPersonal = await Task.Run(() => TB_Personal.FilterPersonal(Dni, Nombre, FechaIngreso, FechaNacimiento, Estado, Equipo, Departamento, Provincia, Distrito, ID));
+        spinnerloading = false;
+    }
+
+
+    private void FilterProvince(ChangeEventArgs e)
+    {
+        var IdDepartamento = e.Value.ToString();
+
+        if (IdDepartamento != "")
+        {
+            Provincia = "";
+            Distrito = "";
+            Departamento = TB_ubigeo_peru_departments.GetDepartmentName(IdDepartamento).ToUpper();
+            LstProvincias = TB_ubigeo_peru_provinces.ProvinceslByDepartmentId(IdDepartamento);
+        }
+        else
+        {
+            Departamento = "";
+            Provincia = "";
+            Distrito = "";
+            LstProvincias = [];
+            LstDistritos = [];
+        }
+    }
+
+    private void FilterDistrict(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+        if (IdDistrito != "")
+        {
+            Distrito = "";
+            Provincia = TB_ubigeo_peru_provinces.getProvinceName(IdDistrito).ToUpper();
+            LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(IdDistrito);
+        }
+        else
+        {
+            Provincia = "";
+            Distrito = "";
+            LstDistritos = [];
+        }
+
+    }
+
+    private void GetDistrictName(ChangeEventArgs e)
+    {
+        var IdDistrito = e.Value.ToString();
+
+
+        if (IdDistrito != "")
+        {
+            Distrito = TB_ubigeo_peru_districts.getDisctrictName(IdDistrito).ToUpper();
+        }
+        else
+        {
+            Distrito = "";
+        }
+
+    }
+
 
     private async Task ExportExcel()
     {
@@ -127,16 +330,40 @@
         {
             IXLWorksheet hoja = libro.Worksheets.Add("Empleados");
 
-            hoja.Cell(1, 1).Value = "Referencia";
-            hoja.Cell(1, 2).Value = "Nombres y Apellidos";
-            hoja.Cell(1, 3).Value = "DNI";
-            hoja.Cell(1, 4).Value = "Celular";
-            hoja.Cell(1, 5).Value = "Equipo";
-            hoja.Cell(1, 6).Value = "Correo";
-            hoja.Cell(1, 7).Value = "Fecha ingreso a Indra";
-            hoja.Cell(1, 8).Value = "Fecha de nacimiento";
-            hoja.Cell(1, 9).Value = "Dias en Indra";
-            hoja.Cell(1, 10).Value = "Estado";
+                hoja.Cell(1, 1).Value = "ID";
+                hoja.Cell(1, 2).Value = "DNI";
+                hoja.Cell(1, 3).Value = "Nombre Completo";
+                hoja.Cell(1, 4).Value = "Celular";
+                hoja.Cell(1, 5).Value = "Equipo";
+                hoja.Cell(1, 6).Value = "Fecha de Ingreso a Indra";
+                hoja.Cell(1, 7).Value = "Fecha de Nacimiento";
+                hoja.Cell(1, 8).Value = "Días en Indra";
+                hoja.Cell(1, 9).Value = "Estado Laboral";
+                hoja.Cell(1, 10).Value = "Puesto";
+                hoja.Cell(1, 11).Value = "Cargo";
+                hoja.Cell(1, 12).Value = "Función";
+                hoja.Cell(1, 13).Value = "Modalidad de Contrato";
+                hoja.Cell(1, 14).Value = "Rol";
+                hoja.Cell(1, 15).Value = "Tasa";
+                hoja.Cell(1, 16).Value = "Empresa";
+                hoja.Cell(1, 17).Value = "Coordinador";
+                hoja.Cell(1, 18).Value = "Gabinete";
+                hoja.Cell(1, 19).Value = "People";
+                hoja.Cell(1, 20).Value = "Fecha de Proyecto";
+                hoja.Cell(1, 21).Value = "Fecha de Cese";
+                hoja.Cell(1, 22).Value = "Días al Cese";
+                hoja.Cell(1, 23).Value = "Periodo de Prueba";
+                hoja.Cell(1, 24).Value = "Vacaciones Urgentes";
+                hoja.Cell(1, 25).Value = "Correo Electrónico";
+                hoja.Cell(1, 26).Value = "correo Personal";
+                hoja.Cell(1, 27).Value = "Dirección";
+                hoja.Cell(1, 28).Value = "Departamento";
+                hoja.Cell(1, 29).Value = "Provincia";
+                hoja.Cell(1, 30).Value = "Distrito";
+                hoja.Cell(1, 31).Value = "Observación";
+                hoja.Cell(1, 32).Value = "F31";
+
+
 
             for (int fila = 1; fila <= TempObPersonal.Count; fila++)
             {
@@ -156,16 +383,54 @@
                     personal.DIAS_EMPRESA = diasDiferencia;
                 }
 
+                foreach (var personal in TempObPersonal)
+                {
+                    DateTime Hoy = DateTime.Today;
+
+                    if (!personal.FECHA_CESE.HasValue || personal.FECHA_CESE.Value.Date < Hoy)
+                    {
+                        personal.DIAS_AL_CESE = 0;
+                    }
+                    else
+                    {
+                        TimeSpan diferenciaDiasCese = personal.FECHA_CESE.Value - Hoy;
+                        personal.DIAS_AL_CESE = diferenciaDiasCese.Days;
+                    }
+                }
+
                 hoja.Cell(fila + 1, 1).Value = TempObPersonal[fila - 1].ID;
-                hoja.Cell(fila + 1, 2).Value = TempObPersonal[fila - 1].PERSONAL;
-                hoja.Cell(fila + 1, 3).Value = TempObPersonal[fila - 1].DNI;
+                hoja.Cell(fila + 1, 2).Value = TempObPersonal[fila - 1].DNI;
+                hoja.Cell(fila + 1, 3).Value = TempObPersonal[fila - 1].PERSONAL;
                 hoja.Cell(fila + 1, 4).Value = TempObPersonal[fila - 1].CELULAR;
                 hoja.Cell(fila + 1, 5).Value = TempObPersonal[fila - 1].Equipo;
-                hoja.Cell(fila + 1, 6).Value = TempObPersonal[fila - 1].CORREO;
-                hoja.Cell(fila + 1, 7).Value = TempObPersonal[fila - 1].INGRESO_INDRA;
-                hoja.Cell(fila + 1, 8).Value = TempObPersonal[fila - 1].CUMPLEAÑOS;
-                hoja.Cell(fila + 1, 9).Value = TempObPersonal[fila - 1].DIAS_EMPRESA;
-                hoja.Cell(fila + 1, 10).Value = TempObPersonal[fila - 1].ESTADO;
+                hoja.Cell(fila + 1, 6).Value = TempObPersonal[fila - 1].INGRESO_INDRA?.ToString("dd-MM-yyyy");
+                hoja.Cell(fila + 1, 7).Value = TempObPersonal[fila - 1].CUMPLEAÑOS?.ToString("dd/MM/yyyy");
+                hoja.Cell(fila + 1, 8).Value = TempObPersonal[fila - 1].DIAS_EMPRESA;
+                hoja.Cell(fila + 1, 9).Value = TempObPersonal[fila - 1].ESTADO;
+                hoja.Cell(fila + 1, 10).Value = TempObPersonal[fila - 1].PUESTO;
+                hoja.Cell(fila + 1, 11).Value = TempObPersonal[fila - 1].CARGO;
+                hoja.Cell(fila + 1, 12).Value = TempObPersonal[fila - 1].FUNCION;
+                hoja.Cell(fila + 1, 13).Value = TempObPersonal[fila - 1].MODALIDAD;
+                hoja.Cell(fila + 1, 14).Value = TempObPersonal[fila - 1].ROL;
+                hoja.Cell(fila + 1, 15).Value = TempObPersonal[fila - 1].TASA;
+                hoja.Cell(fila + 1, 16).Value = TempObPersonal[fila - 1].EMPRESA;
+                hoja.Cell(fila + 1, 17).Value = TempObPersonal[fila - 1].COORDINADOR;
+                hoja.Cell(fila + 1, 18).Value = TempObPersonal[fila - 1].GABIN;
+                hoja.Cell(fila + 1, 19).Value = TempObPersonal[fila - 1].PEOPLE;
+                hoja.Cell(fila + 1, 20).Value = TempObPersonal[fila - 1].FECHA_PROYECTO?.ToString("dd-MM-yyyy");
+                hoja.Cell(fila + 1, 21).Value = TempObPersonal[fila - 1].FECHA_CESE?.ToString("dd/MM/yyyy");
+                hoja.Cell(fila + 1, 22).Value = TempObPersonal[fila - 1].DIAS_AL_CESE;
+                hoja.Cell(fila + 1, 23).Value = TempObPersonal[fila - 1].PERIODO_PRUEBA;
+                hoja.Cell(fila + 1, 24).Value = TempObPersonal[fila - 1].VACACIONES_URGENTES?.ToString("dd/MM/yyyy");
+                hoja.Cell(fila + 1, 25).Value = TempObPersonal[fila - 1].CORREO;
+                hoja.Cell(fila + 1, 26).Value = TempObPersonal[fila - 1].CPERSONAL;
+                hoja.Cell(fila + 1, 27).Value = TempObPersonal[fila - 1].DIRECCION;
+                hoja.Cell(fila + 1, 28).Value = TempObPersonal[fila - 1].DEPARTAMENTO;
+                hoja.Cell(fila + 1, 29).Value = TempObPersonal[fila - 1].PROVINCIA;
+                hoja.Cell(fila + 1, 30).Value = TempObPersonal[fila - 1].DISTRITO;
+                hoja.Cell(fila + 1, 31).Value = TempObPersonal[fila - 1].OBSERVACION;
+                hoja.Cell(fila + 1, 32).Value = TempObPersonal[fila - 1].F31;
+
             }
 
             using (var memoria = new MemoryStream())
@@ -173,11 +438,15 @@
                 libro.SaveAs(memoria);
                 var nombreExcel = string.Concat("Reporte de Personal ", DateTime.Now.ToString(), ".xlsx");
 
+                 
+
                 await _jsService.InvokeAsync<object>(
                     "ExportExcel",
                     nombreExcel,
                     Convert.ToBase64String(memoria.ToArray())
                 );
+
+                
             }
         }
     }
