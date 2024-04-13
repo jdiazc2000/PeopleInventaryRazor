@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\julio\\source\\repos\\peopleinventaryrazor\\personalweb\\components\\components\\personal\\updatepersonalcomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\components\\components\\personal\\updatepersonalcomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\julio\\source\\repos\\peopleinventaryrazor\\personalweb\\components\\components\\personal\\listpersonalcomponents.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\components\\components\\personal\\listpersonalcomponents.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
@@ -23,27 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UpdatePersonalComponent.razor",
-              "DocumentMoniker": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\UpdatePersonalComponent.razor",
-              "RelativeDocumentMoniker": "PersonalWeb\\Components\\Components\\Personal\\UpdatePersonalComponent.razor",
-              "ToolTip": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\UpdatePersonalComponent.razor",
-              "RelativeToolTip": "PersonalWeb\\Components\\Components\\Personal\\UpdatePersonalComponent.razor",
-              "ViewState": "AQIAAMMAAAAAAAAAAAAAAM0AAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-12T20:04:10.833Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "ListPersonalComponents.razor",
               "DocumentMoniker": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
               "RelativeDocumentMoniker": "PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
               "ToolTip": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
               "RelativeToolTip": "PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAAAFcAAAA7AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-12T20:04:09.875Z",
+              "WhenOpened": "2024-04-13T22:53:43.751Z",
               "EditorCaption": ""
             }
           ]

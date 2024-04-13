@@ -1,5 +1,4 @@
-﻿function ExportExcel(FileName, base64File)
-{
+﻿function ExportExcel(FileName, base64File) {
     const link = document.createElement("a");
     link.download = FileName;
 

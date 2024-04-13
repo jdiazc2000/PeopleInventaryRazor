@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+0RVWCeAfvLRJPy2N4oFFR+vHc0eAeSzXm3FYg6Cb/o=",
+  "Hash": "tlXH6MVp+QiEuJ0w30CSTbS5BBHUT3ZRl7QJX2kDkZA=",
   "Source": "PersonalWeb",
   "BasePath": "_content/PersonalWeb",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\Julio\\.nuget\\packages\\blazordownloadfile\\2.4.0.2\\staticwebassets\\BlazorDownloadFileScript.js",
+      "SourceId": "BlazorDownloadFile",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\Julio\\.nuget\\packages\\blazordownloadfile\\2.4.0.2\\staticwebassets\\",
+      "BasePath": "_content/BlazorDownloadFile",
+      "RelativePath": "BlazorDownloadFileScript.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\Julio\\.nuget\\packages\\blazordownloadfile\\2.4.0.2\\staticwebassets\\BlazorDownloadFileScript.js"
+    },
     {
       "Identity": "C:\\Users\\Julio\\.nuget\\packages\\currietechnologies.razor.sweetalert2\\5.6.0\\staticwebassets\\bootstrap4Theme.css",
       "SourceId": "CurrieTechnologies.Razor.SweetAlert2",
