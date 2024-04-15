@@ -321,7 +321,7 @@
         {
             TimeSpan diferenciaDiasCese = Hoy - FechaCese.Value;
 
-            return diasCese = "("+ diferenciaDiasCese.Days.ToString() +")";
+            return diasCese = "-" + diferenciaDiasCese.Days.ToString();
         }
         else{
             TimeSpan diferenciaDiasCese = FechaCese.Value - Hoy;
@@ -390,6 +390,7 @@
             {
                 foreach (var personal in TempObPersonal)
                 {
+
                     var diasEmpresa = CalcularDiasDeDiferencia(personal.INGRESO_INDRA);
                     personal.DIAS_EMPRESA = Int32.Parse(diasEmpresa);
                 }
