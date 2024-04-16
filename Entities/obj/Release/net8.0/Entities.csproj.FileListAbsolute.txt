@@ -22,3 +22,15 @@ C:\Users\Julio\source\repos\PeopleInventaryRazor - LEGACY\Entities\obj\Release\n
 C:\Users\Julio\source\repos\PeopleInventaryRazor - LEGACY\Entities\obj\Release\net8.0\refint\Entities.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor - LEGACY\Entities\obj\Release\net8.0\Entities.pdb
 C:\Users\Julio\source\repos\PeopleInventaryRazor - LEGACY\Entities\obj\Release\net8.0\ref\Entities.dll
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\bin\Release\net8.0\Entities.deps.json
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\bin\Release\net8.0\Entities.dll
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\bin\Release\net8.0\Entities.pdb
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.AssemblyInfoInputs.cache
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.AssemblyInfo.cs
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.csproj.CoreCompileInputs.cache
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.sourcelink.json
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.dll
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\refint\Entities.dll
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\Entities.pdb
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\Entities\obj\Release\net8.0\ref\Entities.dll

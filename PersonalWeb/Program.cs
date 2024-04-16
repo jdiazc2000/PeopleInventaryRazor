@@ -13,6 +13,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSweetAlert2();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazorDownloadFile();
+
 //builder.Services.AddSingleton<PdfExportService>();
 
 var app = builder.Build();

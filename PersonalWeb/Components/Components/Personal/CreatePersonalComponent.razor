@@ -1,12 +1,12 @@
 ﻿﻿﻿@using Entities
 @using Business
 @using Personal.Lists
+@using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject SweetAlertService SweetAlert
 
 <div>
     <EditForm Model="obPersonal">
-
         <div class="form-group">
             <label class="form-label">*ID:</label>
             <InputText @bind-Value="id" class="form-control" MaxLength="6" />
@@ -15,31 +15,37 @@
         <div class="form-group">
             <label class="form-label">*Documento de identidad:</label>
             <InputText @bind-Value="obPersonal.DNI" class="form-control" MaxLength="8" />
+            <ValidationMessage For="@(() => obPersonal.DNI)"/>
         </div>
 
         <div class="form-group">
             <label class="form-label">*Personal:</label>
             <InputText @bind-Value="obPersonal.PERSONAL" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.PERSONAL)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Cumpleaños:</label>
             <InputDate @bind-Value="obPersonal.CUMPLEAÑOS" class="form-control"/>
+            <ValidationMessage For="@(() => obPersonal.CUMPLEAÑOS)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Puesto:</label>
             <InputText @bind-Value="obPersonal.PUESTO" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.PUESTO)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Cargo:</label>
             <InputText @bind-Value="obPersonal.CARGO" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.CARGO)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Función:</label>
             <InputText @bind-Value="obPersonal.FUNCION" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.FUNCION)" />
         </div>
 
         <div class="form-group">
@@ -50,6 +56,7 @@
                 <option value="REMOTO">Remoto</option>
                 <option value="HIBRIDO">Hibrido</option>
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.MODALIDAD)" />
         </div>
 
        <div class="form-group">
@@ -63,6 +70,7 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.ROL)" />
         </div>
 
         <div class="form-group">
@@ -76,6 +84,7 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.TASA)" />
         </div>
 
          <div class="form-group">
@@ -89,6 +98,7 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.EMPRESA)" />
         </div>
 
         <div class="form-group">
@@ -102,21 +112,25 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.COORDINADOR)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Gabin:</label>
             <InputText @bind-Value="obPersonal.GABIN" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.GABIN)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">People:</label>
             <InputText @bind-Value="obPersonal.PEOPLE" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.PEOPLE)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Fecha Proyecto:</label>
             <InputDate @bind-Value="obPersonal.FECHA_PROYECTO" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.FECHA_PROYECTO)" />
         </div>
 
         <div class="form-group">
@@ -127,16 +141,19 @@
         <div class="form-group">
             <label class="form-label">Periodo de prueba (Meses):</label>
             <InputText @bind-Value="obPersonal.PERIODO_PRUEBA" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.PERIODO_PRUEBA)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Fecha ingreso Indra:</label>
             <InputDate @bind-Value="obPersonal.INGRESO_INDRA" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.INGRESO_INDRA)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Vacaciones Urgentes:</label>
             <InputDate @bind-Value="obPersonal.VACACIONES_URGENTES" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.VACACIONES_URGENTES)" />
         </div>
 
         <div class="form-group">
@@ -146,26 +163,31 @@
                 <option value="No">No</option>
                 <option value="Laptop">Laptop</option>
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.Equipo)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Número celular</label>
             <InputNumber @bind-Value="obPersonal.CELULAR" MaxLength="9" class="form-control" AllowNegativeNumbers="false" />
+            <ValidationMessage For="@(() => obPersonal.CELULAR)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Correo</label>
             <InputText @bind-Value="obPersonal.CORREO" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.CORREO)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Correo personal</label>
             <InputText @bind-Value="obPersonal.CPERSONAL" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.CPERSONAL)" />
         </div>
 
         <div class="form-group">
             <label class="form-label">Dirección</label>
             <InputText @bind-Value="obPersonal.DIRECCION" class="form-control" />
+            <ValidationMessage For="@(() => obPersonal.DIRECCION)" />
         </div>
 
         <div class="form-group">
@@ -179,6 +201,7 @@
                     }
                 }
             </select>
+            <ValidationMessage For="@(() => obPersonal.DEPARTAMENTO)" />
         </div>
 
         <div class="form-group">
@@ -193,6 +216,7 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.PROVINCIA)" />
         </div>
 
         <div class="form-group">
@@ -206,6 +230,7 @@
                     }
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => obPersonal.DISTRITO)" />
         </div>
   
         <div class="form-group">
@@ -224,13 +249,15 @@
         @Distrito *@
         <hr />
         <div>
-            <button type="button" class="btn btn-primary" @onclick="SavePersonal">Agregar Personal</button>
+            <button type="submit" class="btn btn-primary" @onclick="SavePersonal">Agregar Personal</button>
         </div>
+        <DataAnnotationsValidator />
         <hr />
     </EditForm>
 </div>
 
 @code {
+
     PersonalEntity obPersonal = new PersonalEntity();
     List<DepartamentoEntity> LstDepartamentos = new List<DepartamentoEntity>();
     List<ProvinciasEntity> LstProvincias = new List<ProvinciasEntity>();
@@ -242,102 +269,98 @@
     string Provincia;
     string Distrito;
 
+    private EditContext editContext;
+
     protected override async Task OnInitializedAsync()
     {
         obPersonal.CUMPLEAÑOS = DateTime.Now;
         obPersonal.FECHA_PROYECTO = DateTime.Now;
         obPersonal.INGRESO_INDRA = DateTime.Now;
         obPersonal.VACACIONES_URGENTES = DateTime.Now;
-        obPersonal.FECHA_CESE = DateTime.Now;
+        editContext = new EditContext(obPersonal);
         LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
     }
 
     private async void SavePersonal()
     {
-        bool VerificarIdExistente = TB_Personal.CompareId(Double.Parse(id));
-        if (VerificarIdExistente)
+        bool VerificarIdExistente = false;
+
+        if (editContext.Validate())
         {
-            await SweetAlert.FireAsync(
-                "El ID del empleado ingresado ya está en uso.",
-                "Por favor, ingrese un ID diferente.",
-                SweetAlertIcon.Error
-                );
+            if(id != null)
+            {
+                VerificarIdExistente = TB_Personal.CompareId(Double.Parse(id));
+            }
+            else
+            {
+                VerificarIdExistente = false;
+            }
+
+            if (VerificarIdExistente)
+            {
+                await SweetAlert.FireAsync(
+                    "El ID del empleado ingresado ya está en uso.",
+                    "Por favor, ingrese un ID diferente.",
+                    SweetAlertIcon.Error
+                    );
+            }
+            else
+            {
+                bool BId = false;
+                if (id == "" || id == null)
+                {
+                    await SweetAlert.FireAsync(
+                    "El ID del empleado se encuentra vacío.",
+                    "Añada el ID del empleado para añadir al empleado.",
+                    SweetAlertIcon.Error
+                    );
+                }
+                else
+                {
+                    BId = true;
+                }
+
+                if (BId)
+                {
+                    obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
+                    SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                        {
+                            Title = "Quieres agregar información de este colaborador",
+                            Icon = SweetAlertIcon.Warning,
+                            ShowCancelButton = true,
+                            ConfirmButtonText = "Si",
+                            CancelButtonText = "No"
+                        });
+
+                    if (!string.IsNullOrEmpty(resultado.Value))
+                    {
+                        await SweetAlert.FireAsync(
+                          "La información fue agregada.",
+                          "La información fue agregada con éxito.",
+                          SweetAlertIcon.Success
+                          );
+
+
+                        obPersonal.ID = Double.Parse(id);
+                        obPersonal.DEPARTAMENTO = Departamento;
+                        obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                        obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                        obPersonal.ESTADO = "Activo";
+                        TB_Personal.CreatePersonal(obPersonal);
+                        NavManager.NavigateTo("/");
+                    }
+                }
+            }
         }
         else
         {
-            bool BId = false;
-            bool BNombre = false;
-            bool BDni = false;
-            if (id == "" || id == null)
-            {
-                await SweetAlert.FireAsync(
-                "El ID del empleado se encuentra vacío.",
-                "Añada el ID del empleado para añadir al empleado.",
-                SweetAlertIcon.Error
-                );
-            }
-            else
-            {
-                BId = true;
-            }
-
-            if (obPersonal.DNI == "" || obPersonal.DNI == null)
-            {
-                await SweetAlert.FireAsync(
-                "El DNI del empleado se encuentra vacío.",
-                "Añada el DNI del empleado para añadir al empleado.",
-                SweetAlertIcon.Error
-                );
-            }
-            else
-            {
-                BDni = true;
-            }
-
-            if (obPersonal.PERSONAL == "" || obPersonal.PERSONAL == null)
-            {
-                await SweetAlert.FireAsync(
-                "El Nombre del empleado se encuentra vacío.",
-                "Añada el Nombre para añadir al empleado.",
-                SweetAlertIcon.Error
-                );
-            }
-            else
-            {
-                BNombre = true;
-            }
-
-            if (BDni && BNombre && BId)
-            {
-                obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
-                SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
-                    {
-                        Title = "Quieres agregar información de este colaborador",
-                        Icon = SweetAlertIcon.Warning,
-                        ShowCancelButton = true,
-                        ConfirmButtonText = "Si",
-                        CancelButtonText = "No"
-                    });
-
-                if (!string.IsNullOrEmpty(resultado.Value))
-                {
-                    await SweetAlert.FireAsync(
-                      "La información fue agregada.",
-                      "La información fue agregada con éxito.",
-                      SweetAlertIcon.Success
-                      );
-
-
-                    obPersonal.ID = Double.Parse(id);
-                    obPersonal.DEPARTAMENTO = Departamento;
-                    obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
-                    obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
-                    obPersonal.ESTADO = "Activo";
-                    TB_Personal.CreatePersonal(obPersonal);
-                    NavManager.NavigateTo("/");
-                }
-            }
-        }    
+            await SweetAlert.FireAsync(
+                  "El aaaaaaaaaaaaaaaa del empleado ingresado ya está en uso.",
+                  "Por favor, ingrese un ID diferente.",
+                  SweetAlertIcon.Error
+                  );
+        }
+       
     }
 
     private void FilterProvince(ChangeEventArgs e)
