@@ -1,0 +1,203 @@
+﻿@using Entities
+@using Business
+@inject SweetAlertService SweetAlert
+
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear coordinador nuevo</button>
+<hr />
+
+<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coordinador in TempObCoordinadores)
+            {
+                <tr>
+                    <td>@coordinador.Nombre</td>
+                    <td>
+                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(coordinador.CoordinadorID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                        <a class="btn btn-danger" @onclick="() => DeleteCoordinador(coordinador.CoordinadorID)"><i class="bi bi-trash"></i> Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* @IdRol
+@NombreRol *@
+
+<!-- Crear Rol Modal -->
+<div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear un nuevo coordinador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nombre del coordinador" @bind-value="NombreCoor" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCoordinador">Crear Coordinador</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actulizar Rol Modal -->
+<div class="modal fade" id="actualizarRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actualizarRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ingrese el nuevo nombre del coordinador: @NombreCoor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nuevo nombre del coordinador" @bind-value="NombreCoor" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => UpdateNombre(IdCoor,NombreCoor)">Actualizar Coordinador</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<CoordinadoresEntity> ObCoordinadores = new List<CoordinadoresEntity>();
+    List<CoordinadoresEntity> TempObCoordinadores = new List<CoordinadoresEntity>();
+
+    int IdCoor;
+    string NombreCoor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ObCoordinadores = TB_Coordinadores.CoordinadoresList();
+        TempObCoordinadores = ObCoordinadores;
+    }
+
+    private void PasarCoordinadorId(int id)
+    {
+        IdCoor = id;
+        NombreCoor = TB_Coordinadores.GetNombreById(id);
+    }
+
+    private async Task CreateCoordinador()
+    {
+        if (!string.IsNullOrEmpty(NombreCoor))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas añadir siguiente coordinador? " + NombreCoor,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Coordinadores.CreateCoordinador(NombreCoor);
+                TempObCoordinadores = TB_Coordinadores.CoordinadoresList();
+
+                await SweetAlert.FireAsync(
+                "El coordinador " + NombreCoor + " fue añadido con éxito.",
+                "El coordinador " + NombreCoor + " fue añadido de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                NombreCoor = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre del coordinador.",
+              "Debe de ingresar un nombre para el coordinador.",
+              SweetAlertIcon.Error
+              );
+        }
+
+
+    }
+
+    private async Task UpdateNombre(int id, string NuevoNombre)
+    {
+        if (IdCoor != 0 && !string.IsNullOrEmpty(NombreCoor))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas actualizar el siguiente coordinador? " + NombreCoor,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Coordinadores.UpdateCoordinador(id, NuevoNombre);
+                TempObCoordinadores = TB_Coordinadores.CoordinadoresList();
+
+                await SweetAlert.FireAsync(
+                "El coordinador fue actualizado con éxito.",
+                "El coordinador fue actualizado de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                IdCoor = 0;
+                NombreCoor = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre actualizado del coordinador seleccionado.",
+              "Debe de ingresar un nuevo nombre para el coordinador.",
+              SweetAlertIcon.Error
+              );
+        }
+    }
+
+
+    private async Task DeleteCoordinador(int id)
+    {
+        var Nombre = TB_Coordinadores.GetNombreById(id);
+
+        if (id != null)
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas eliminar el siguiente coordinador? " + Nombre,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Coordinadores.RemoveCoordinador(id);
+
+                await SweetAlert.FireAsync(
+                "El coordinador " + Nombre + " fue eliminado con éxito.",
+                "El coordinador " + Nombre + " fue eliminado de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                TempObCoordinadores = TB_Coordinadores.CoordinadoresList();
+            }
+        }
+    }
+
+}

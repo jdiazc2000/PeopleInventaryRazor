@@ -1,0 +1,203 @@
+﻿@using Entities
+@using Business
+@inject SweetAlertService SweetAlert
+
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear tasa nueva</button>
+<hr />
+
+<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tasa in TempObTasas)
+            {
+                <tr>
+                    <td>@tasa.TasaName</td>
+                    <td>
+                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(tasa.TasaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                        <a class="btn btn-danger" @onclick="() => DeleteEmpresa(tasa.TasaID)"><i class="bi bi-trash"></i> Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* @IdRol
+@NombreRol *@
+
+<!-- Crear Rol Modal -->
+<div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear un nueva tasa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nombre de la tasa" @bind-value="NombreTasa" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCoordinador">Crear Tasa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actulizar Rol Modal -->
+<div class="modal fade" id="actualizarRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actualizarRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ingrese el nuevo nombre de la tasa: @NombreTasa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nuevo nombre de la tasa" @bind-value="NombreTasa" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => UpdateNombre(IdTasa,NombreTasa)">Actualizar Tasa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<TasasEntity> ObTasas = new List<TasasEntity>();
+    List<TasasEntity> TempObTasas = new List<TasasEntity>();
+
+    int IdTasa;
+    string NombreTasa;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ObTasas = TB_Tasas.TasaList();
+        TempObTasas = ObTasas;
+    }
+
+    private void PasarCoordinadorId(int id)
+    {
+        IdTasa = id;
+        NombreTasa = TB_Tasas.GetTasaNameById(id);
+    }
+
+    private async Task CreateCoordinador()
+    {
+        if (!string.IsNullOrEmpty(NombreTasa))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas añadir la siguiente tasa? " + NombreTasa,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Tasas.CreateTasa(NombreTasa);
+                TempObTasas = TB_Tasas.TasaList();
+
+                await SweetAlert.FireAsync(
+                "La tasa " + NombreTasa + " fue añadida con éxito.",
+                "La tasa " + NombreTasa + " fue añadida de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                NombreTasa = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre de la tasa.",
+              "Debe de ingresar un nombre para la tasa.",
+              SweetAlertIcon.Error
+              );
+        }
+
+
+    }
+
+    private async Task UpdateNombre(int id, string NuevoNombre)
+    {
+        if (IdTasa != 0 && !string.IsNullOrEmpty(NombreTasa))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas actualizar la siguiente tasa? " + NombreTasa,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Tasas.UpdateTasa(id, NuevoNombre);
+                TempObTasas = TB_Tasas.TasaList();
+
+                await SweetAlert.FireAsync(
+                "La empresa fue actualizada con éxito.",
+                "La empresa fue actualizada de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                IdTasa = 0;
+                NombreTasa = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre actualizado de la empresa seleccionada.",
+              "Debe de ingresar un nuevo nombre de la empresa.",
+              SweetAlertIcon.Error
+              );
+        }
+    }
+
+
+    private async Task DeleteEmpresa(int id)
+    {
+        var Nombre = TB_Tasas.GetTasaNameById(id);
+
+        if (id != null)
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas eliminar la siguiente tasa? " + Nombre,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Tasas.RemoveTasa(id);
+
+                await SweetAlert.FireAsync(
+                "La tasa " + Nombre + " fue eliminada con éxito.",
+                "La tasa " + Nombre + " fue eliminada de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                TempObTasas = TB_Tasas.TasaList();
+            }
+        }
+    }
+
+}

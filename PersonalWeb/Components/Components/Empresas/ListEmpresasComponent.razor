@@ -1,0 +1,203 @@
+﻿@using Entities
+@using Business
+@inject SweetAlertService SweetAlert
+
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear empresa nueva</button>
+<hr />
+
+<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var empresa in TempObEmpresas)
+            {
+                <tr>
+                    <td>@empresa.EmpresaName</td>
+                    <td>
+                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(empresa.EmpresaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                        <a class="btn btn-danger" @onclick="() => DeleteEmpresa(empresa.EmpresaID)"><i class="bi bi-trash"></i> Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* @IdRol
+@NombreRol *@
+
+<!-- Crear Rol Modal -->
+<div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear un nueva empresa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nombre de la empresa" @bind-value="NombreEmpres" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCoordinador">Crear Empresa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actulizar Rol Modal -->
+<div class="modal fade" id="actualizarRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actualizarRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ingrese el nuevo nombre de la empresa: @NombreEmpres</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Coordinador:</label>
+                <input type="text" class="form-control" placeholder="Ingrese el nuevo nombre de la empresa" @bind-value="NombreEmpres" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="() => UpdateNombre(IdEmpres,NombreEmpres)">Actualizar Empresa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<EmpresasEntity> ObEmpresas = new List<EmpresasEntity>();
+    List<EmpresasEntity> TempObEmpresas = new List<EmpresasEntity>();
+
+    int IdEmpres;
+    string NombreEmpres;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ObEmpresas = TB_Empresas.EmpresasList();
+        TempObEmpresas = ObEmpresas;
+    }
+
+    private void PasarCoordinadorId(int id)
+    {
+        IdEmpres = id;
+        NombreEmpres = TB_Empresas.GetEmpresaNameById(id);
+    }
+
+    private async Task CreateCoordinador()
+    {
+        if (!string.IsNullOrEmpty(NombreEmpres))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas añadir la siguiente empresa? " + NombreEmpres,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Empresas.CreateEmpresa(NombreEmpres);
+                TempObEmpresas = TB_Empresas.EmpresasList();
+
+                await SweetAlert.FireAsync(
+                "La empresa " + NombreEmpres + " fue añadido con éxito.",
+                "La empresa " + NombreEmpres + " fue añadido de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                NombreEmpres = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre de la empresa.",
+              "Debe de ingresar un nombre para la empresa.",
+              SweetAlertIcon.Error
+              );
+        }
+
+
+    }
+
+    private async Task UpdateNombre(int id, string NuevoNombre)
+    {
+        if (IdEmpres != 0 && !string.IsNullOrEmpty(NombreEmpres))
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas actualizar la siguiente empresa? " + NombreEmpres,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Empresas.UpdateEmpresa(id, NuevoNombre);
+                TempObEmpresas = TB_Empresas.EmpresasList();
+
+                await SweetAlert.FireAsync(
+                "La empresa fue actualizada con éxito.",
+                "La empresa fue actualizada de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                IdEmpres = 0;
+                NombreEmpres = "";
+            }
+        }
+        else
+        {
+            await SweetAlert.FireAsync(
+              "Ingrese el nombre actualizado de la empresa seleccionada.",
+              "Debe de ingresar un nuevo nombre de la empresa.",
+              SweetAlertIcon.Error
+              );
+        }
+    }
+
+
+    private async Task DeleteEmpresa(int id)
+    {
+        var Nombre = TB_Empresas.GetEmpresaNameById(id);
+
+        if (id != null)
+        {
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¿Deseas eliminar la siguiente empresa? " + Nombre,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                });
+
+
+            if (!string.IsNullOrEmpty(resultado.Value))
+            {
+                TB_Empresas.RemoveEmpresa(id);
+
+                await SweetAlert.FireAsync(
+                "La empresa " + Nombre + " fue eliminado con éxito.",
+                "La empresa " + Nombre + " fue eliminado de manera satisfactoria.",
+                SweetAlertIcon.Success
+                );
+
+                TempObEmpresas = TB_Empresas.EmpresasList();
+            }
+        }
+    }
+
+}
