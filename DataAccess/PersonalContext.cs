@@ -9,6 +9,10 @@ namespace DataAccess
         public DbSet<DepartamentoEntity> ubigeo_peru_departments { get; set; }
         public DbSet<DistritosEntity> ubigeo_peru_districts { get; set; }
         public DbSet<ProvinciasEntity> ubigeo_peru_provinces { get; set; }
+        public DbSet<RolesEntity> TBRoles { get; set; }
+        public DbSet<TasasEntity> TBTasas { get; set; }
+        public DbSet<EmpresasEntity> TBEmpresas { get; set; }
+        public DbSet<CoordinadoresEntity> TBCoordinadores { get; set; }
 
         //Configuración de la conexión
         protected override void OnConfiguring(DbContextOptionsBuilder options)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {}
+    "C:\\Users\\Julio\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+    "C:\\Users\\Julio\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
+        "projectPath": "C:\\Users\\Julio\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\obj\\",
+        "outputPath": "C:\\Users\\Julio\\Desktop\\PeopleInventaryRazor\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
