@@ -1,35 +1,54 @@
 ﻿@using Entities
 @using Business
+@using Services
 @inject SweetAlertService SweetAlert
+@inject ILoaderServices LoaderServices
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear coordinador nuevo</button>
 <hr />
 
-<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var coordinador in TempObCoordinadores)
-            {
-                <tr>
-                    <td>@coordinador.Nombre</td>
-                    <td>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(coordinador.CoordinadorID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
-                        <a class="btn btn-danger" @onclick="() => DeleteCoordinador(coordinador.CoordinadorID)"><i class="bi bi-trash"></i> Eliminar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@* @IdRol
-@NombreRol *@
+@{
+ if(spinnerloading)
+    {
+    <div class="overlay">
+        <div class="overlay__wrapper">
+            <div class="overlay__spinner">
+                <div class="loading">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                    <p style="color: white;">@SpinnerMessage</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+        <div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var coordinador in TempObCoordinadores)
+                    {
+                        <tr>
+                            <td>@coordinador.Nombre</td>
+                            <td>
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(coordinador.CoordinadorID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                                <a class="btn btn-danger" @onclick="() => DeleteCoordinador(coordinador.CoordinadorID)"><i class="bi bi-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
 
 <!-- Crear Rol Modal -->
 <div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
@@ -69,6 +88,7 @@
     </div>
 </div>
 
+@number
 
 @code {
     List<CoordinadoresEntity> ObCoordinadores = new List<CoordinadoresEntity>();
@@ -76,11 +96,31 @@
 
     int IdCoor;
     string NombreCoor;
+    string SpinnerMessage = "";
+
+    int number;
+
+    bool spinnerloading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        ObCoordinadores = TB_Coordinadores.CoordinadoresList();
+        number = LoaderServices.GetNumber();
+        TurnOnLoading("Cargando...");
+        ObCoordinadores = await Task.Run(() => TB_Coordinadores.CoordinadoresList());
         TempObCoordinadores = ObCoordinadores;
+        TurnOffLoading();
+    }
+
+    private void TurnOnLoading(string message)
+    {
+        spinnerloading = true;
+        SpinnerMessage = message;
+    }
+
+    private void TurnOffLoading()
+    {
+        spinnerloading = false;
+        SpinnerMessage = "";
     }
 
     private void PasarCoordinadorId(int id)
@@ -167,7 +207,6 @@
               );
         }
     }
-
 
     private async Task DeleteCoordinador(int id)
     {

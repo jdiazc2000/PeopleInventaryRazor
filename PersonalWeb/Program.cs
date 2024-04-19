@@ -1,20 +1,18 @@
 using BlazorDownloadFile;
 using CurrieTechnologies.Razor.SweetAlert2;
 using PersonalWeb.Components;
+using PersonalWeb.Services;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddSweetAlert2();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazorDownloadFile();
-
-//builder.Services.AddSingleton<PdfExportService>();
+builder.Services.AddSingleton<ILoaderServices, LoaderServices>();
 
 var app = builder.Build();
 

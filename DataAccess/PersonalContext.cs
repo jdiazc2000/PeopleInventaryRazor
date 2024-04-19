@@ -19,7 +19,8 @@ namespace DataAccess
         {
             if (!options.IsConfigured)
             {
-                options.UseSqlServer("Server=DBPersonalIndra.mssql.somee.com; Database=DBPersonalIndra; user id=Sucrab_SQLLogin_2; password=egirdaohye; TrustServerCertificate=True");
+                //options.UseSqlServer("Server=DBPersonalIndra.mssql.somee.com; Database=DBPersonalIndra; user id=Sucrab_SQLLogin_2; password=egirdaohye; TrustServerCertificate=True");
+                options.UseSqlServer("Server=24LAP5CD310JMXN; Database=Consolidado_Personal; user id=Julio; password=123; TrustServerCertificate=True");
             }
         }
 
