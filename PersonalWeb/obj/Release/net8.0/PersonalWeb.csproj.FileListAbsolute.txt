@@ -817,3 +817,6 @@ C:\Users\Julio\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Release\net8.0\scope
 C:\Users\Julio\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Release\net8.0\Personal.DC631D10.Up2Date
 C:\Users\Julio\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Release\net8.0\PersonalWeb.genruntimeconfig.cache
 C:\Users\Julio\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Release\net8.0\ref\PersonalWeb.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MailKit.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MimeKit.dll

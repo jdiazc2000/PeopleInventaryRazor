@@ -10,18 +10,7 @@
 @{
  if(spinnerloading)
     {
-    <div class="overlay">
-        <div class="overlay__wrapper">
-            <div class="overlay__spinner">
-                <div class="loading">
-                    <div class="spinner-border text-light" role="status">
-                        <span class="sr-only"></span>
-                    </div>
-                    <p style="color: white;">@SpinnerMessage</p>
-                </div>
-            </div>
-        </div>
-    </div>
+        @((MarkupString)html)
     }
     else
     {
@@ -88,8 +77,6 @@
     </div>
 </div>
 
-@number
-
 @code {
     List<CoordinadoresEntity> ObCoordinadores = new List<CoordinadoresEntity>();
     List<CoordinadoresEntity> TempObCoordinadores = new List<CoordinadoresEntity>();
@@ -97,14 +84,14 @@
     int IdCoor;
     string NombreCoor;
     string SpinnerMessage = "";
+    string html; 
 
-    int number;
-
-    bool spinnerloading = false;
+    bool spinnerloading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        number = LoaderServices.GetNumber();
+        html = await LoaderServices.GetLoaderComponent("PRUEBAAA");
+
         TurnOnLoading("Cargando...");
         ObCoordinadores = await Task.Run(() => TB_Coordinadores.CoordinadoresList());
         TempObCoordinadores = ObCoordinadores;

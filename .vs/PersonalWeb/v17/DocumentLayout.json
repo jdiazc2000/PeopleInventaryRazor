@@ -1,21 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\",
+  "WorkspaceRootPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\jcdcortegana\\desktop\\peopleinventaryrazor\\personalweb\\components\\components\\coordinadores\\listcoordinadorescomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\components\\components\\coordinadores\\listcoordinadorescomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\jcdcortegana\\desktop\\peopleinventaryrazor\\personalweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\jcdcortegana\\desktop\\peopleinventaryrazor\\personalweb\\services\\loaderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\services\\loaderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\jcdcortegana\\desktop\\peopleinventaryrazor\\personalweb\\components\\components\\personal\\listpersonalcomponents.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|c:\\users\\julio\\source\\repos\\peopleinventaryrazor\\personalweb\\components\\components\\personal\\listpersonalcomponents.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{99AF53C9-4A5D-4A76-9D9F-73706E3A3C91}|PersonalWeb\\PersonalWeb.csproj|solutionrelative:personalweb\\components\\components\\personal\\listpersonalcomponents.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -26,58 +14,35 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoaderServices.cs",
-              "DocumentMoniker": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Services\\LoaderServices.cs",
-              "RelativeDocumentMoniker": "PersonalWeb\\Services\\LoaderServices.cs",
-              "ToolTip": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Services\\LoaderServices.cs",
-              "RelativeToolTip": "PersonalWeb\\Services\\LoaderServices.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T23:38:25.714Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Program.cs",
-              "RelativeDocumentMoniker": "PersonalWeb\\Program.cs",
-              "ToolTip": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Program.cs",
-              "RelativeToolTip": "PersonalWeb\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T23:29:45.546Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ListCoordinadoresComponent.razor",
-              "DocumentMoniker": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Coordinadores\\ListCoordinadoresComponent.razor",
-              "RelativeDocumentMoniker": "PersonalWeb\\Components\\Components\\Coordinadores\\ListCoordinadoresComponent.razor",
-              "ToolTip": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Coordinadores\\ListCoordinadoresComponent.razor",
-              "RelativeToolTip": "PersonalWeb\\Components\\Components\\Coordinadores\\ListCoordinadoresComponent.razor",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAAAGgAAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-18T23:12:54.297Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "ListPersonalComponents.razor",
-              "DocumentMoniker": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
+              "DocumentMoniker": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
               "RelativeDocumentMoniker": "PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
-              "ToolTip": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
+              "ToolTip": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
               "RelativeToolTip": "PersonalWeb\\Components\\Components\\Personal\\ListPersonalComponents.razor",
-              "ViewState": "AQIAAJgAAAAAAAAAAAAAAJ4AAAAJAAAA",
+              "ViewState": "AQIAAPoCAAAAAAAAAAAAABsDAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-18T16:37:42.917Z",
+              "WhenOpened": "2024-04-19T03:47:15.821Z",
               "EditorCaption": ""
             }
           ]
