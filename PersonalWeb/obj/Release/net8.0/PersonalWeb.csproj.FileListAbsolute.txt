@@ -820,3 +820,4 @@ C:\Users\Julio\Desktop\PeopleInventaryRazor\PersonalWeb\obj\Release\net8.0\ref\P
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BouncyCastle.Cryptography.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MailKit.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MimeKit.dll
+C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BlazorBootstrap.dll

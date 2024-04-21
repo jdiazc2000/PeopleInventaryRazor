@@ -13,6 +13,7 @@ builder.Services.AddSweetAlert2();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazorDownloadFile();
 builder.Services.AddSingleton<ILoaderServices, LoaderServices>();
+builder.Services.AddBlazorBootstrap();
 
 var app = builder.Build();
 

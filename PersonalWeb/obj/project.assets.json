@@ -46,6 +46,24 @@
           }
         }
       },
+      "Blazor.Bootstrap/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "6.0.26"
+        },
+        "compile": {
+          "lib/net6.0/BlazorBootstrap.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/BlazorBootstrap.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazor.Bootstrap.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazor.Bootstrap.props": {}
+        }
+      },
       "BlazorDownloadFile/2.4.0.2": {
         "type": "package",
         "dependencies": {
@@ -4305,6 +4323,32 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "Blazor.Bootstrap/2.2.0": {
+      "sha512": "Yn5yCi7/GFGLLfOoWAG7S4tNnWJuip3bHyT8n3i4xdvV21mNGBQeWNweVyUJXBRd+UWvKk6YY/m6QJsMsfFd/g==",
+      "type": "package",
+      "path": "blazor.bootstrap/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "128X128.png",
+        "README.md",
+        "blazor.bootstrap.2.2.0.nupkg.sha512",
+        "blazor.bootstrap.nuspec",
+        "build/Blazor.Bootstrap.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazor.Bootstrap.props",
+        "buildTransitive/Blazor.Bootstrap.props",
+        "lib/net6.0/BlazorBootstrap.dll",
+        "staticwebassets/Blazor.Bootstrap.bundle.scp.css",
+        "staticwebassets/blazor.bootstrap.css",
+        "staticwebassets/blazor.bootstrap.js",
+        "staticwebassets/blazor.bootstrap.pdf.js",
+        "staticwebassets/blazor.bootstrap.sortable-list.js",
+        "staticwebassets/icon/128X128.png",
+        "staticwebassets/pdfjs-4.0.379.min.mjs",
+        "staticwebassets/pdfjs-4.0.379.worker.min.mjs"
       ]
     },
     "BlazorDownloadFile/2.4.0.2": {
@@ -12786,6 +12830,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Blazor.Bootstrap >= 2.2.0",
       "BlazorDownloadFile >= 2.4.0.2",
       "Business >= 1.0.0",
       "ClosedXML >= 0.102.2",
@@ -12798,19 +12843,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Julio\\.nuget\\packages\\": {}
+    "C:\\Users\\jcdcortegana\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
+      "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
       "projectName": "PersonalWeb",
-      "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
-      "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\",
+      "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
+      "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12824,14 +12869,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj": {
-              "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj"
+            "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj": {
+              "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj"
             },
-            "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
-              "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
+            "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
+              "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
             },
-            "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
-              "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj"
+            "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+              "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj"
             }
           }
         }
@@ -12851,6 +12896,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Blazor.Bootstrap": {
+            "target": "Package",
+            "version": "[2.2.0, )"
+          },
           "BlazorDownloadFile": {
             "target": "Package",
             "version": "[2.4.0.2, )"
@@ -12895,7 +12944,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

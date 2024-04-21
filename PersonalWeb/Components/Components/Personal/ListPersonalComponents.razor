@@ -13,8 +13,10 @@
 @using MimeKit;
 @using System.Text.RegularExpressions;
 @inject IJSRuntime _jsService;
-@inject SweetAlertService SweetAlert
+@inject SweetAlertService SweetAlert;
+@using BlazorBootstrap;
 
+<Preload LoadingText="Cargando..." />
 <div class="mb-3">
     <div class="row justify-content-md-center mb-3">
         <div class="col-sm">
@@ -99,13 +101,7 @@
             </InputSelect>
         </div>
     </div>
-   
-    
-@*     @Departamento
-    @Provincia
-    @Distrito *@
   
-
     <div style="
     display: flex;
     flex-wrap: nowrap;
@@ -119,13 +115,7 @@
         <button @onclick="ExportToPdf" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Exportar a PDF</button>
         <button  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-info"><i class="bi bi-file-earmark-pdf"></i> Exportar a PDF y enviar por correo</button>
     </div>
- @* 
-  @onclick="ExportToPdfAndEmail" *@
 </div
-
-
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -146,6 +136,7 @@
   </div>
 </div>   
 
+
 @{
     if(spinnerloading)
     {
@@ -161,6 +152,7 @@
             </div>
         </div>
     </div>
+
     }
     else
     {
@@ -278,33 +270,27 @@
     DateTime? FechaIngreso;
     DateTime? FechaNacimiento;
 
+    [Inject] protected PreloadService PreloadService { get; set; } = default!;
+    [Inject] public IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        TurnOnLoading("Cargando...");
+        spinnerloading = true;
+        SpinnerMessage = "Bienvenido...";
         ObPersonal = await Task.Run(() => TB_Personal.PersonalList());
         TempObPersonal = ObPersonal;
         LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
-        TurnOffLoading();
+        spinnerloading = false;
+        SpinnerMessage = "";
     }
 
     private async Task ChangedFilters()
     {
-        TurnOnLoading("Buscando...");
+        PreloadService.Show(SpinnerColor.Light,"Buscando...");
         var ProvinceNameUpper = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
         var DistrictNameUpper = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
         TempObPersonal = await Task.Run(() => TB_Personal.FilterPersonal(Dni, Nombre, FechaIngreso, FechaNacimiento, Estado, Equipo, Departamento, ProvinceNameUpper, DistrictNameUpper, ID));
-        TurnOffLoading();
-    }
-
-    private void TurnOnLoading(string message){
-        spinnerloading = true;
-        SpinnerMessage = message;
-
-    }
-
-    private void TurnOffLoading(){
-        spinnerloading = false;
-        SpinnerMessage = "";
+        PreloadService.Hide();
     }
 
     private void FilterProvince(ChangeEventArgs e)
@@ -402,7 +388,7 @@
 
     private async Task ExportExcel()
     {
-        TurnOnLoading("Exportando archivo excel...");
+        PreloadService.Show(SpinnerColor.Light,"Exportando archivo excel...");
         using (var libro = new XLWorkbook())
         {
             IXLWorksheet hoja = libro.Worksheets.Add("Empleados");
@@ -504,18 +490,15 @@
                     Convert.ToBase64String(memoria.ToArray())
 
                 );
-                TurnOffLoading();
+                PreloadService.Hide();
             }
-
-
         }
     }
 
-    [Inject] public IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
-
     private async Task ExportToPdf()
     {
-        TurnOnLoading("Exportando archivo pdf...");
+        PreloadService.Show(SpinnerColor.Light, "Exportando archivo pdf...");
+        await Task.Delay(2000);
         PdfDocument document = new PdfDocument();
 
         double pageWidth = 73.8;
@@ -692,7 +675,7 @@
 
         // Descargar el archivo PDF
         await BlazorDownloadFileService.DownloadFile(fileName, base64, "application/pdf");
-        TurnOffLoading();
+       PreloadService.Hide();
     }
 
     private void DrawCell(XGraphics gfx, string text, XFont font, XPoint point, double width, double height)
@@ -737,7 +720,6 @@
         return lines;
     }
 
-
     private async Task ExportToPdfAndEmail()
     {     
         bool IsCorreoAnEmail = false;
@@ -769,36 +751,37 @@
             {
                 try
                 {
-                    TurnOnLoading("AAAAAAAAAAAAAA");
+                    PreloadService.Show(SpinnerColor.Light, "Enviando correo...");
                     await SendEmail();
+                              await SweetAlert.FireAsync(
+                        "El correo fue enviado con éxito",
+                        "El correo fue enviado con éxito.",
+                        SweetAlertIcon.Success
+                    );  
+                    PreloadService.Hide();
                 }
                 catch (Exception ex)
                 {
-
-
+                    PreloadService.Hide();
                     await SweetAlert.FireAsync(
                         "Error al enviar el correo",
                         "Ocurrió un error al enviar el correo electrónico: " + ex.Message,
                         SweetAlertIcon.Error
-                    );
+                    );  
                 }
             }
             else
             {
+                PreloadService.Hide();
                 Correo = "";
-                TurnOffLoading();
             }
         }
     }
 
     private async Task SendEmail()
     {
-        TurnOnLoading("Enviando PDF...");
-        await Task.Delay(2000);
-
         // Generar el documento PDF
         PdfDocument document = GeneratePdfToSend();
-
 
         // Convertir el documento a bytes
         using MemoryStream stream = new MemoryStream();
@@ -808,7 +791,7 @@
 
         // Crear el mensaje de correo electrónico
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Sistema de gestión de personal - Indra", "ffenenixjuliojuliocfenixx@hotmail.es"));
+        message.From.Add(new MailboxAddress("Sistema de gestión de personal - Indra", "PruebaTest123Aaaa@hotmail.com"));
         message.To.Add(new MailboxAddress("Archivo PDF del sistema de gestión de personal.", Correo));
         message.Subject = "PDF Adjunto";
 
@@ -819,35 +802,14 @@
         message.Body = builder.ToMessageBody();
 
         // Enviar el mensaje de correo electrónico
-        // using (var client = new SmtpClient())
-        // {
-        //     await client.ConnectAsync("smtp.office365.com", 587, false); // Servidor SMTP y puerto para Outlook
-        //     await client.AuthenticateAsync("ffenenixjuliojuliocfenixx@hotmail.es", "j12345610"); // Correo y contraseña
-        //     await client.SendAsync(message);
-        //     await client.DisconnectAsync(true);
-        // }
-
-        /*
-        SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
-        {
-            Title = "Correo enviado con éxito",
-            Icon = SweetAlertIcon.Success,
-            ShowCancelButton = false,
-            ConfirmButtonText = "Si"
-        });
-
-        if (!string.IsNullOrEmpty(resultado.Value))
-        {
-            // Apagar el spinner de carga
-            TurnOnLoading("TEST");
-            SpinnerMessage = "AAQA";
-            spinnerloading = false;
-            _jsService.InvokeVoidAsync("console.log", spinnerloading);
-            
-        }
-        */
+         using (var client = new SmtpClient())
+         {
+             await client.ConnectAsync("smtp.office365.com", 587, false); // Servidor SMTP y puerto para Outlook
+             await client.AuthenticateAsync("PruebaTest123Aaaa@hotmail.com", "Canelita123"); // Correo y contraseña
+             await client.SendAsync(message);
+             await client.DisconnectAsync(true);
+         }
     }
-
 
     private PdfDocument GeneratePdfToSend()
     {
