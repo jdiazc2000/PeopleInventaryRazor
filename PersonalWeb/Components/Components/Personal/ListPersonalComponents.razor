@@ -257,7 +257,7 @@
                             @{
                                 if(personal.ARCHIVOPDF != null)
                                 {
-                                <button class="btn btn-primary" @onclick="() => DescargarPdf(personal.ID)"><i class="bi bi-file-earmark-pdf"></i> Ver Hoja de vida</button>
+                                <button class="btn btn-primary" @onclick="() => DescargarCV(personal.ID)"><i class="bi bi-file-earmark-pdf"></i> Ver Hoja de vida</button>
                                 }
                             }
                             </td>
@@ -506,7 +506,7 @@
 
     }
 
-   private async Task DescargarPdf(double? PersonalId)
+    private async Task DescargarCV(double? PersonalId)
 {
     // Obtener la entidad de la base de datos que contiene el campo ARCHIVOPDF
     PersonalEntity empleado = await TB_Personal.ObtenerEmpleadoPorId(PersonalId);
@@ -517,19 +517,11 @@
         // Obtener la cadena Base64 del campo ARCHIVOPDF
         string pdfBase64 = empleado.ARCHIVOPDF;
 
-        // Convertir la cadena Base64 a bytes
-        byte[] pdfBytes = Convert.FromBase64String(pdfBase64);
-
-        // Crear un MemoryStream con los bytes del PDF
-        using (MemoryStream ms = new MemoryStream(pdfBytes))
-        {
-            // Descargar el PDF en el navegador del usuario
-            await _jsService.InvokeVoidAsync("DownloadPdf", ms.ToArray(), "documento.pdf");
-        }
+         // Descargar el PDF en el navegador del usuario
+        await _jsService.InvokeVoidAsync("showPdfInNewTab", pdfBase64, empleado.ID + "_documento.pdf");
     }
     else
     {
-        // Manejar la situación en la que el empleado o el campo ARCHIVOPDF son nulos
         Console.WriteLine("No se encontró ningún PDF adjunto para este empleado.");
     }
 }

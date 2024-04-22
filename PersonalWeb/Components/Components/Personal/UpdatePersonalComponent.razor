@@ -217,7 +217,20 @@
             <InputText @bind-Value="obPersonal.F31" class="form-control" />
         </div>
 
+        <div class="form-group">
+            <div class="image-upload">
+            <label for="file-input">
+                <img src="https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/128/Downloads-icon.png" />
+            </label>
+                <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
+            </div>
+        </div>
+
+        <DataAnnotationsValidator />
+
         <hr />
+
+        @pdfBase64
 
         <div>
             <button type="button" class="btn btn-primary" @onclick="UpdatePersonal">Actualizar Personal</button>
@@ -241,6 +254,8 @@
     string Distrito { get; set; }
     string ReversedEstado { get; set; }
 
+    private string pdfBase64;
+
     [Parameter]
     public string IdPersonal { get; set; }
 
@@ -259,6 +274,23 @@
         LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA));
 
         ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo"; 
+    }
+
+    //Debo hacer qeu se convierta el pdf a Base64 - ALTER TABLE TBPersonal ADD ARCHIVOPDF NVARCHAR(MAX) NULL;
+    private async Task HandleFileSelection(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        if (file != null)
+        {
+            var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+            byte[] pdfBytes = ms.ToArray();
+
+            // Convertir los bytes del PDF a una cadena Base64
+            pdfBase64 = Convert.ToBase64String(pdfBytes);
+
+            obPersonal.ARCHIVOPDF = pdfBase64;
+        }
     }
 
     private async void UpdatePersonal()

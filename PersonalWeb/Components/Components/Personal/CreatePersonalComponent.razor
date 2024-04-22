@@ -7,7 +7,7 @@
 @inject ICalcServices CalcServices
 
 <div>
-    <EditForm Model="obPersonal" OnValidSubmit="@SavePersonal">
+    <EditForm Model="obPersonal">
         <div class="form-group">
             <label class="form-label">*ID:</label>
             <InputText @bind-Value="id" class="form-control" MaxLength="6" />
@@ -244,13 +244,16 @@
             <InputText @bind-Value="obPersonal.F31" class="form-control" />
         </div>
 
+        <div class="form-group">
+            <label class="form-label">Hoja de vida</label>
+            <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
+        </div>
 
-        <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
-
-  
+        <DataAnnotationsValidator />
+       
         <hr />
         <div>
-            <button type="submit" class="btn btn-primary">Agregar Personal</button>
+            <button type="submit" class="btn btn-primary" @onclick="SavePersonal">Agregar Personal</button>
         </div>
         <hr />
     </EditForm>
@@ -394,7 +397,7 @@
             LstDistritos = [];
         }
     }
-    3.
+    
     private void FilterDistrict(string value)
     {
         var IdDistrito = value;
