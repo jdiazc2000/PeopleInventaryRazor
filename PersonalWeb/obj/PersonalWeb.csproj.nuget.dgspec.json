@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj": {}
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj",
         "projectName": "Business",
-        "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj",
-        "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\obj\\",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj",
+        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +28,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
               },
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj"
               }
             }
           }
@@ -67,21 +67,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
         "projectName": "DataAccess",
-        "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
-        "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj",
+        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,8 +95,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj"
               }
             }
           }
@@ -147,21 +147,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\obj\\",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -207,21 +207,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj": {
+    "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
+        "projectUniqueName": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
         "projectName": "PersonalWeb",
-        "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
-        "packagesPath": "C:\\Users\\jcdcortegana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\PersonalWeb\\obj\\",
+        "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\PersonalWeb.csproj",
+        "packagesPath": "C:\\Users\\Julio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\PersonalWeb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jcdcortegana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Julio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -235,14 +235,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Business\\Business.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Business\\Business.csproj"
               },
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\DataAccess\\DataAccess.csproj"
               },
-              "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\jcdcortegana\\Desktop\\PeopleInventaryRazor\\Entities\\Entities.csproj"
+              "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\Julio\\source\\repos\\PeopleInventaryRazor\\Entities\\Entities.csproj"
               }
             }
           }
@@ -269,6 +269,10 @@
             "BlazorDownloadFile": {
               "target": "Package",
               "version": "[2.4.0.2, )"
+            },
+            "BlazorInputFile": {
+              "target": "Package",
+              "version": "[0.2.0, )"
             },
             "ClosedXML": {
               "target": "Package",
@@ -310,7 +314,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

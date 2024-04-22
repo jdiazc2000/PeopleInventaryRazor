@@ -4,9 +4,10 @@
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject SweetAlertService SweetAlert
+@inject ICalcServices CalcServices
 
 <div>
-    <EditForm Model="obPersonal">
+    <EditForm Model="obPersonal" OnValidSubmit="@SavePersonal">
         <div class="form-group">
             <label class="form-label">*ID:</label>
             <InputText @bind-Value="id" class="form-control" MaxLength="6" />
@@ -244,17 +245,18 @@
         </div>
 
 
-     @*    @Departamento
-        @Provincia
-        @Distrito *@
+        <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
+
+  
         <hr />
         <div>
-            <button type="submit" class="btn btn-primary" @onclick="SavePersonal">Agregar Personal</button>
+            <button type="submit" class="btn btn-primary">Agregar Personal</button>
         </div>
-        <DataAnnotationsValidator />
         <hr />
     </EditForm>
 </div>
+
+@pdfBase64
 
 @code {
 
@@ -268,17 +270,33 @@
     string Departamento;
     string Provincia;
     string Distrito;
-
     private EditContext editContext;
+
+    private string pdfBase64;
 
     protected override async Task OnInitializedAsync()
     {
         obPersonal.CUMPLEAÑOS = DateTime.Now;
         obPersonal.FECHA_PROYECTO = DateTime.Now;
         obPersonal.INGRESO_INDRA = DateTime.Now;
-        obPersonal.VACACIONES_URGENTES = DateTime.Now;
         editContext = new EditContext(obPersonal);
         LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
+    }
+    
+    
+    //Debo hacer qeu se convierta el pdf a Base64 - ALTER TABLE TBPersonal ADD ARCHIVOPDF NVARCHAR(MAX) NULL;
+    private async Task HandleFileSelection(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        if (file != null)
+        {
+            var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+            byte[] pdfBytes = ms.ToArray();
+
+            // Convertir los bytes del PDF a una cadena Base64
+            pdfBase64 = Convert.ToBase64String(pdfBytes);
+        }
     }
 
     private async void SavePersonal()
@@ -287,7 +305,7 @@
 
         if (editContext.Validate())
         {
-            if(id != null)
+            if (id != null)
             {
                 VerificarIdExistente = TB_Personal.CompareId(Double.Parse(id));
             }
@@ -302,7 +320,7 @@
                     "El ID del empleado ingresado ya está en uso.",
                     "Por favor, ingrese un ID diferente.",
                     SweetAlertIcon.Error
-                    );
+                );
             }
             else
             {
@@ -310,9 +328,9 @@
                 if (id == "" || id == null)
                 {
                     await SweetAlert.FireAsync(
-                    "El ID del empleado se encuentra vacío.",
-                    "Añada el ID del empleado para añadir al empleado.",
-                    SweetAlertIcon.Error
+                        "El ID del empleado se encuentra vacío.",
+                        "Añada el ID del empleado para añadir al empleado.",
+                        SweetAlertIcon.Error
                     );
                 }
                 else
@@ -334,14 +352,8 @@
 
                     if (!string.IsNullOrEmpty(resultado.Value))
                     {
-                        await SweetAlert.FireAsync(
-                          "La información fue agregada.",
-                          "La información fue agregada con éxito.",
-                          SweetAlertIcon.Success
-                          );
-
-
                         obPersonal.ID = Double.Parse(id);
+                        obPersonal.ARCHIVOPDF = pdfBase64;
                         obPersonal.DEPARTAMENTO = Departamento;
                         obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
                         obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
@@ -355,12 +367,11 @@
         else
         {
             await SweetAlert.FireAsync(
-                  "El aaaaaaaaaaaaaaaa del empleado ingresado ya está en uso.",
-                  "Por favor, ingrese un ID diferente.",
-                  SweetAlertIcon.Error
-                  );
+                "El ID del empleado ingresado ya está en uso.",
+                "Por favor, ingrese un ID diferente.",
+                SweetAlertIcon.Error
+            );
         }
-       
     }
 
     private void FilterProvince(ChangeEventArgs e)
@@ -383,7 +394,7 @@
             LstDistritos = [];
         }
     }
-
+    3.
     private void FilterDistrict(string value)
     {
         var IdDistrito = value;
@@ -419,7 +430,7 @@
 
     }
 
-        static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
+    static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
         {
             if (fecha == null || fecha == DateTime.MinValue)
         {

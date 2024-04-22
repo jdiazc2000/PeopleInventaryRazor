@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
 
@@ -110,7 +111,6 @@ namespace Business
             }
         }
 
-
         public static void ChangePersonalStatus(PersonalEntity objPersonal, string text)
         {
             using (var db = new PersonalContext())
@@ -130,6 +130,14 @@ namespace Business
             {
                 var respuesta = db.TBPersonal.Any(p => p.ID.Equals(EntryId));
                 return respuesta;
+            }
+        }
+
+        public static async Task<PersonalEntity> ObtenerEmpleadoPorId(double? personalId)
+        {
+            using (var db = new PersonalContext())
+            {
+                return await db.TBPersonal.FirstOrDefaultAsync(e => e.ID == personalId);
             }
         }
     }

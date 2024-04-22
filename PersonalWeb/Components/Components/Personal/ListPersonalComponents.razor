@@ -12,16 +12,20 @@
 @using MailKit.Net.Smtp;
 @using MimeKit;
 @using System.Text.RegularExpressions;
+@using BlazorBootstrap;
+@using PersonalWeb.Services
 @inject IJSRuntime _jsService;
 @inject SweetAlertService SweetAlert;
-@using BlazorBootstrap;
+@inject IExportDocumentsService ExpDocServ;
+@inject ICalcServices CalcServices;
 
 <Preload LoadingText="Cargando..." />
+
 <div class="mb-3">
     <div class="row justify-content-md-center mb-3">
         <div class="col-sm">
             <label class="form-label">ID:</label>
-            <input type="text" class="form-control" placeholder="Ingrese ID del empleado" @bind-value="ID"/>
+            <input type="text" class="form-control" placeholder="Ingrese ID del empleado" @bind-value="ID" maxlength="6">
         </div>
         <div class="col-sm">
             <label class="form-label">Dni:</label>
@@ -191,6 +195,7 @@
                         <th>DISTRITO</th>
                         <th>OBSERVACION</th>
                         <th>F31</th>
+                        <th>Hoja de vida</th>
                         <th>ESTADO</th>
                         <th></th>
                     </tr>
@@ -217,14 +222,14 @@
                           <td>@personal.FECHA_CESE?.ToString("dd/MM/yyyy")</td>
                           @{
                               // Calcular la diferencia de cese
-                              var diasCese = CalcularDiasCese(personal.FECHA_CESE);
+                              var diasCese = CalcServices.CalcularDiasCese(personal.FECHA_CESE);
                           }
                           <td>@diasCese</td>
                           <td>@personal.PERIODO_PRUEBA</td>
                           <td>@personal.INGRESO_INDRA.Value.ToString("dd-MM-yyyy")</td>
                           @{
                               // Calcular la diferencia de días
-                              var diasDiferenciaDeIngresoIndra = CalcularDiasDeDiferencia(personal.INGRESO_INDRA);
+                              var diasDiferenciaDeIngresoIndra = CalcServices.CalcularDiasDeDiferencia(personal.INGRESO_INDRA);
                           }
                             <td>@diasDiferenciaDeIngresoIndra</td>
                             <td>@personal.VACACIONES_URGENTES?.ToString("dd/MM/yyyy")</td>
@@ -238,8 +243,25 @@
                             <td>@personal.DISTRITO</td>
                             <td>@personal.OBSERVACION</td>
                             <td>@personal.F31</td>
+                            @{
+                                if(personal.ARCHIVOPDF != null)
+                                {
+                                    <td>Sí</td>
+                                }else{
+                                    <td>No</td>
+                                }
+                            }
                             <td>@personal.ESTADO</td>
-                            <td><a class="btn btn-success" href="personal/update/@personal.ID.ToString()"><i class="bi bi-pencil-square"></i> Actualizar</a></td>
+                            <td>
+                            <a class="btn btn-success" href="personal/update/@personal.ID.ToString()"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                            @{
+                                if(personal.ARCHIVOPDF != null)
+                                {
+                                <button class="btn btn-primary" @onclick="() => DescargarPdf(personal.ID)"><i class="bi bi-file-earmark-pdf"></i> Ver Hoja de vida</button>
+                                }
+                            }
+                            </td>
+           
                         </tr>
                     }
                 </tbody>
@@ -271,12 +293,11 @@
     DateTime? FechaNacimiento;
 
     [Inject] protected PreloadService PreloadService { get; set; } = default!;
-    [Inject] public IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         spinnerloading = true;
-        SpinnerMessage = "Bienvenido...";
+        SpinnerMessage = "Cargando...";
         ObPersonal = await Task.Run(() => TB_Personal.PersonalList());
         TempObPersonal = ObPersonal;
         LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
@@ -349,375 +370,38 @@
 
     }
 
-    private string CalcularDiasCese(DateTime? FechaCese)
-    {
-        string diasCese;
-        DateTime Hoy = DateTime.Today;
-
-        if (!FechaCese.HasValue)
-        {
-            return diasCese = null;
-        }
-        else if (FechaCese.Value.Date < Hoy)
-        {
-            TimeSpan diferenciaDiasCese = Hoy - FechaCese.Value;
-
-            return diasCese = "-" + diferenciaDiasCese.Days.ToString();
-        }
-        else{
-            TimeSpan diferenciaDiasCese = FechaCese.Value - Hoy;
-
-            return diasCese = diferenciaDiasCese.Days.ToString();
-        }
-    }
-
-    private string CalcularDiasDeDiferencia(DateTime? FechaIngresoIndra)
-    {
-        var DiasDeDiferencia = 0;
-        TimeSpan diferencia = DateTime.Now - FechaIngresoIndra.Value;
-        if ((int)diferencia.TotalDays > 0)
-        {
-            DiasDeDiferencia = (int)diferencia.TotalDays;
-        }
-        else
-        {
-            DiasDeDiferencia = 1;
-        }
-        return DiasDeDiferencia.ToString();
-    }
-
     private async Task ExportExcel()
     {
-        PreloadService.Show(SpinnerColor.Light,"Exportando archivo excel...");
-        using (var libro = new XLWorkbook())
+        try
         {
-            IXLWorksheet hoja = libro.Worksheets.Add("Empleados");
-
-            hoja.Cell(1, 1).Value = "ID";
-            hoja.Cell(1, 2).Value = "DNI";
-            hoja.Cell(1, 3).Value = "Nombre Completo";
-            hoja.Cell(1, 4).Value = "Celular";
-            hoja.Cell(1, 5).Value = "Equipo";
-            hoja.Cell(1, 6).Value = "Fecha de Ingreso a Indra";
-            hoja.Cell(1, 7).Value = "Fecha de Nacimiento";
-            hoja.Cell(1, 8).Value = "Días en Indra";
-            hoja.Cell(1, 9).Value = "Estado Laboral";
-            hoja.Cell(1, 10).Value = "Puesto";
-            hoja.Cell(1, 11).Value = "Cargo";
-            hoja.Cell(1, 12).Value = "Función";
-            hoja.Cell(1, 13).Value = "Modalidad de Contrato";
-            hoja.Cell(1, 14).Value = "Rol";
-            hoja.Cell(1, 15).Value = "Tasa";
-            hoja.Cell(1, 16).Value = "Empresa";
-            hoja.Cell(1, 17).Value = "Coordinador";
-            hoja.Cell(1, 18).Value = "Gabinete";
-            hoja.Cell(1, 19).Value = "People";
-            hoja.Cell(1, 20).Value = "Fecha de Proyecto";
-            hoja.Cell(1, 21).Value = "Fecha de Cese";
-            hoja.Cell(1, 22).Value = "Días al Cese";
-            hoja.Cell(1, 23).Value = "Periodo de Prueba";
-            hoja.Cell(1, 24).Value = "Vacaciones Urgentes";
-            hoja.Cell(1, 25).Value = "Correo Electrónico";
-            hoja.Cell(1, 26).Value = "correo Personal";
-            hoja.Cell(1, 27).Value = "Dirección";
-            hoja.Cell(1, 28).Value = "Departamento";
-            hoja.Cell(1, 29).Value = "Provincia";
-            hoja.Cell(1, 30).Value = "Distrito";
-            hoja.Cell(1, 31).Value = "Observación";
-            hoja.Cell(1, 32).Value = "F31";
-
-
-
-            for (int fila = 1; fila <= TempObPersonal.Count; fila++)
-            {
-                foreach (var personal in TempObPersonal)
-                {
-
-                    var diasEmpresa = CalcularDiasDeDiferencia(personal.INGRESO_INDRA);
-                    personal.DIAS_EMPRESA = Int32.Parse(diasEmpresa);
-                }
-
-                foreach (var personal in TempObPersonal)
-                {
-                    var diasCese = CalcularDiasCese(personal.FECHA_CESE);
-                    personal.DIAS_AL_CESE = Convert.ToDouble(diasCese);
-                }
-
-
-                hoja.Cell(fila + 1, 1).Value = TempObPersonal[fila - 1].ID;
-                hoja.Cell(fila + 1, 2).Value = TempObPersonal[fila - 1].DNI;
-                hoja.Cell(fila + 1, 3).Value = TempObPersonal[fila - 1].PERSONAL;
-                hoja.Cell(fila + 1, 4).Value = TempObPersonal[fila - 1].CELULAR;
-                hoja.Cell(fila + 1, 5).Value = TempObPersonal[fila - 1].Equipo;
-                hoja.Cell(fila + 1, 6).Value = TempObPersonal[fila - 1].INGRESO_INDRA?.ToString("dd-MM-yyyy");
-                hoja.Cell(fila + 1, 7).Value = TempObPersonal[fila - 1].CUMPLEAÑOS?.ToString("dd/MM/yyyy");
-                hoja.Cell(fila + 1, 8).Value = TempObPersonal[fila - 1].DIAS_EMPRESA;
-                hoja.Cell(fila + 1, 9).Value = TempObPersonal[fila - 1].ESTADO;
-                hoja.Cell(fila + 1, 10).Value = TempObPersonal[fila - 1].PUESTO;
-                hoja.Cell(fila + 1, 11).Value = TempObPersonal[fila - 1].CARGO;
-                hoja.Cell(fila + 1, 12).Value = TempObPersonal[fila - 1].FUNCION;
-                hoja.Cell(fila + 1, 13).Value = TempObPersonal[fila - 1].MODALIDAD;
-                hoja.Cell(fila + 1, 14).Value = TempObPersonal[fila - 1].ROL;
-                hoja.Cell(fila + 1, 15).Value = TempObPersonal[fila - 1].TASA;
-                hoja.Cell(fila + 1, 16).Value = TempObPersonal[fila - 1].EMPRESA;
-                hoja.Cell(fila + 1, 17).Value = TempObPersonal[fila - 1].COORDINADOR;
-                hoja.Cell(fila + 1, 18).Value = TempObPersonal[fila - 1].GABIN;
-                hoja.Cell(fila + 1, 19).Value = TempObPersonal[fila - 1].PEOPLE;
-                hoja.Cell(fila + 1, 20).Value = TempObPersonal[fila - 1].FECHA_PROYECTO?.ToString("dd-MM-yyyy");
-                hoja.Cell(fila + 1, 21).Value = TempObPersonal[fila - 1].FECHA_CESE?.ToString("dd/MM/yyyy");
-                hoja.Cell(fila + 1, 22).Value = TempObPersonal[fila - 1].DIAS_AL_CESE;
-                hoja.Cell(fila + 1, 23).Value = TempObPersonal[fila - 1].PERIODO_PRUEBA;
-                hoja.Cell(fila + 1, 24).Value = TempObPersonal[fila - 1].VACACIONES_URGENTES?.ToString("dd/MM/yyyy");
-                hoja.Cell(fila + 1, 25).Value = TempObPersonal[fila - 1].CORREO;
-                hoja.Cell(fila + 1, 26).Value = TempObPersonal[fila - 1].CPERSONAL;
-                hoja.Cell(fila + 1, 27).Value = TempObPersonal[fila - 1].DIRECCION;
-                hoja.Cell(fila + 1, 28).Value = TempObPersonal[fila - 1].DEPARTAMENTO;
-                hoja.Cell(fila + 1, 29).Value = TempObPersonal[fila - 1].PROVINCIA;
-                hoja.Cell(fila + 1, 30).Value = TempObPersonal[fila - 1].DISTRITO;
-                hoja.Cell(fila + 1, 31).Value = TempObPersonal[fila - 1].OBSERVACION;
-                hoja.Cell(fila + 1, 32).Value = TempObPersonal[fila - 1].F31;
-
-            }
-
-            using (var memoria = new MemoryStream())
-            {
-                libro.SaveAs(memoria);
-                var nombreExcel = string.Concat("Reporte de Personal ", DateTime.Now.ToString(), ".xlsx");
-
-                await _jsService.InvokeAsync<object>(
-                    "ExportExcel",
-                    nombreExcel,
-                    Convert.ToBase64String(memoria.ToArray())
-
-                );
-                PreloadService.Hide();
-            }
+            PreloadService.Show(SpinnerColor.Light, "Exportando archivo excel...");
+            await ExpDocServ.ExportExcel(TempObPersonal);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al exportar archivo Excel: {ex.Message}");
+        }
+        finally
+        {
+            PreloadService.Hide();
         }
     }
 
     private async Task ExportToPdf()
     {
-        PreloadService.Show(SpinnerColor.Light, "Exportando archivo pdf...");
-        await Task.Delay(2000);
-        PdfDocument document = new PdfDocument();
-
-        double pageWidth = 73.8;
-
-        // Configurar tamaño de página y orientación para todas las páginas
-        PdfPage page = document.AddPage();
-        page.Orientation = PdfSharpCore.PageOrientation.Landscape;
-        page.Width = XUnit.FromInch(pageWidth); // Ancho en pulgadas
-        page.Height = XUnit.FromInch(8.5); // Alto en pulgadas
-
-        XGraphics gfx = XGraphics.FromPdfPage(page);
-
-        XFont font = new XFont("Verdana", 12, XFontStyle.Regular);
-
-        int yPoint = 20; // Comenzar después del margen superior
-        int cellWidth = 90;
-        int cellHeight = 30;
-
-        // Dibujar las cabeceras de la tabla en la primera página
-        DrawCell(gfx, "ID", font, new XPoint(10, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Nombre", font, new XPoint(100, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Personal", font, new XPoint(190, yPoint), 300, cellHeight);
-        DrawCell(gfx, "Cumpleaños", font, new XPoint(490, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Puesto", font, new XPoint(580, yPoint), 180, cellHeight);
-        DrawCell(gfx, "Cargo", font, new XPoint(760, yPoint), 310, cellHeight);
-        DrawCell(gfx, "Función", font, new XPoint(1070, yPoint), 390, cellHeight);
-        DrawCell(gfx, "Modalidad", font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Rol", font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Tasa", font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Empresa", font, new XPoint(1730, yPoint), 170, cellHeight);
-        DrawCell(gfx, "Coordinador", font, new XPoint(1900, yPoint), 165, cellHeight);
-        DrawCell(gfx, "Gabin", font, new XPoint(2065, yPoint), 165, cellHeight);
-        DrawCell(gfx, "People", font, new XPoint(2230, yPoint), 165, cellHeight);
-        DrawCell(gfx, "Fecha proyecto", font, new XPoint(2395, yPoint), 110, cellHeight);
-        DrawCell(gfx, "Fecha cese", font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Dias al Cese", font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Periodo Prueba", font, new XPoint(2685, yPoint), 105, cellHeight);
-        DrawCell(gfx, "Ingreso Indra", font, new XPoint(2790, yPoint), 105, cellHeight);
-        DrawCell(gfx, "Dias empresa", font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Vacaciones urgentes", font, new XPoint(2985, yPoint), 130, cellHeight);
-        DrawCell(gfx, "Equipo", font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Celular", font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Correo", font, new XPoint(3295, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Correo Personal", font, new XPoint(3525, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Dirección", font, new XPoint(3755, yPoint), 600, cellHeight);
-        DrawCell(gfx, "Departamento", font, new XPoint(4355, yPoint), 110, cellHeight);
-        DrawCell(gfx, "Provincia", font, new XPoint(4465, yPoint), 145, cellHeight);
-        DrawCell(gfx, "Distrito", font, new XPoint(4610, yPoint), 145, cellHeight);
-        DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
-        DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-        yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
-
-        // Dibujar los datos de la tabla
-        foreach (var item in TempObPersonal)
+        try
         {
-            // Si hemos alcanzado el límite de filas por página, agregamos una nueva página
-            if (yPoint + cellHeight > page.Height.Point)
-            {
-                page = document.AddPage(); // Agregar nueva página
-                page.Orientation = PdfSharpCore.PageOrientation.Landscape; // Configurar orientación horizontal
-                page.Width = XUnit.FromInch(pageWidth); // Anchoen pulgadas
-                page.Height = XUnit.FromInch(8.5); // Alto en pulgadas
-                gfx = XGraphics.FromPdfPage(page);
-                yPoint = 20; // Reiniciar la posición vertical, comenzando después del margen superior
-
-                // Dibujar las cabeceras de la tabla en la nueva página
-                DrawCell(gfx, "ID", font, new XPoint(10, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Nombre", font, new XPoint(100, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Personal", font, new XPoint(190, yPoint), 300, cellHeight);
-                DrawCell(gfx, "Cumpleaños", font, new XPoint(490, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Puesto", font, new XPoint(580, yPoint), 180, cellHeight);
-                DrawCell(gfx, "Cargo", font, new XPoint(760, yPoint), 310, cellHeight);
-                DrawCell(gfx, "Función", font, new XPoint(1070, yPoint), 390, cellHeight);
-                DrawCell(gfx, "Modalidad", font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Rol", font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Tasa", font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Empresa", font, new XPoint(1730, yPoint), 170, cellHeight);
-                DrawCell(gfx, "Coordinador", font, new XPoint(1900, yPoint), 165, cellHeight);
-                DrawCell(gfx, "Gabin", font, new XPoint(2065, yPoint), 165, cellHeight);
-                DrawCell(gfx, "People", font, new XPoint(2230, yPoint), 165, cellHeight);
-                DrawCell(gfx, "Fecha proyecto", font, new XPoint(2395, yPoint), 110, cellHeight);
-                DrawCell(gfx, "Fecha cese", font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Dias al Cese", font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Periodo Prueba", font, new XPoint(2685, yPoint), 105, cellHeight);
-                DrawCell(gfx, "Ingreso Indra", font, new XPoint(2790, yPoint), 105, cellHeight);
-                DrawCell(gfx, "Dias empresa", font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Vacaciones urgentes", font, new XPoint(2985, yPoint), 130, cellHeight);
-                DrawCell(gfx, "Equipo", font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Celular", font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Correo", font, new XPoint(3295, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Correo Personal", font, new XPoint(3525, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Dirección", font, new XPoint(3755, yPoint), 600, cellHeight);
-                DrawCell(gfx, "Departamento", font, new XPoint(4355, yPoint), 110, cellHeight);
-                DrawCell(gfx, "Provincia", font, new XPoint(4465, yPoint), 145, cellHeight);
-                DrawCell(gfx, "Distrito", font, new XPoint(4610, yPoint), 145, cellHeight);
-                DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
-                DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-                yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
-            }
-
-            string puesto = item.PUESTO ?? "";
-            string cargo = item.CARGO ?? "";
-            string funcion = item.FUNCION ?? "";
-            string modalidad = item.MODALIDAD ?? "";
-            string rol = item.ROL ?? "";
-            string tasa = item.TASA ?? "";
-            string empresa = item.EMPRESA ?? "";
-            string coordinador = item.COORDINADOR ?? "";
-            string gabin = item.GABIN ?? "";
-            string people = item.PEOPLE ?? "";
-            string fechacese = item.FECHA_CESE?.ToString("dd/MM/yyyy") ?? "";
-            string diascese = CalcularDiasCese(item.FECHA_CESE) ?? "";
-            string periodoprueba = item.PERIODO_PRUEBA ?? "";
-            string diasempresa = CalcularDiasDeDiferencia(item.INGRESO_INDRA) ?? "";
-            string vacacionesurgentes = item.VACACIONES_URGENTES?.ToString("dd/MM/yyyy") ?? "";
-            string equipo = item.Equipo ?? "";
-            string correo = item.CORREO ?? "";
-            string correopersonal = item.CPERSONAL ?? "";
-            string direccion = item.DIRECCION ?? "";
-            string departamento = item.DEPARTAMENTO ?? "";
-            string provincia = item.PROVINCIA ?? "";
-            string distrito = item.DISTRITO ?? "";
-            string observacion = item.OBSERVACION ?? "";
-            string f31 = item.F31 ?? "";
-            string estado = item.ESTADO ?? "";
-
-            // Dibujar los datos en la página actual
-            DrawCell(gfx, item.ID.ToString(), font, new XPoint(10, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.DNI, font, new XPoint(100, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.PERSONAL, font, new XPoint(190, yPoint), 300, cellHeight);
-            DrawCell(gfx, item.CUMPLEAÑOS?.ToString("dd/MM/yyyy"), font, new XPoint(490, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, puesto, font, new XPoint(580, yPoint), 180, cellHeight);
-            DrawCell(gfx, cargo, font, new XPoint(760, yPoint), 310, cellHeight);
-            DrawCell(gfx, funcion, font, new XPoint(1070, yPoint), 390, cellHeight);
-            DrawCell(gfx, modalidad, font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, rol, font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, tasa, font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, empresa, font, new XPoint(1730, yPoint), 170, cellHeight);
-            DrawCell(gfx, coordinador, font, new XPoint(1900, yPoint), 165, cellHeight);
-            DrawCell(gfx, gabin, font, new XPoint(2065, yPoint), 165, cellHeight);
-            DrawCell(gfx, people, font, new XPoint(2230, yPoint), 165, cellHeight);
-            DrawCell(gfx, item.FECHA_PROYECTO?.ToString("dd/MM/yyyy"), font, new XPoint(2395, yPoint), 110, cellHeight);
-            DrawCell(gfx, fechacese, font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, diascese, font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, periodoprueba, font, new XPoint(2685, yPoint), 105, cellHeight);
-            DrawCell(gfx, item.INGRESO_INDRA?.ToString("dd/MM/yyyy"), font, new XPoint(2790, yPoint), 105, cellHeight);
-            DrawCell(gfx, diasempresa, font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, vacacionesurgentes, font, new XPoint(2985, yPoint), 130, cellHeight);
-            DrawCell(gfx, equipo, font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.CELULAR.ToString(), font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, correo, font, new XPoint(3295, yPoint), 230, cellHeight);
-            DrawCell(gfx, correopersonal, font, new XPoint(3525, yPoint), 230, cellHeight);
-            DrawCell(gfx, direccion, font, new XPoint(3755, yPoint), 600, cellHeight);
-            DrawCell(gfx, departamento, font, new XPoint(4355, yPoint), 110, cellHeight);
-            DrawCell(gfx, provincia, font, new XPoint(4465, yPoint), 145, cellHeight);
-            DrawCell(gfx, distrito, font, new XPoint(4610, yPoint), 145, cellHeight);
-            DrawCell(gfx, distrito, font, new XPoint(4610, yPoint), 145, cellHeight);
-            DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
-            DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
-            DrawCell(gfx, f31, font, new XPoint(4985, yPoint), 230, cellHeight);
-            DrawCell(gfx, estado, font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-            yPoint += cellHeight;
+            PreloadService.Show(SpinnerColor.Light, "Exportando archivo excel...");
+            await ExpDocServ.ExportPdf(TempObPersonal);
         }
-
-        using MemoryStream stream = new MemoryStream();
-        document.Save(stream, false);
-        var bytes = stream.ToArray();
-        string fileName = "Tabla.pdf";
-
-        // Convertir los bytes a base64
-        string base64 = Convert.ToBase64String(bytes);
-
-        // Descargar el archivo PDF
-        await BlazorDownloadFileService.DownloadFile(fileName, base64, "application/pdf");
-       PreloadService.Hide();
-    }
-
-    private void DrawCell(XGraphics gfx, string text, XFont font, XPoint point, double width, double height)
-    {
-        gfx.DrawRectangle(XPens.Black, point.X, point.Y, width, height);
-
-        // Dividir el texto en líneas que quepan dentro de la celda
-        List<string> lines = SplitTextToFit(gfx, text, font, width);
-
-        // Calcular la altura de cada línea
-        double lineHeight = height / lines.Count;
-
-        // Dibujar cada línea de texto
-        double y = point.Y;
-        foreach (string line in lines)
+        catch (Exception ex)
         {
-            gfx.DrawString(line, font, XBrushes.Black, new XRect(point.X, y, width, lineHeight), XStringFormats.Center);
-            y += lineHeight;
+            Console.WriteLine($"Error al exportar archivo Excel: {ex.Message}");
         }
-    }
-
-    private List<string> SplitTextToFit(XGraphics gfx, string text, XFont font, double width)
-    {
-        List<string> lines = new List<string>();
-
-        // Si el texto ya cabe en la celda, no es necesario dividirlo
-        if (gfx.MeasureString(text, font).Width <= width)
+        finally
         {
-            lines.Add(text);
-            return lines;
+            PreloadService.Hide();
         }
-
-        // Dividir el texto en dos partes
-        int middleIndex = text.Length / 2;
-        string firstHalf = text.Substring(0, middleIndex);
-        string secondHalf = text.Substring(middleIndex);
-
-        // Agregar las dos partes al resultado
-        lines.Add(firstHalf);
-        lines.Add(secondHalf);
-
-        return lines;
     }
 
     private async Task ExportToPdfAndEmail()
@@ -753,7 +437,7 @@
                 {
                     PreloadService.Show(SpinnerColor.Light, "Enviando correo...");
                     await SendEmail();
-                              await SweetAlert.FireAsync(
+                    await SweetAlert.FireAsync(
                         "El correo fue enviado con éxito",
                         "El correo fue enviado con éxito.",
                         SweetAlertIcon.Success
@@ -781,7 +465,7 @@
     private async Task SendEmail()
     {
         // Generar el documento PDF
-        PdfDocument document = GeneratePdfToSend();
+        PdfDocument document = ExpDocServ.ExportPdfToBeSendedToAnEmail(TempObPersonal);
 
         // Convertir el documento a bytes
         using MemoryStream stream = new MemoryStream();
@@ -801,183 +485,54 @@
 
         message.Body = builder.ToMessageBody();
 
-        // Enviar el mensaje de correo electrónico
-         using (var client = new SmtpClient())
-         {
-             await client.ConnectAsync("smtp.office365.com", 587, false); // Servidor SMTP y puerto para Outlook
-             await client.AuthenticateAsync("PruebaTest123Aaaa@hotmail.com", "Canelita123"); // Correo y contraseña
-             await client.SendAsync(message);
-             await client.DisconnectAsync(true);
-         }
-    }
-
-    private PdfDocument GeneratePdfToSend()
-    {
-        PdfDocument document = new PdfDocument();
-
-        double pageWidth = 73.8;
-
-        // Configurar tamaño de página y orientación para todas las páginas
-        PdfPage page = document.AddPage();
-        page.Orientation = PdfSharpCore.PageOrientation.Landscape;
-        page.Width = XUnit.FromInch(pageWidth); // Ancho en pulgadas
-        page.Height = XUnit.FromInch(8.5); // Alto en pulgadas
-
-        XGraphics gfx = XGraphics.FromPdfPage(page);
-
-        XFont font = new XFont("Verdana", 12, XFontStyle.Regular);
-
-        int yPoint = 20; // Comenzar después del margen superior
-        int cellWidth = 90;
-        int cellHeight = 30;
-
-        // Dibujar las cabeceras de la tabla en la primera página
-        DrawCell(gfx, "ID", font, new XPoint(10, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Nombre", font, new XPoint(100, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Personal", font, new XPoint(190, yPoint), 300, cellHeight);
-        DrawCell(gfx, "Cumpleaños", font, new XPoint(490, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Puesto", font, new XPoint(580, yPoint), 180, cellHeight);
-        DrawCell(gfx, "Cargo", font, new XPoint(760, yPoint), 310, cellHeight);
-        DrawCell(gfx, "Función", font, new XPoint(1070, yPoint), 390, cellHeight);
-        DrawCell(gfx, "Modalidad", font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Rol", font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Tasa", font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Empresa", font, new XPoint(1730, yPoint), 170, cellHeight);
-        DrawCell(gfx, "Coordinador", font, new XPoint(1900, yPoint), 165, cellHeight);
-        DrawCell(gfx, "Gabin", font, new XPoint(2065, yPoint), 165, cellHeight);
-        DrawCell(gfx, "People", font, new XPoint(2230, yPoint), 165, cellHeight);
-        DrawCell(gfx, "Fecha proyecto", font, new XPoint(2395, yPoint), 110, cellHeight);
-        DrawCell(gfx, "Fecha cese", font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Dias al Cese", font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Periodo Prueba", font, new XPoint(2685, yPoint), 105, cellHeight);
-        DrawCell(gfx, "Ingreso Indra", font, new XPoint(2790, yPoint), 105, cellHeight);
-        DrawCell(gfx, "Dias empresa", font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Vacaciones urgentes", font, new XPoint(2985, yPoint), 130, cellHeight);
-        DrawCell(gfx, "Equipo", font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Celular", font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-        DrawCell(gfx, "Correo", font, new XPoint(3295, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Correo Personal", font, new XPoint(3525, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Dirección", font, new XPoint(3755, yPoint), 600, cellHeight);
-        DrawCell(gfx, "Departamento", font, new XPoint(4355, yPoint), 110, cellHeight);
-        DrawCell(gfx, "Provincia", font, new XPoint(4465, yPoint), 145, cellHeight);
-        DrawCell(gfx, "Distrito", font, new XPoint(4610, yPoint), 145, cellHeight);
-        DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
-        DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
-        DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-        yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
-
-        // Dibujar los datos de la tabla
-        foreach (var item in TempObPersonal)
+        try
         {
-            // Si hemos alcanzado el límite de filas por página, agregamos una nueva página
-            if (yPoint + cellHeight > page.Height.Point)
+            // Enviar el mensaje de correo electrónico
+            using (var client = new SmtpClient())
             {
-                page = document.AddPage(); // Agregar nueva página
-                page.Orientation = PdfSharpCore.PageOrientation.Landscape; // Configurar orientación horizontal
-                page.Width = XUnit.FromInch(pageWidth); // Anchoen pulgadas
-                page.Height = XUnit.FromInch(8.5); // Alto en pulgadas
-                gfx = XGraphics.FromPdfPage(page);
-                yPoint = 20; // Reiniciar la posición vertical, comenzando después del margen superior
-
-                // Dibujar las cabeceras de la tabla en la nueva página
-                DrawCell(gfx, "ID", font, new XPoint(10, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Nombre", font, new XPoint(100, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Personal", font, new XPoint(190, yPoint), 300, cellHeight);
-                DrawCell(gfx, "Cumpleaños", font, new XPoint(490, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Puesto", font, new XPoint(580, yPoint), 180, cellHeight);
-                DrawCell(gfx, "Cargo", font, new XPoint(760, yPoint), 310, cellHeight);
-                DrawCell(gfx, "Función", font, new XPoint(1070, yPoint), 390, cellHeight);
-                DrawCell(gfx, "Modalidad", font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Rol", font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Tasa", font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Empresa", font, new XPoint(1730, yPoint), 170, cellHeight);
-                DrawCell(gfx, "Coordinador", font, new XPoint(1900, yPoint), 165, cellHeight);
-                DrawCell(gfx, "Gabin", font, new XPoint(2065, yPoint), 165, cellHeight);
-                DrawCell(gfx, "People", font, new XPoint(2230, yPoint), 165, cellHeight);
-                DrawCell(gfx, "Fecha proyecto", font, new XPoint(2395, yPoint), 110, cellHeight);
-                DrawCell(gfx, "Fecha cese", font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Dias al Cese", font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Periodo Prueba", font, new XPoint(2685, yPoint), 105, cellHeight);
-                DrawCell(gfx, "Ingreso Indra", font, new XPoint(2790, yPoint), 105, cellHeight);
-                DrawCell(gfx, "Dias empresa", font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Vacaciones urgentes", font, new XPoint(2985, yPoint), 130, cellHeight);
-                DrawCell(gfx, "Equipo", font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Celular", font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-                DrawCell(gfx, "Correo", font, new XPoint(3295, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Correo Personal", font, new XPoint(3525, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Dirección", font, new XPoint(3755, yPoint), 600, cellHeight);
-                DrawCell(gfx, "Departamento", font, new XPoint(4355, yPoint), 110, cellHeight);
-                DrawCell(gfx, "Provincia", font, new XPoint(4465, yPoint), 145, cellHeight);
-                DrawCell(gfx, "Distrito", font, new XPoint(4610, yPoint), 145, cellHeight);
-                DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
-                DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
-                DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-                yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
-            }
-
-            string puesto = item.PUESTO ?? "";
-            string cargo = item.CARGO ?? "";
-            string funcion = item.FUNCION ?? "";
-            string modalidad = item.MODALIDAD ?? "";
-            string rol = item.ROL ?? "";
-            string tasa = item.TASA ?? "";
-            string empresa = item.EMPRESA ?? "";
-            string coordinador = item.COORDINADOR ?? "";
-            string gabin = item.GABIN ?? "";
-            string people = item.PEOPLE ?? "";
-            string fechacese = item.FECHA_CESE?.ToString("dd/MM/yyyy") ?? "";
-            string diascese = CalcularDiasCese(item.FECHA_CESE) ?? "";
-            string periodoprueba = item.PERIODO_PRUEBA ?? "";
-            string diasempresa = CalcularDiasDeDiferencia(item.INGRESO_INDRA) ?? "";
-            string vacacionesurgentes = item.VACACIONES_URGENTES?.ToString("dd/MM/yyyy") ?? "";
-            string equipo = item.Equipo ?? "";
-            string correo = item.CORREO ?? "";
-            string correopersonal = item.CPERSONAL ?? "";
-            string direccion = item.DIRECCION ?? "";
-            string departamento = item.DEPARTAMENTO ?? "";
-            string provincia = item.PROVINCIA ?? "";
-            string distrito = item.DISTRITO ?? "";
-            string observacion = item.OBSERVACION ?? "";
-            string f31 = item.F31 ?? "";
-            string estado = item.ESTADO ?? "";
-
-            // Dibujar los datos en la página actual
-            DrawCell(gfx, item.ID.ToString(), font, new XPoint(10, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.DNI, font, new XPoint(100, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.PERSONAL, font, new XPoint(190, yPoint), 300, cellHeight);
-            DrawCell(gfx, item.CUMPLEAÑOS?.ToString("dd/MM/yyyy"), font, new XPoint(490, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, puesto, font, new XPoint(580, yPoint), 180, cellHeight);
-            DrawCell(gfx, cargo, font, new XPoint(760, yPoint), 310, cellHeight);
-            DrawCell(gfx, funcion, font, new XPoint(1070, yPoint), 390, cellHeight);
-            DrawCell(gfx, modalidad, font, new XPoint(1460, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, rol, font, new XPoint(1550, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, tasa, font, new XPoint(1640, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, empresa, font, new XPoint(1730, yPoint), 170, cellHeight);
-            DrawCell(gfx, coordinador, font, new XPoint(1900, yPoint), 165, cellHeight);
-            DrawCell(gfx, gabin, font, new XPoint(2065, yPoint), 165, cellHeight);
-            DrawCell(gfx, people, font, new XPoint(2230, yPoint), 165, cellHeight);
-            DrawCell(gfx, item.FECHA_PROYECTO?.ToString("dd/MM/yyyy"), font, new XPoint(2395, yPoint), 110, cellHeight);
-            DrawCell(gfx, fechacese, font, new XPoint(2505, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, diascese, font, new XPoint(2595, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, periodoprueba, font, new XPoint(2685, yPoint), 105, cellHeight);
-            DrawCell(gfx, item.INGRESO_INDRA?.ToString("dd/MM/yyyy"), font, new XPoint(2790, yPoint), 105, cellHeight);
-            DrawCell(gfx, diasempresa, font, new XPoint(2895, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, vacacionesurgentes, font, new XPoint(2985, yPoint), 130, cellHeight);
-            DrawCell(gfx, equipo, font, new XPoint(3115, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, item.CELULAR.ToString(), font, new XPoint(3205, yPoint), cellWidth, cellHeight);
-            DrawCell(gfx, correo, font, new XPoint(3295, yPoint), 230, cellHeight);
-            DrawCell(gfx, correopersonal, font, new XPoint(3525, yPoint), 230, cellHeight);
-            DrawCell(gfx, direccion, font, new XPoint(3755, yPoint), 600, cellHeight);
-            DrawCell(gfx, departamento, font, new XPoint(4355, yPoint), 110, cellHeight);
-            DrawCell(gfx, provincia, font, new XPoint(4465, yPoint), 145, cellHeight);
-            DrawCell(gfx, distrito, font, new XPoint(4610, yPoint), 145, cellHeight);
-            DrawCell(gfx, distrito, font, new XPoint(4610, yPoint), 145, cellHeight);
-            DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
-            DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
-            DrawCell(gfx, f31, font, new XPoint(4985, yPoint), 230, cellHeight);
-            DrawCell(gfx, estado, font, new XPoint(5215, yPoint), cellWidth, cellHeight);
-            yPoint += cellHeight;
+                await client.ConnectAsync("smtp.office365.com", 587, false); // Servidor SMTP y puerto para Outlook
+                await client.AuthenticateAsync("PruebaTest123Aaaa@hotmail.com", "Canelita123"); // Correo y contraseña
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }  
+        }catch (Exception ex)
+        {
+            await SweetAlert.FireAsync(
+                "Error al enviar el correo",
+                "Ocurrió un error al enviar el correo electrónico: " + ex.Message,
+                SweetAlertIcon.Error
+            );  
         }
-        return document;
+
     }
+
+   private async Task DescargarPdf(double? PersonalId)
+{
+    // Obtener la entidad de la base de datos que contiene el campo ARCHIVOPDF
+    PersonalEntity empleado = await TB_Personal.ObtenerEmpleadoPorId(PersonalId);
+
+    // Verificar si el empleado y el campo ARCHIVOPDF no son nulos
+    if (empleado != null && !string.IsNullOrEmpty(empleado.ARCHIVOPDF))
+    {
+        // Obtener la cadena Base64 del campo ARCHIVOPDF
+        string pdfBase64 = empleado.ARCHIVOPDF;
+
+        // Convertir la cadena Base64 a bytes
+        byte[] pdfBytes = Convert.FromBase64String(pdfBase64);
+
+        // Crear un MemoryStream con los bytes del PDF
+        using (MemoryStream ms = new MemoryStream(pdfBytes))
+        {
+            // Descargar el PDF en el navegador del usuario
+            await _jsService.InvokeVoidAsync("DownloadPdf", ms.ToArray(), "documento.pdf");
+        }
+    }
+    else
+    {
+        // Manejar la situación en la que el empleado o el campo ARCHIVOPDF son nulos
+        Console.WriteLine("No se encontró ningún PDF adjunto para este empleado.");
+    }
+}
+
+
 }

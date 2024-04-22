@@ -1,35 +1,42 @@
 ﻿@using Entities
 @using Business
 @inject SweetAlertService SweetAlert
+@inject ILoaderServices LoaderServices
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear empresa nueva</button>
 <hr />
 
-<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var empresa in TempObEmpresas)
-            {
-                <tr>
-                    <td>@empresa.EmpresaName</td>
-                    <td>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(empresa.EmpresaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
-                        <a class="btn btn-danger" @onclick="() => DeleteEmpresa(empresa.EmpresaID)"><i class="bi bi-trash"></i> Eliminar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@* @IdRol
-@NombreRol *@
+@{
+    if (spinnerloading)
+    {
+        @((MarkupString)html)
+    }
+    else
+    {
+        <div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var empresa in TempObEmpresas)
+                    {
+                        <tr>
+                            <td>@empresa.EmpresaName</td>
+                            <td>
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarEmpresaId(empresa.EmpresaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                                <a class="btn btn-danger" @onclick="() => DeleteEmpresa(empresa.EmpresaID)"><i class="bi bi-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
 
 <!-- Crear Rol Modal -->
 <div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
@@ -44,7 +51,7 @@
                 <input type="text" class="form-control" placeholder="Ingrese el nombre de la empresa" @bind-value="NombreEmpres" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCoordinador">Crear Empresa</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateEmpresa">Crear Empresa</button>
             </div>
         </div>
     </div>
@@ -77,19 +84,36 @@
     int IdEmpres;
     string NombreEmpres;
 
+    string SpinnerMessage = "";
+    bool spinnerloading = true;
+    string html;
+
     protected override async Task OnInitializedAsync()
     {
-        ObEmpresas = TB_Empresas.EmpresasList();
+        html = await LoaderServices.GetLoaderComponent("Cargando...");
+        TurnOnLoading();
+        ObEmpresas = await Task.Run(() => TB_Empresas.EmpresasList());
         TempObEmpresas = ObEmpresas;
+        TurnOffLoading();
     }
 
-    private void PasarCoordinadorId(int id)
+    private void TurnOnLoading()
+    {
+        spinnerloading = true;
+    }
+
+    private void TurnOffLoading()
+    {
+        spinnerloading = false;
+    }
+
+    private void PasarEmpresaId(int id)
     {
         IdEmpres = id;
         NombreEmpres = TB_Empresas.GetEmpresaNameById(id);
     }
 
-    private async Task CreateCoordinador()
+    private async Task CreateEmpresa()
     {
         if (!string.IsNullOrEmpty(NombreEmpres))
         {
@@ -167,7 +191,6 @@
               );
         }
     }
-
 
     private async Task DeleteEmpresa(int id)
     {

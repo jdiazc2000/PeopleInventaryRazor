@@ -1,32 +1,44 @@
 ﻿@using Entities
 @using Business
 @inject SweetAlertService SweetAlert
+@inject ILoaderServices LoaderServices
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear tasa nueva</button>
 <hr />
 
-<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var tasa in TempObTasas)
-            {
-                <tr>
-                    <td>@tasa.TasaName</td>
-                    <td>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(tasa.TasaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
-                        <a class="btn btn-danger" @onclick="() => DeleteEmpresa(tasa.TasaID)"><i class="bi bi-trash"></i> Eliminar</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@{
+    if (spinnerloading)
+    {
+        @((MarkupString)html)
+    }
+    else
+    {
+        <div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tasa in TempObTasas)
+                    {
+                        <tr>
+                            <td>@tasa.TasaName</td>
+                            <td>
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarCoordinadorId(tasa.TasaID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                                <a class="btn btn-danger" @onclick="() => DeleteEmpresa(tasa.TasaID)"><i class="bi bi-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+
+
 
 @* @IdRol
 @NombreRol *@
@@ -77,10 +89,26 @@
     int IdTasa;
     string NombreTasa;
 
+    bool spinnerloading = true;
+    string html;
+
     protected override async Task OnInitializedAsync()
     {
-        ObTasas = TB_Tasas.TasaList();
+        html = await LoaderServices.GetLoaderComponent("Cargando...");
+        TurnOnLoading();
+        ObTasas = await Task.Run(() => TB_Tasas.TasaList());
         TempObTasas = ObTasas;
+        TurnOffLoading();
+    }
+
+    private void TurnOnLoading()
+    {
+        spinnerloading = true;
+    }
+
+    private void TurnOffLoading()
+    {
+        spinnerloading = false;
     }
 
     private void PasarCoordinadorId(int id)
@@ -167,7 +195,6 @@
               );
         }
     }
-
 
     private async Task DeleteEmpresa(int id)
     {

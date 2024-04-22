@@ -3,8 +3,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using PersonalWeb.Components;
 using PersonalWeb.Services;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,8 +10,12 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddSweetAlert2();
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 builder.Services.AddBlazorDownloadFile();
-builder.Services.AddSingleton<ILoaderServices, LoaderServices>();
 builder.Services.AddBlazorBootstrap();
+
+builder.Services.AddSingleton<ILoaderServices, LoaderServices>();
+builder.Services.AddScoped<IExportDocumentsService, ExportDocumentsService>();
+builder.Services.AddSingleton<ICalcServices, CalcServices>();
+
 
 var app = builder.Build();
 

@@ -83,31 +83,27 @@
 
     int IdCoor;
     string NombreCoor;
-    string SpinnerMessage = "";
-    string html; 
 
     bool spinnerloading = true;
+    string html;
 
     protected override async Task OnInitializedAsync()
     {
-        html = await LoaderServices.GetLoaderComponent("PRUEBAAA");
-
-        TurnOnLoading("Cargando...");
+        html = await LoaderServices.GetLoaderComponent("Cargando...");
+        TurnOnLoading();
         ObCoordinadores = await Task.Run(() => TB_Coordinadores.CoordinadoresList());
         TempObCoordinadores = ObCoordinadores;
         TurnOffLoading();
     }
 
-    private void TurnOnLoading(string message)
+    private void TurnOnLoading()
     {
         spinnerloading = true;
-        SpinnerMessage = message;
     }
 
     private void TurnOffLoading()
     {
         spinnerloading = false;
-        SpinnerMessage = "";
     }
 
     private void PasarCoordinadorId(int id)

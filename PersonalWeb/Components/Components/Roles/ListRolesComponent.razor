@@ -1,35 +1,44 @@
 ﻿@using Entities
 @using Business
 @inject SweetAlertService SweetAlert
+@inject ILoaderServices LoaderServices
 
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearRolModal"><i class="bi bi-plus"></i> Crear rol nuevo</button>
 <hr />
 
-<div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rol in TempObRoles)
-            {
-                <tr>
-                    <td>@rol.RoleName</td>
-                    <td>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarRolId(rol.RoleID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
-                        <a class="btn btn-danger" @onclick="() => DeleteRol(rol.RoleID)"><i class="bi bi-trash"></i> Eliminar</a>
-                     </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
 
-@* @IdRol
-@NombreRol *@
+@{
+    if (spinnerloading)
+    {
+        @((MarkupString)html)
+    }
+    else
+    {
+
+        <div class="table-responsive" style="max-width: 99rem; height:33rem; overflow: scroll;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rol in TempObRoles)
+                    {
+                        <tr>
+                            <td>@rol.RoleName</td>
+                            <td>
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actualizarRolModal" @onclick="() => PasarRolId(rol.RoleID)"><i class="bi bi-pencil-square"></i> Actualizar</a>
+                                <a class="btn btn-danger" @onclick="() => DeleteRol(rol.RoleID)"><i class="bi bi-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
 
 <!-- Crear Rol Modal -->
 <div class="modal fade" id="crearRolModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crearRolModalLabel" aria-hidden="true">
@@ -77,10 +86,26 @@
     int IdRol;
     string NombreRol;
 
+    bool spinnerloading = true;
+    string html;
+
     protected override async Task OnInitializedAsync()
     {
-        ObRoles = TB_Roles.RolList();
+        html = await LoaderServices.GetLoaderComponent("Cargando...");
+        TurnOnLoading();
+        ObRoles = await Task.Run(() => TB_Roles.RolList());
         TempObRoles = ObRoles;
+        TurnOffLoading();
+    }
+
+    private void TurnOnLoading()
+    {
+        spinnerloading = true;
+    }
+
+    private void TurnOffLoading()
+    {
+        spinnerloading = false;
     }
 
     private void PasarRolId(int id)
@@ -167,7 +192,6 @@
               );
         }
     }
-
 
     private async Task DeleteRol(int id)
     {

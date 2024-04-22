@@ -10,6 +10,7 @@
         "dependencies": {
           "Blazor.Bootstrap": "2.2.0",
           "BlazorDownloadFile": "2.4.0.2",
+          "BlazorInputFile": "0.2.0",
           "Business": "1.0.0",
           "ClosedXML": "0.102.2",
           "CurrieTechnologies.Razor.SweetAlert2": "5.6.0",
@@ -77,6 +78,18 @@
           "lib/netstandard2.1/BlazorDownloadFile.dll": {
             "assemblyVersion": "2.4.0.2",
             "fileVersion": "2.4.0.2"
+          }
+        }
+      },
+      "BlazorInputFile/0.2.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "8.0.0",
+          "Microsoft.AspNetCore.Components.Web": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/BlazorInputFile.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -2743,6 +2756,13 @@
       "sha512": "sha512-saaPX9vc/tCknXu0YHkER5ePVajil/40DjlCCCEakr4p6Rsby3sbK5mbNjaGJssdLKlR8C3NxSsIDyoGvawUvQ==",
       "path": "blazordownloadfile/2.4.0.2",
       "hashPath": "blazordownloadfile.2.4.0.2.nupkg.sha512"
+    },
+    "BlazorInputFile/0.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wsPTwoA9fkHOxjEh0W0brNeTaVBaMCFwfBLehbRhfW+RzlIrYtlJ5qFpT5f377Ej6ELk+xeoUrkDBx9c8JF7DQ==",
+      "path": "blazorinputfile/0.2.0",
+      "hashPath": "blazorinputfile.0.2.0.nupkg.sha512"
     },
     "BouncyCastle.Cryptography/2.3.0": {
       "type": "package",

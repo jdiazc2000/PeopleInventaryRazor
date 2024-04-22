@@ -821,3 +821,5 @@ C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MailKit.dll
 C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\MimeKit.dll
 C:\Users\jcdcortegana\Desktop\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BlazorBootstrap.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BlazorBootstrap.dll
+C:\Users\Julio\source\repos\PeopleInventaryRazor\PersonalWeb\bin\Release\net8.0\BlazorInputFile.dll
