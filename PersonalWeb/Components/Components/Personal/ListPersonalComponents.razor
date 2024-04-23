@@ -160,10 +160,11 @@
     }
     else
     {
-       <div class="table-responsive" style="width: 99rem; height:33rem; overflow: scroll;">
-            <table class="table table-hover table-bordered">
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="table table-bordered border-dark table-hover text-center">
                 <thead>
-                    <tr>
+                    <tr class="table-dark table-active text-uppercase">
                         <th>ID</th>
                         <th>DNI</th>
                         <th>PERSONAL</th>
@@ -195,9 +196,9 @@
                         <th>DISTRITO</th>
                         <th>OBSERVACION</th>
                         <th>F31</th>
-                        <th>Hoja de vida</th>
+                        <th>HOJA DE VIDA</th>
                         <th>ESTADO</th>
-                        <th></th>
+                        <th>ACCIONES</th>
                     </tr>
             </thead>
                 <tbody>
@@ -257,7 +258,7 @@
                             @{
                                 if(personal.ARCHIVOPDF != null)
                                 {
-                                <button class="btn btn-primary" @onclick="() => DescargarCV(personal.ID)"><i class="bi bi-file-earmark-pdf"></i> Ver Hoja de vida</button>
+                                <button class="btn btn-primary" @onclick="() => DownloadCV(personal.ID)" style="margin-top: 5px;"><i class="bi bi-file-earmark-pdf"></i> Ver Hoja de vida</button>
                                 }
                             }
                             </td>
@@ -266,7 +267,8 @@
                     }
                 </tbody>
             </table>
-        </div> 
+        </div>  
+    </div> 
     }
 }
 
@@ -454,11 +456,8 @@
                     );  
                 }
             }
-            else
-            {
-                PreloadService.Hide();
-                Correo = "";
-            }
+            PreloadService.Hide();
+            Correo = "";
         }
     }
 
@@ -504,10 +503,14 @@
             );  
         }
 
+        Correo = "";
     }
 
-    private async Task DescargarCV(double? PersonalId)
+    private async Task DownloadCV(double? PersonalId)
 {
+
+    PreloadService.Show(SpinnerColor.Light, "Abriendo documento...");
+
     // Obtener la entidad de la base de datos que contiene el campo ARCHIVOPDF
     PersonalEntity empleado = await TB_Personal.ObtenerEmpleadoPorId(PersonalId);
 
@@ -524,6 +527,8 @@
     {
         Console.WriteLine("No se encontró ningún PDF adjunto para este empleado.");
     }
+
+      PreloadService.Hide();
 }
 
 

@@ -49,6 +49,38 @@
         transform: rotate(360deg)
     }
 }
+
+    .table-container {
+        width: 100%;
+        height: 33rem;
+        overflow: auto;
+    }
+
+    .table-wrapper {
+        position: relative;
+    }
+
+    .table {
+        width: auto;
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 2;
+    }
+
+        thead th:first-child,
+        thead th:last-child {
+            background-color: transparent;
+        }
+
+    tbody th,
+    tbody td {
+        border-top: 1px solid #ddd;
+    }
+
 </style>
 
 @code {

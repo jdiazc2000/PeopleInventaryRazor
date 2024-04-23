@@ -6,6 +6,8 @@
 @inject SweetAlertService SweetAlert
 @inject ICalcServices CalcServices
 
+<Preload />
+
 <div>
     <EditForm Model="obPersonal">
         <div class="form-group">
@@ -246,7 +248,12 @@
 
         <div class="form-group">
             <label class="form-label">Hoja de vida</label>
-            <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
+            <div style="display: flex;align-items: center"
+                <div class="file-input-zone" style="@fileInputZoneStyle">
+                  <BlazorInputFile.InputFile OnChange="HandleFileSelection" title="" />
+                </div>
+                <p style="margin-bottom: 0px">@PdfStatus</p>
+           </div>
         </div>
 
         <DataAnnotationsValidator />
@@ -259,8 +266,6 @@
     </EditForm>
 </div>
 
-@pdfBase64
-
 @code {
 
     PersonalEntity obPersonal = new PersonalEntity();
@@ -269,13 +274,18 @@
     List<DistritosEntity> LstDistritos = new List<DistritosEntity>();
     List<L_Lists> LstList = new List<L_Lists>();
 
-    string id;
-    string Departamento;
-    string Provincia;
-    string Distrito;
+    private string id;
+    private string Departamento;
+    private string Provincia;
+    private string Distrito;
     private EditContext editContext;
+    private string fileInputZoneStyle = "";
+    private bool PdfAttached = false;
+    private string PdfStatus = "Adjunte un archivo PDF";
 
     private string pdfBase64;
+
+    [Inject] protected PreloadService PreloadService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -285,20 +295,31 @@
         editContext = new EditContext(obPersonal);
         LstDepartamentos = TB_ubigeo_peru_departments.DepartmentslList();
     }
-    
-    
-    //Debo hacer qeu se convierta el pdf a Base64 - ALTER TABLE TBPersonal ADD ARCHIVOPDF NVARCHAR(MAX) NULL;
+
+
     private async Task HandleFileSelection(IFileListEntry[] files)
     {
         var file = files.FirstOrDefault();
         if (file != null)
         {
-            var ms = new MemoryStream();
-            await file.Data.CopyToAsync(ms);
-            byte[] pdfBytes = ms.ToArray();
+            // Verificar si la extensión del archivo es .pdf
+            if (file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091585.png')";
+                PdfStatus = "Archivo PDF adjuntado con éxito.";
 
-            // Convertir los bytes del PDF a una cadena Base64
-            pdfBase64 = Convert.ToBase64String(pdfBytes);
+                var ms = new MemoryStream();
+                await file.Data.CopyToAsync(ms);
+                byte[] pdfBytes = ms.ToArray();          
+                pdfBase64 = Convert.ToBase64String(pdfBytes);
+                PdfAttached = true;
+            }
+            else
+            {
+                fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091916.png')";
+                PdfStatus = "El archivo seleccionado no es un PDF.";
+                PdfAttached = false;
+            }
         }
     }
 
@@ -343,26 +364,67 @@
 
                 if (BId)
                 {
-                    obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
-                    SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
-                        {
-                            Title = "Quieres agregar información de este colaborador",
-                            Icon = SweetAlertIcon.Warning,
-                            ShowCancelButton = true,
-                            ConfirmButtonText = "Si",
-                            CancelButtonText = "No"
-                        });
-
-                    if (!string.IsNullOrEmpty(resultado.Value))
+                    if (PdfAttached)
                     {
-                        obPersonal.ID = Double.Parse(id);
-                        obPersonal.ARCHIVOPDF = pdfBase64;
-                        obPersonal.DEPARTAMENTO = Departamento;
-                        obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
-                        obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
-                        obPersonal.ESTADO = "Activo";
-                        TB_Personal.CreatePersonal(obPersonal);
-                        NavManager.NavigateTo("/");
+                        obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
+                        SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                            {
+                                Title = "¿Quieres agregar a este colaborador?",
+                                Icon = SweetAlertIcon.Warning,
+                                ShowCancelButton = true,
+                                ConfirmButtonText = "Si",
+                                CancelButtonText = "No"
+                            });
+
+                        if (!string.IsNullOrEmpty(resultado.Value))
+                        {
+                            PreloadService.Show(SpinnerColor.Light, "Agregando colaborador...");
+                            obPersonal.ID = Double.Parse(id);
+                            obPersonal.ARCHIVOPDF = pdfBase64;
+                            obPersonal.DEPARTAMENTO = Departamento;
+                            obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                            obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                            obPersonal.ESTADO = "Activo";
+                            await Task.Run(() => TB_Personal.CreatePersonal(obPersonal));
+                            PreloadService.Hide();
+                            await SweetAlert.FireAsync(
+                               "La información fue actualizada.",
+                               "La información fue actualizada con éxito.",
+                               SweetAlertIcon.Success
+                               );
+                            NavManager.NavigateTo("");
+
+                        }
+                    }
+                    else
+                    {
+                        SweetAlertResult resultadoPdf = await SweetAlert.FireAsync(new SweetAlertOptions
+                            {
+                                Title = "El empleado no ha adjuntado un archivo PDF. ¿Deseas continuar?",
+                                Icon = SweetAlertIcon.Warning,
+                                ShowCancelButton = true,
+                                ConfirmButtonText = "Sí",
+                                CancelButtonText = "No"
+                            });
+
+                        if (!string.IsNullOrEmpty(resultadoPdf.Value))
+                        {
+                            PreloadService.Show(SpinnerColor.Light, "Agregando colaborador...");
+                            obPersonal.ID = Double.Parse(id);
+                            obPersonal.ARCHIVOPDF = null;
+                            obPersonal.DEPARTAMENTO = Departamento;
+                            obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                            obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                            obPersonal.ESTADO = "Activo";
+                            await Task.Run(() => TB_Personal.CreatePersonal(obPersonal));
+                            PreloadService.Hide();
+                            await SweetAlert.FireAsync(
+                              "La información fue actualizada.",
+                              "La información fue actualizada con éxito.",
+                              SweetAlertIcon.Success
+                              );
+                            NavManager.NavigateTo("");
+                        }
                     }
                 }
             }

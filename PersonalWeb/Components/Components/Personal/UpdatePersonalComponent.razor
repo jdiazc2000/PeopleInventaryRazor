@@ -3,6 +3,8 @@
 @inject NavigationManager NavManager
 @inject SweetAlertService SweetAlert
 
+<Preload/>
+
 <div>
     <EditForm Model="obPersonal">
 
@@ -218,20 +220,18 @@
         </div>
 
         <div class="form-group">
-            <div class="image-upload">
-            <label for="file-input">
-                <img src="https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/128/Downloads-icon.png" />
-            </label>
-                <BlazorInputFile.InputFile OnChange="HandleFileSelection" />
-            </div>
+            <label class="form-label">Hoja de vida</label>
+            <div style="display: flex;align-items: center"
+                <div class="file-input-zone" style="@fileInputZoneStyle">
+                  <BlazorInputFile.InputFile OnChange="HandleFileSelection" title="" />
+                </div>
+                <p style="margin-bottom: 0px">@PdfStatus</p>
+           </div>
         </div>
 
         <DataAnnotationsValidator />
 
         <hr />
-
-        @pdfBase64
-
         <div>
             <button type="button" class="btn btn-primary" @onclick="UpdatePersonal">Actualizar Personal</button>
              <button type="button" class="btn btn-success" @onclick="ChangeStatus">Cambiar estado a @ReversedEstado</button>
@@ -248,17 +248,22 @@
     List<DistritosEntity> LstDistritos = new List<DistritosEntity>();
     List<L_Lists> LstList = new List<L_Lists>();
 
-    string id;
-    string Departamento { get; set; }
-    string Provincia { get; set; }
-    string Distrito { get; set; }
-    string ReversedEstado { get; set; }
+    private string id;
+    private string Departamento { get; set; }
+    private string Provincia { get; set; }
+    private string Distrito { get; set; }
+    private string ReversedEstado { get; set; }
+    private string fileInputZoneStyle = "";
+    private bool PdfAttached = false;
+    private string PdfStatus = "Adjunte un archivo PDF";
 
+    private string PersonalPdfAttachedOnLoad;
     private string pdfBase64;
 
     [Parameter]
     public string IdPersonal { get; set; }
 
+    [Inject] protected PreloadService PreloadService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -273,30 +278,50 @@
         Distrito = TB_ubigeo_peru_districts.GetDisctrictIdByProvinceIdAndDepartmentId(obPersonal.DISTRITO,Provincia,Departamento);
         LstDistritos = TB_ubigeo_peru_districts.DistrictslByProvinceId(TB_ubigeo_peru_provinces.GetProvincetId(obPersonal.PROVINCIA));
 
+        fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091916.png')";
+
+        if(obPersonal.ARCHIVOPDF != null)
+        {
+            fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091585.png')";
+            PdfStatus = "El empleado ya tiene un PDF adjunto.";
+            PersonalPdfAttachedOnLoad = obPersonal.ARCHIVOPDF;
+            pdfBase64 = PersonalPdfAttachedOnLoad;
+            PdfAttached = true;
+        }
+
         ReversedEstado = obPersonal.ESTADO == "Inactivo" ? "Activo" : "Inactivo"; 
     }
 
-    //Debo hacer qeu se convierta el pdf a Base64 - ALTER TABLE TBPersonal ADD ARCHIVOPDF NVARCHAR(MAX) NULL;
     private async Task HandleFileSelection(IFileListEntry[] files)
     {
         var file = files.FirstOrDefault();
         if (file != null)
         {
-            var ms = new MemoryStream();
-            await file.Data.CopyToAsync(ms);
-            byte[] pdfBytes = ms.ToArray();
+            // Verificar si la extensión del archivo es .pdf
+            if (file.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091585.png')";
+                PdfStatus = "Archivo PDF adjuntado con éxito.";
 
-            // Convertir los bytes del PDF a una cadena Base64
-            pdfBase64 = Convert.ToBase64String(pdfBytes);
-
-            obPersonal.ARCHIVOPDF = pdfBase64;
+                var ms = new MemoryStream();
+                await file.Data.CopyToAsync(ms);
+                byte[] pdfBytes = ms.ToArray();
+                PdfAttached = true;
+                pdfBase64 = Convert.ToBase64String(pdfBytes);
+            }
+            else
+            {
+                fileInputZoneStyle = $"background-image: url('https://cdn-icons-png.flaticon.com/512/1091/1091916.png')";
+                PdfStatus = "El archivo seleccionado no es un PDF.";
+                PdfAttached = false;
+            }
         }
     }
 
     private async void UpdatePersonal()
     {
         bool BNombre = false;
-       
+
         if (obPersonal.PERSONAL == "" || obPersonal.PERSONAL == null)
         {
             await SweetAlert.FireAsync(
@@ -312,36 +337,80 @@
 
         if (BNombre)
         {
-        obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
 
-        SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+            SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Quieres modificar información de " + obPersonal.PERSONAL,
+                    Icon = SweetAlertIcon.Warning,
+                    ShowCancelButton = true,
+                    ConfirmButtonText = "Si",
+                    CancelButtonText = "No"
+                }
+            );
+
+            if (!string.IsNullOrEmpty(resultado.Value))
             {
-                Title = "Quieres modificar información de " + obPersonal.PERSONAL,
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-                ConfirmButtonText = "Si",
-                CancelButtonText = "No"
-        });
+                if (PdfAttached)
+                {
+                    PreloadService.Show(SpinnerColor.Light, "Actualizando colaborador...");
+                    if (pdfBase64.Equals(PersonalPdfAttachedOnLoad, StringComparison.OrdinalIgnoreCase))
+                    {
+                        obPersonal.ARCHIVOPDF = PersonalPdfAttachedOnLoad;
+                    }
+                    else
+                    {
+                        obPersonal.ARCHIVOPDF = pdfBase64;
+                    }
 
-        if (!string.IsNullOrEmpty(resultado.Value))
-        {
-            await SweetAlert.FireAsync(
-              "La información fue actualizada." ,
-              "La información fue actualizada con éxito.",
-              SweetAlertIcon.Success
-              );
+             
+                    obPersonal.DIAS_AL_CESE = CalcularDiferencia(obPersonal.FECHA_CESE, DateTime.Now);
+                    obPersonal.DEPARTAMENTO = TB_ubigeo_peru_departments.GetDepartmentName(Departamento);
+                    obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                    obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                    await Task.Run(() => TB_Personal.UpdatePersonal(obPersonal));
 
-            obPersonal.DEPARTAMENTO = TB_ubigeo_peru_departments.GetDepartmentName(Departamento);
-            obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
-            obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
-            TB_Personal.UpdatePersonal(obPersonal);
-            NavManager.NavigateTo("");
-        }
+                    PreloadService.Hide();
+                    await SweetAlert.FireAsync(
+                    "La información fue actualizada.",
+                    "La información fue actualizada con éxito.",
+                    SweetAlertIcon.Success
+                    );
+                    NavManager.NavigateTo("");
+                }
+                else
+                {
+                    SweetAlertResult resultadoPdf = await SweetAlert.FireAsync(new SweetAlertOptions
+                        {
+                            Title = "El empleado no ha adjuntado un archivo PDF. ¿Deseas continuar?",
+                            Icon = SweetAlertIcon.Warning,
+                            ShowCancelButton = true,
+                            ConfirmButtonText = "Sí",
+                            CancelButtonText = "No"
+                        });
+
+                    if (!string.IsNullOrEmpty(resultadoPdf.Value))
+                    {
+                        PreloadService.Show(SpinnerColor.Light, "Actualizando colaborador...");
+                        obPersonal.ARCHIVOPDF = null;
+                        obPersonal.DEPARTAMENTO = TB_ubigeo_peru_departments.GetDepartmentName(Departamento);
+                        obPersonal.PROVINCIA = TB_ubigeo_peru_provinces.GetProvinceName(Provincia);
+                        obPersonal.DISTRITO = TB_ubigeo_peru_districts.getDisctrictName(Distrito);
+                        await Task.Run(() => TB_Personal.UpdatePersonal(obPersonal));
+                      
+                        PreloadService.Hide();
+                        await SweetAlert.FireAsync(
+                        "La información fue actualizada.",
+                        "La información fue actualizada con éxito.",
+                        SweetAlertIcon.Success
+                        );
+                        NavManager.NavigateTo("");
+                    }
+                }
+            }           
         }
     }
 
-
-        private async void ChangeStatus()
+    private async void ChangeStatus()
     {
          SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
             {
@@ -375,8 +444,7 @@
         }
     }
 
-
-        private async void RemovePersonal()
+    private async void RemovePersonal()
     {
          SweetAlertResult resultado = await SweetAlert.FireAsync(new SweetAlertOptions
             {
@@ -456,7 +524,7 @@
 
     }
 
-        static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
+    static int CalcularDiferencia(DateTime? fecha, DateTime fechaActual)
         {
             if (fecha == null || fecha == DateTime.MinValue)
         {

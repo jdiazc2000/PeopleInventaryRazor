@@ -105,7 +105,7 @@ namespace PersonalWeb.Services
                 hoja.Cell(1, 30).Value = "Distrito";
                 hoja.Cell(1, 31).Value = "Observación";
                 hoja.Cell(1, 32).Value = "F31";
-
+                hoja.Cell(1, 33).Value = "Hoja de vida";
 
 
                 for (int fila = 1; fila <= data.Count; fila++)
@@ -122,7 +122,6 @@ namespace PersonalWeb.Services
                         var diasCese = CalcularDiasCese(personal.FECHA_CESE);
                         personal.DIAS_AL_CESE = Convert.ToDouble(diasCese);
                     }
-
 
                     hoja.Cell(fila + 1, 1).Value = data[fila - 1].ID;
                     hoja.Cell(fila + 1, 2).Value = data[fila - 1].DNI;
@@ -156,7 +155,15 @@ namespace PersonalWeb.Services
                     hoja.Cell(fila + 1, 30).Value = data[fila - 1].DISTRITO;
                     hoja.Cell(fila + 1, 31).Value = data[fila - 1].OBSERVACION;
                     hoja.Cell(fila + 1, 32).Value = data[fila - 1].F31;
-
+                    if(data[fila - 1].ARCHIVOPDF != null)
+                    {
+                       hoja.Cell(fila + 1, 33).Value = "Sí";
+                    }
+                    else
+                    {
+                       hoja.Cell(fila + 1, 33).Value = "No";
+                    }
+                    
                 }
 
                 using (var memoria = new MemoryStream())
@@ -177,7 +184,7 @@ namespace PersonalWeb.Services
         {
             PdfDocument document = new PdfDocument();
 
-            double pageWidth = 73.8;
+            double pageWidth = 75.1;
 
             // Configurar tamaño de página y orientación para todas las páginas
             PdfPage page = document.AddPage();
@@ -226,6 +233,7 @@ namespace PersonalWeb.Services
             DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
             DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
             DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+            DrawCell(gfx, "Hoja de vida", font, new XPoint(5305, yPoint), cellWidth, cellHeight);
             yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
 
             // Dibujar los datos de la tabla
@@ -274,6 +282,7 @@ namespace PersonalWeb.Services
                     DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
                     DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
                     DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+                    DrawCell(gfx, "Hoja de vida", font, new XPoint(5305, yPoint), cellWidth, cellHeight);
                     yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
                 }
 
@@ -302,6 +311,16 @@ namespace PersonalWeb.Services
                 string observacion = item.OBSERVACION ?? "";
                 string f31 = item.F31 ?? "";
                 string estado = item.ESTADO ?? "";
+                string TienePdf;
+
+                if (item.ARCHIVOPDF != null)
+                {
+                    TienePdf = "Sí";
+                }
+                else
+                {
+                    TienePdf = "No";
+                }
 
                 // Dibujar los datos en la página actual
                 DrawCell(gfx, item.ID.ToString(), font, new XPoint(10, yPoint), cellWidth, cellHeight);
@@ -338,6 +357,7 @@ namespace PersonalWeb.Services
                 DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
                 DrawCell(gfx, f31, font, new XPoint(4985, yPoint), 230, cellHeight);
                 DrawCell(gfx, estado, font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+                DrawCell(gfx, TienePdf, font, new XPoint(5305, yPoint), cellWidth, cellHeight);
                 yPoint += cellHeight;
             }
 
@@ -357,7 +377,7 @@ namespace PersonalWeb.Services
         {
             PdfDocument document = new PdfDocument();
 
-            double pageWidth = 73.8;
+            double pageWidth = 75.1;
 
             // Configurar tamaño de página y orientación para todas las páginas
             PdfPage page = document.AddPage();
@@ -406,6 +426,7 @@ namespace PersonalWeb.Services
             DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
             DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
             DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+            DrawCell(gfx, "Hoja de vida", font, new XPoint(5305, yPoint), cellWidth, cellHeight);
             yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
 
             // Dibujar los datos de la tabla
@@ -454,6 +475,7 @@ namespace PersonalWeb.Services
                     DrawCell(gfx, "Observación", font, new XPoint(4755, yPoint), 230, cellHeight);
                     DrawCell(gfx, "F31", font, new XPoint(4985, yPoint), 230, cellHeight);
                     DrawCell(gfx, "Estado", font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+                    DrawCell(gfx, "Hoja de vida", font, new XPoint(5305, yPoint), cellWidth, cellHeight);
                     yPoint += cellHeight; // Aumentar el valor de yPoint después de dibujar las cabeceras
                 }
 
@@ -482,6 +504,16 @@ namespace PersonalWeb.Services
                 string observacion = item.OBSERVACION ?? "";
                 string f31 = item.F31 ?? "";
                 string estado = item.ESTADO ?? "";
+                string TienePdf;
+
+                if (item.ARCHIVOPDF != null)
+                {
+                    TienePdf = "Sí";
+                }
+                else
+                {
+                    TienePdf = "No";
+                }
 
                 // Dibujar los datos en la página actual
                 DrawCell(gfx, item.ID.ToString(), font, new XPoint(10, yPoint), cellWidth, cellHeight);
@@ -518,6 +550,7 @@ namespace PersonalWeb.Services
                 DrawCell(gfx, observacion, font, new XPoint(4755, yPoint), 230, cellHeight);
                 DrawCell(gfx, f31, font, new XPoint(4985, yPoint), 230, cellHeight);
                 DrawCell(gfx, estado, font, new XPoint(5215, yPoint), cellWidth, cellHeight);
+                DrawCell(gfx, TienePdf, font, new XPoint(5305, yPoint), cellWidth, cellHeight);
                 yPoint += cellHeight;
             }
 
